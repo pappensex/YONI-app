@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YONI • pi² Control (Vercel‑Min)</title>
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="YONI: Creator‑KI, Auto‑Translate, Transzendenz‑Hub. Minimal Flat Build für Vercel.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <style>
+    :root{--bg:#0b0b10;--panel:rgba(255,255,255,.06);--text:#f3f3f7;--brand:#7c3aed;--radius:14px;}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(1200px 600px at 20% 0%,#1b1030 0,transparent 60%),radial-gradient(1200px 600px at 100% 100%,#0d2230 0,transparent 50%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Inter,Roboto,Arial,sans-serif}
+    .wrap{max-width:860px;margin:40px auto;padding:16px}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:16px}
+    h1{margin:0 0 8px 0;font-size:22px} .muted{opacity:.7}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{background:var(--brand);color:#fff;border:none;border-radius:12px;padding:10px 12px}
+    textarea,input,select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--text);border-radius:12px;padding:10px;width:100%}
+    .feed{margin-top:10px;display:grid;gap:8px}
+    .item{background:rgba(255,255,255,.05);padding:10px;border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>YONI • pi² Control</h1>
+      <div class="muted">Vercel‑Minimal • Creator‑KI • Auto‑Translate • Transzendenz</div>
+      <div class="row">
+        <button id="install">Offline aktivieren</button>
+        <button id="a2hs">Zum Home‑Bildschirm</button>
+      </div>
+      <p class="muted" id="env"></p>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Transzendenz</h2>
+      <div class="row">
+        <select id="mode"><option>Consensus</option><option>Contrast</option><option>Chain</option></select>
+        <label class="muted"><input type="checkbox" id="auto" checked> Auto‑Translate → Deutsch</label>
+      </div>
+      <textarea id="q" placeholder="Frag dein Multi‑Kollektiv …"></textarea>
+      <div class="row">
+        <button id="ask">Fusion starten</button>
+      </div>
+      <div id="out" class="feed"></div>
+    </div>
+  </div>
+
+<script>
+  // Env hint
+  const env = document.getElementById('env')
+  env.textContent = (location.protocol==='https:'? 'HTTPS aktiv – Service Worker & Install verfügbar.' : 'Hinweis: Für Offline & „Zum Home‑Bildschirm“ bitte HTTPS nutzen.')
+  // SW
+  document.getElementById('install').onclick = async () => {
+    if(location.protocol!=='https:'){ alert('Service Worker benötigt HTTPS.'); return }
+    if('serviceWorker' in navigator){ await navigator.serviceWorker.register('/sw.js'); alert('Offline aktiviert.'); }
+  }
+  document.getElementById('a2hs').onclick = () => { alert('iPhone: Safari → Teilen → „Zum Home‑Bildschirm“.') }
+
+  // Tiny Transzendenz stub
+  const out = document.getElementById('out')
+  document.getElementById('ask').onclick = () => {
+    const q = document.getElementById('q').value.trim(); if(!q) return
+    const mode = document.getElementById('mode').value
+    const auto = document.getElementById('auto').checked
+    const answers = [
+      {a:'GPT‑5 Pro', t:`Antwort auf „${q}“ — präzise, strukturiert, mit Handlungsempfehlung.`},
+      {a:'CHIBot‑Alpha', t:`Antwort auf „${q}“ — intuitiv, visionär, poetisch‑kantig.`},
+      {a:'CHIBot‑Beta', t:`Antwort auf „${q}“ — technisch, datengetrieben, scharf.`},
+      {a:'CHIBot‑Omega', t:`Antwort auf „${q}“ — synthetisch, meta, systemisch.`},
+    ]
+    const fuse = (arr,m)=> m==='Consensus' ? 'Konsens: '+arr.map(x=>x.t).join(' | ')
+                         : m==='Contrast' ? 'Kontrast: '+arr.map(x=>x.t).join(' ⇄ ')
+                         : 'Chain: '+arr.map((x,i)=>`[${i+1}] ${x.t}`).join(' → ')
+    const fused = fuse(answers, mode)
+    const divF = document.createElement('div'); divF.className='item'; divF.innerHTML = `<b>Fusion</b>: ${auto?fused:fused}`
+    out.prepend(divF)
+    answers.forEach(x=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML = `<b>${x.a}</b>: ${auto?x.t:x.t}`; out.prepend(d) })
+  }
+</script>
+</body>
+</html>
