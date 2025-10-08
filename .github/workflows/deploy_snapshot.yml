@@ -1,0 +1,35 @@
+name: 📦 YONI Deploy Snapshot
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Läuft täglich um 00:00 UTC
+  workflow_dispatch: # Manuell triggerbar bei Bedarf
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate daily snapshot file
+        run: |
+          mkdir -p Transzendenz/Reports
+          DATE=$(date +'%Y-%m-%d')
+          cp Transzendenz/Reports/Deploy-Status.md Transzendenz/Reports/Deploy-Status-${DATE}.md
+          echo "✅ Snapshot for ${DATE} created." >> Transzendenz/Reports/snapshot-log.txt
+
+      - name: Commit and Push Snapshot
+        run: |
+          git config --global user.name "YONI AutoBot"
+          git config --global user.email "bot@pihoch2.me"
+          git add Transzendenz/Reports/
+          git commit -m "🕓 Daily Snapshot $(date +'%Y-%m-%d')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
