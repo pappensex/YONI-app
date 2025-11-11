@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = stripeSecretKey
   ? new Stripe(stripeSecretKey, {
-      apiVersion: "2024-06-20",
+      apiVersion: "2023-10-16",
     })
   : null;
 
