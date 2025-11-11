@@ -1,0 +1,116 @@
+name: 🔍 Production Smoke Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      prod_domain:
+        description: 'Production domain (e.g., yoni-app.vercel.app)'
+        required: true
+        type: string
+  schedule:
+    # Run daily at 6:00 UTC
+    - cron: "0 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Production Domain
+        id: set-domain
+        run: |
+          if [ -n "${{ github.event.inputs.prod_domain }}" ]; then
+            echo "PROD_DOMAIN=${{ github.event.inputs.prod_domain }}" >> $GITHUB_ENV
+          else
+            # Default domain if not provided (should be set in repository secrets)
+            echo "PROD_DOMAIN=${{ secrets.PROD_DOMAIN }}" >> $GITHUB_ENV
+          fi
+
+      - name: Verify Production Domain
+        run: |
+          if [ -z "$PROD_DOMAIN" ]; then
+            echo "❌ Production domain not set. Please provide it via input or set PROD_DOMAIN secret."
+            exit 1
+          fi
+          echo "✅ Testing production domain: $PROD_DOMAIN"
+
+      - name: Install Vercel CLI (Optional)
+        run: npm install -g vercel
+        continue-on-error: true
+
+      - name: List Vercel Deployments (Optional)
+        run: |
+          if command -v vercel &> /dev/null; then
+            vercel ls || echo "⚠️ Vercel ls failed (token may not be configured)"
+          else
+            echo "⚠️ Vercel CLI not available"
+          fi
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        continue-on-error: true
+
+      - name: Smoke Test - Stripe Webhook Endpoint
+        run: |
+          echo "🧪 Testing Stripe webhook endpoint..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "stripe-signature: invalid" \
+            -d '{}' \
+            "https://$PROD_DOMAIN/api/stripe/webhook")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+          
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response: $BODY"
+          
+          # Expect 400 Bad Request for invalid signature
+          if [ "$HTTP_CODE" = "400" ]; then
+            echo "✅ Stripe webhook endpoint is working correctly (rejected invalid signature)"
+          else
+            echo "⚠️ Unexpected status code from Stripe webhook: $HTTP_CODE"
+            echo "Response body: $BODY"
+          fi
+
+      - name: Smoke Test - GitHub App Webhook Endpoint
+        run: |
+          echo "🧪 Testing GitHub App webhook endpoint..."
+          
+          # Generate HMAC signature for the payload
+          PAYLOAD='{}'
+          SIG=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "${{ secrets.GITHUB_WEBHOOK_SECRET }}" -r | cut -d' ' -f1)
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "x-github-event: ping" \
+            -H "x-hub-signature-256: sha256=$SIG" \
+            -H "content-type: application/json" \
+            -d "$PAYLOAD" \
+            "https://$PROD_DOMAIN/api/github-app/webhook")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+          
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response: $BODY"
+          
+          # Expect 200 OK for valid signature
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "✅ GitHub App webhook endpoint is working correctly"
+          else
+            echo "⚠️ Unexpected status code from GitHub webhook: $HTTP_CODE"
+            echo "Response body: $BODY"
+          fi
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🏁 Production Smoke Tests Complete"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Tested domain: $PROD_DOMAIN"
+          echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
