@@ -1,0 +1,57 @@
+name: Prevent duplicate API routes
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  route-dupes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect duplicate API endpoints (App/Pages, ts/js)
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+
+          # Sammle relevante API-Dateien
+          mapfile -t FILES < <(git ls-files \
+            'api/**' \
+            'app/api/**' \
+            'src/pages/api/**' 2>/dev/null || true)
+
+          # Normalisierung:
+          # - führendes "app/" und "src/pages/" entfernen
+          # - App Router: "/route.*" entfernen
+          # - Extension entfernen (.ts/.tsx/.js/.jsx)
+          normalize() {
+            local p="$1"
+            p="${p#app/}"
+            p="${p#src/pages/}"
+            p="${p%/route.ts}"
+            p="${p%/route.tsx}"
+            p="${p%/route.js}"
+            p="${p%/route.jsx}"
+            p="${p%.*}"        # letzte Extension streichen
+            echo "$p"
+          }
+
+          # Alle normalisierten Pfade ausgeben
+          {
+            for f in "${FILES[@]}"; do normalize "$f"; done
+          } | sort | uniq -d | tee dup.txt
+
+          if [ -s dup.txt ]; then
+            echo "::error::Duplicate API endpoint(s) detected (same route different files)."
+            echo "Conflicts:"
+            cat dup.txt
+            exit 1
+          fi
+
+          echo "No duplicate API endpoints."
