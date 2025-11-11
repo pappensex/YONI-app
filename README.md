@@ -37,6 +37,37 @@ Die App vereint:
 
 ---
 
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18.0 or higher
+- npm or yarn
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/pappensex/YONI-app.git
+cd YONI-app
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+
+---
+
 ## 🧩 Design Tokens & Theme
 
 | Token | Wert | Bedeutung |
