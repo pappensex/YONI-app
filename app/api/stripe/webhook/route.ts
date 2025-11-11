@@ -20,7 +20,9 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET as string
     );
   } catch (err: any) {
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    // Don't expose error details to prevent potential XSS
+    console.error("Webhook signature verification failed:", err.message);
+    return new Response("Webhook Error: Invalid signature", { status: 400 });
   }
 
   switch (event.type) {
