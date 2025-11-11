@@ -1,0 +1,91 @@
+name: Route Duplicate Guard
+
+on:
+  pull_request:
+    paths:
+      - 'vercel.json'
+  push:
+    branches:
+      - main
+    paths:
+      - 'vercel.json'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  check-duplicate-routes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check for duplicate routes
+        run: |
+          echo "🔍 Checking for duplicate routes in vercel.json..."
+          
+          # Extract all route sources from vercel.json
+          if [ -f vercel.json ]; then
+            # Use jq to extract route sources
+            if command -v jq &> /dev/null; then
+              routes=$(jq -r '.routes[]? | .src' vercel.json 2>/dev/null || echo "")
+              
+              if [ -z "$routes" ]; then
+                echo "✅ No routes found or vercel.json has no routes array"
+                exit 0
+              fi
+              
+              # Check for duplicates
+              duplicates=$(echo "$routes" | sort | uniq -d)
+              
+              if [ -n "$duplicates" ]; then
+                echo "❌ Duplicate routes detected:"
+                echo "$duplicates"
+                echo ""
+                echo "Please remove duplicate route definitions in vercel.json"
+                exit 1
+              else
+                echo "✅ No duplicate routes found"
+              fi
+            else
+              echo "⚠️  jq not found, installing..."
+              sudo apt-get update && sudo apt-get install -y jq
+              
+              routes=$(jq -r '.routes[]? | .src' vercel.json 2>/dev/null || echo "")
+              
+              if [ -z "$routes" ]; then
+                echo "✅ No routes found or vercel.json has no routes array"
+                exit 0
+              fi
+              
+              duplicates=$(echo "$routes" | sort | uniq -d)
+              
+              if [ -n "$duplicates" ]; then
+                echo "❌ Duplicate routes detected:"
+                echo "$duplicates"
+                echo ""
+                echo "Please remove duplicate route definitions in vercel.json"
+                exit 1
+              else
+                echo "✅ No duplicate routes found"
+              fi
+            fi
+          else
+            echo "ℹ️  No vercel.json found in repository"
+          fi
+
+      - name: Validate vercel.json schema
+        run: |
+          echo "🔍 Validating vercel.json schema..."
+          
+          if [ -f vercel.json ]; then
+            if command -v jq &> /dev/null; then
+              if jq empty vercel.json 2>/dev/null; then
+                echo "✅ vercel.json is valid JSON"
+              else
+                echo "❌ vercel.json is not valid JSON"
+                exit 1
+              fi
+            fi
+          fi
