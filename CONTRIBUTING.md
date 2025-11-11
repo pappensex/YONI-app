@@ -141,7 +141,7 @@ vercel dev
 
 ## 📜 License
 
-By contributing to YONI, you agree that your contributions will be licensed under the [MIT License](LICENSE).
+By contributing to YONI, you agree that your contributions will be licensed under the MIT License.
 
 ---
 
