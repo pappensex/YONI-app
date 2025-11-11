@@ -53,7 +53,7 @@ jobs:
             echo "No build script defined"
           fi
 
-            - name: Upload build artifacts (optional)
+      - name: Upload build artifacts (optional)
         uses: actions/upload-artifact@v4
         if: success()
         with:
