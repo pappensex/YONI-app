@@ -62,6 +62,19 @@ curl -s http://localhost:8787/chat -H "Content-Type: application/json" -d '{ "us
 
 ---
 
+## Deployment
+
+Für Deployment auf Vercel siehe [DEPLOYMENT.md](DEPLOYMENT.md).
+
+**Schnellstart:**
+```bash
+npm i -g vercel   # oder: npx vercel
+vercel link       # Projekt wählen/confirm
+vercel --prod     # Production-Deployment
+```
+
+---
+
 ## Nächste Schritte
 
 - Realtime‑Pfad (WebRTC/WebSocket) für Voice/Audio aktivieren.  
