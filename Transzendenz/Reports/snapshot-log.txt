@@ -1,0 +1,7 @@
+# YONI Deploy Snapshot Log
+
+This file tracks all snapshot events from the deploy_snapshot.yml workflow.
+
+---
+
+✅ Snapshot log initialized on 2025-11-05
