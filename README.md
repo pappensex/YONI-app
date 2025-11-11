@@ -50,10 +50,23 @@ Die App vereint:
 
 ## 💜 Contributing
 
+Wir freuen uns über Beiträge! 🎉
+
+**Quick Start:**
+```bash
+./start-contributing.sh  # Helper script to get started
+git push -u origin feature/dein-thema
+gh pr create --fill
+```
+
+**Detailed Guide:** See [CONTRIBUTING.md](CONTRIBUTING.md) for complete instructions.
+
+### Contribution Steps
 1. Fork das Repo  
 2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`  
-3. Führe `npm run lint && npm run build` aus  
-4. Erstelle einen Pull-Request ✨  
+3. Teste deine Änderungen  
+4. Push: `git push -u origin feature/dein-thema`  
+5. Erstelle einen Pull-Request: `gh pr create --fill` ✨  
 
 ### CI Checks
 - ✅ ESLint + TypeScript  
