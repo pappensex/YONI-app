@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
 function verify(sigHeader: string | null, body: string) {
-  const secret = process.env.GITHUB_WEBHOOK_SECRET!;
+  const secret = process.env.GITHUB_WEBHOOK_SECRET;
+  if (!secret) return false;
   const hmac = crypto.createHmac('sha256', secret).update(body).digest('hex');
   return sigHeader === `sha256=${hmac}`;
 }
@@ -13,7 +14,13 @@ export async function POST(req: NextRequest) {
   if (!verify(sig, raw)) return new NextResponse('invalid signature', { status: 401 });
 
   const evt = req.headers.get('x-github-event');
-  const payload = JSON.parse(raw);
+  
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    return new NextResponse('invalid JSON', { status: 400 });
+  }
 
   // Simple demo: auto-comment on new PRs
   if (evt === 'pull_request' && payload.action === 'opened') {
