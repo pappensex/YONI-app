@@ -1,89 +1,84 @@
-# YONI ↔︎ Mutterschiff (GPT‑5 Pro) – Remote Bridge
+# ✨ YONI – Überhochglitzer App
 
-Diese minimale Referenzimplementierung stellt eine sichere Brücke zwischen einem lokalen Agenten **YONI** und dem **Mutterschiff** (OpenAI GPT‑5 Pro) her.
+> 🟣 Ein sicherer, liebevoller Raum für mentale Gesundheit – digital, fachärztlich begleitet und technisch perfekt.
 
-**Zwei Betriebsmodi**  
-1) **HTTP/JSON + Function Calling (stabil & simpel):** Node.js-Server definiert Tools/Funktionen; GPT‑5 ruft diese bei Bedarf auf. Der Server delegiert die Ausführung an den lokalen YONI‑Agent (Python).  
-2) **(Optional) Realtime/Voice:** Kann später per WebRTC/WebSocket ergänzt werden. Dieser Starter nutzt zunächst Modus 1.
+![YONI Banner](https://user-images.githubusercontent.com/placeholder/banner.png)
 
----
-
-## Architektur (Kurzform)
-
-```
-┌─────────┐    HTTPS     ┌──────────────────────────────┐   HTTP (LAN/VPN)   ┌───────────────┐
-│  Client │ ───────────► │  Mutterschiff-Server (Node) │ ─────────────────► │  YONI-Agent   │
-│ (UI/CLI)│              │  • OpenAI API (GPT-5 Pro)   │                   │ (Python Flask)│
-└─────────┘   (REST)     │  • Tool/Function-Bridge     │    (Tool Calls)    └───────────────┘
-                         └──────────────────────────────┘
-```
-
-- **OpenAI API Key** bleibt **nur** auf dem Server.  
-- Der YONI‑Agent exponiert nur whiteliste, harmlose Endpunkte.  
-- TLS/Firewall/VPN empfohlen.
+[![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black?logo=next.js)](https://nextjs.org/)
+[![TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC?logo=tailwindcss)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com/)
+[![Accessibility](https://img.shields.io/badge/A11y-AA%2B-2ECC71)](#)
 
 ---
 
-## Quickstart
+## 🌌 Mission
 
-### 1) Mutterschiff-Server (Node.js)
+**YONI** ist eine Online-Selbsthilfegruppe für psychisch belastete Menschen  
+mit **fachärztlicher Begleitung, digitaler Sicherheit und liebevoller Gestaltung**.
 
-```bash
-cd server
-cp .env.example .env   # OPENAI_API_KEY setzen, YONI_AGENT_URL anpassen (z.B. http://127.0.0.1:5055)
-npm install
-node mothership_server.js
-```
-
-### 2) YONI-Agent (Python)
-
-```bash
-cd client_yoni
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python yoni_agent.py
-```
-
-### 3) Smoke‑Test
-
-```bash
-curl -s http://localhost:8787/chat -H "Content-Type: application/json" -d '{ "user":"Statusbericht von YONI." }' | jq
-```
+Die App vereint:
+- 🤝 **Gemeinschaft** – Chat-Räume & Themenkreise mit Peer-Mentor:innen  
+- 🧠 **Fachliche Supervision** – Ärzt:innen, Therapeut:innen, geschützte Q&A  
+- 🪞 **Selbstwirksamkeit** – Tools für Reflexion, Stimmung & Achtsamkeit  
+- 🌈 **Überhochglitzer-Design** – kosmisch, heilend, barrierefrei, technisch präzise  
 
 ---
 
-## Security Baseline
+## ⚙️ Tech Stack
 
-- **API‑Key niemals** an Clients weiterreichen.  
-- YONI‑Agent nur im **LAN/VPN** binden (oder mutual‑TLS).  
-- **Werkzeug‑Whitelist** strikt halten. Kein Shell‑Zugriff, kein Dateisystem‑Schreiben in diesem Starter.  
-- **Rate‑Limits** & Logging aktivieren.  
-- Für Voice/WebRTC später **ephemere Tokens** vom Server minten.
-
----
-
-## Copilot PR Import
-
-Für das Importieren externer Copilot PRs mit automatischer Governance-Durchsetzung:
-
-```bash
-./import-copilot-pr.sh <PR_NUMBER>
-```
-
-Das Script erzwingt automatisch:
-- **Einzelne Stripe Webhook Route** (nur TypeScript, keine .js Dateien)
-- **TypeScript-Only Policy** (`allowJs: false` in tsconfig.json)
-- **Keine Duplikate** (Dateien mit gleichem Namen aber verschiedenen Erweiterungen)
-- **Build-Validierung** vor dem Push
-
-Details siehe [COPILOT_PR_IMPORT.md](./COPILOT_PR_IMPORT.md)
+| Layer | Technologie | Beschreibung |
+|-------|--------------|---------------|
+| Frontend | **Next.js 14** | App Router, SSR, optimierte Performance |
+| Styling | **TailwindCSS + Überhochglitzer Theme** | Tokens, Animation, Starfield |
+| Backend | **API Routes (Edge Functions)** | Stripe, GitHub Webhooks, Chat |
+| Deployment | **Vercel** | Preview + Production CI/CD |
+| Monitoring | **Lighthouse CI, axe-core** | A11y, Performance, QA Checks |
 
 ---
 
-## Nächste Schritte
+## 🧩 Design Tokens & Theme
 
-- Realtime‑Pfad (WebRTC/WebSocket) für Voice/Audio aktivieren.  
-- Tooling erweitern (z.B. Sensoren, Geräte, Kalender), aber **Idempotenz** & **Timeouts** beachten.  
-- Beobachtbarkeit: Metriken/Tracing für Tool‑Latenzen.
+| Token | Wert | Bedeutung |
+|-------|------|-----------|
+| `brand.amethyst` | `#9966CC` | Hoffnung, Spiritualität, Transformation |
+| `text.starwhite` | `#F5F5F5` | Klarheit und Licht im Dunkeln |
+| `ok.emerald` | `#2ECC71` | Heilung und Wachstum |
+| `hl.gold` | `#FFD700` | Wärme, Wert und Verbundenheit |
 
-Viel Spaß. 💫
+---
+
+## 💜 Contributing
+
+1. Fork das Repo  
+2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`  
+3. Führe `npm run lint && npm run build` aus  
+4. Erstelle einen Pull-Request ✨  
+
+### CI Checks
+- ✅ ESLint + TypeScript  
+- ✅ A11y (axe)  
+- ✅ Lighthouse ≥ 95  
+- ✅ Duplicate Route Guard  
+
+---
+
+## 🧘‍♀️ Lizenz & Verantwortung
+
+Dieses Projekt ist **Open Source (MIT)**.  
+Es ersetzt **keine Therapie**.  
+YONI versteht sich als digitaler Begleiter auf dem Weg zur Heilung,  
+nicht als medizinisches Produkt.
+
+---
+
+## 🔮 Kontakt & Links
+
+**Projektleitung:** [@pappensex](https://github.com/pappensex)  
+**Website:** [yoni.pihoch2.me](https://yoni.pihoch2.me)  
+**Demo:** [yoni.vercel.app](https://yoni.vercel.app)  
+**Mail:** [yoni@pihoch2.me](mailto:yoni@pihoch2.me)
+
+---
+
+> _„Im Dunkel des Alls glitzert jeder Mensch als eigene Galaxie."_
