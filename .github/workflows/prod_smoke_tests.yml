@@ -11,6 +11,9 @@ on:
     # Run daily at 6:00 UTC
     - cron: "0 6 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
