@@ -54,8 +54,8 @@ jobs:
             echo "No build script defined"
           fi
 
-      - name: Upload build artifacts (optional)
-        uses: actions/upload-artifact@v3
+            - name: Upload build artifacts (optional)
+        uses: actions/upload-artifact@v4
         if: success()
         with:
           name: yoni-build-artifacts
