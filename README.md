@@ -1,14 +1,43 @@
-# YONI ↔︎ Mutterschiff (GPT‑5 Pro) – Remote Bridge
+# YONI App
 
-Diese minimale Referenzimplementierung stellt eine sichere Brücke zwischen einem lokalen Agenten **YONI** und dem **Mutterschiff** (OpenAI GPT‑5 Pro) her.
+This repository contains the YONI web and API components, including the Mutterschiff (GPT-5 Pro) Remote Bridge implementation.
 
-**Zwei Betriebsmodi**  
-1) **HTTP/JSON + Function Calling (stabil & simpel):** Node.js-Server definiert Tools/Funktionen; GPT‑5 ruft diese bei Bedarf auf. Der Server delegiert die Ausführung an den lokalen YONI‑Agent (Python).  
-2) **(Optional) Realtime/Voice:** Kann später per WebRTC/WebSocket ergänzt werden. Dieser Starter nutzt zunächst Modus 1.
+## Quick Start
+
+### Local Setup
+
+1. Ensure Node.js and npm are installed.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy `.env.example` to `.env.local` and fill in environment variables.
+4. Start development server:
+   ```bash
+   npm run dev -p 3000
+   ```
+
+### Codespaces Setup
+
+A Dev Container configuration is provided via the `.devcontainer` directory.
+
+1. Create a Codespace on the `main` branch.
+2. Codespaces will automatically install dependencies and forward port 3000.
+3. Expose port 3000 and access the application at the forwarded URL.
+
+The `.vscode` folder contains recommended tasks for running the development server.
 
 ---
 
-## Architektur (Kurzform)
+## YONI ↔︎ Mutterschiff (GPT‑5 Pro) – Remote Bridge
+
+Diese minimale Referenzimplementierung stellt eine sichere Brücke zwischen einem lokalen Agenten **YONI** und dem **Mutterschiff** (OpenAI GPT‑5 Pro) her.
+
+**Zwei Betriebsmodi**  
+1) **HTTP/JSON + Function Calling (stabil & simpel):** Node.js-Server definiert Tools/Funktionen; GPT‑5 ruft diese bei Bedarf auf. Der Server delegiert die Ausführung an den lokalen YONI‑Agent (Python).  
+2) **(Optional) Realtime/Voice:** Kann später per WebRTC/WebSocket ergänzt werden. Dieser Starter nutzt zunächst Modus 1.
+
+### Architektur (Kurzform)
 
 ```
 ┌─────────┐    HTTPS     ┌──────────────────────────────┐   HTTP (LAN/VPN)   ┌───────────────┐
@@ -22,11 +51,9 @@ Diese minimale Referenzimplementierung stellt eine sichere Brücke zwischen eine
 - Der YONI‑Agent exponiert nur whiteliste, harmlose Endpunkte.  
 - TLS/Firewall/VPN empfohlen.
 
----
+### Mutterschiff-Server Setup
 
-## Quickstart
-
-### 1) Mutterschiff-Server (Node.js)
+#### 1) Mutterschiff-Server (Node.js)
 
 ```bash
 cd server
@@ -35,7 +62,7 @@ npm install
 node mothership_server.js
 ```
 
-### 2) YONI-Agent (Python)
+#### 2) YONI-Agent (Python)
 
 ```bash
 cd client_yoni
@@ -44,7 +71,7 @@ pip install -r requirements.txt
 python yoni_agent.py
 ```
 
-### 3) Smoke‑Test
+#### 3) Smoke‑Test
 
 ```bash
 curl -s http://localhost:8787/chat -H "Content-Type: application/json" -d '{ "user":"Statusbericht von YONI." }' | jq
