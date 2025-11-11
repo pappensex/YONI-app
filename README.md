@@ -5,10 +5,12 @@
 ![YONI Banner](https://user-images.githubusercontent.com/placeholder/banner.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
-[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black?logo=next.js)](https://nextjs.org/)
+[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js%2014-black?logo=next.js)](https://nextjs.org/)
 [![TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC?logo=tailwindcss)](https://tailwindcss.com/)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com/)
-[![Accessibility](https://img.shields.io/badge/A11y-AA%2B-2ECC71)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Accessibility](https://img.shields.io/badge/A11y-WCAG%202.1%20AA+-2ECC71)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTORS.md)
 
 ---
 
@@ -22,6 +24,14 @@ Die App vereint:
 - 🧠 **Fachliche Supervision** – Ärzt:innen, Therapeut:innen, geschützte Q&A  
 - 🪞 **Selbstwirksamkeit** – Tools für Reflexion, Stimmung & Achtsamkeit  
 - 🌈 **Überhochglitzer-Design** – kosmisch, heilend, barrierefrei, technisch präzise  
+
+### Current Development Phase
+
+**Status:** Early Development  
+**Current:** HTML/JavaScript Prototype  
+**Target:** Next.js 14 Production Application
+
+This repository contains the foundation and comprehensive documentation for building the full YONI platform. The configuration files and documentation reflect the target architecture (Next.js 14, TailwindCSS, Vercel) that we're working towards.
 
 ---
 
@@ -48,18 +58,61 @@ Die App vereint:
 
 ---
 
+## 📦 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/pappensex/YONI-app.git
+cd YONI-app
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your configuration
+
+# Run development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the app in action.
+
+---
+
+## 📖 Full Documentation
+
+For comprehensive documentation including:
+- Complete setup instructions
+- Architecture overview
+- Design system and theming
+- Security and privacy guidelines
+- Contributing guidelines
+- Deployment procedures
+
+**See:** [`.github/instructions/*.instructions.md`](.github/instructions/*.instructions.md)
+
+---
+
 ## 💜 Contributing
 
-1. Fork das Repo  
-2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`  
-3. Führe `npm run lint && npm run build` aus  
-4. Erstelle einen Pull-Request ✨  
+We welcome contributions! Here's how to get started:
+
+1. **Fork** the repository
+2. **Create a branch:** `git checkout -b feature/your-feature`
+3. **Make changes** and test thoroughly
+4. **Run checks:** `npm run lint && npm run type-check && npm run test`
+5. **Commit:** Use [Conventional Commits](https://www.conventionalcommits.org/)
+6. **Push** and create a **Pull Request**
 
 ### CI Checks
-- ✅ ESLint + TypeScript  
-- ✅ A11y (axe)  
-- ✅ Lighthouse ≥ 95  
-- ✅ Duplicate Route Guard  
+- ✅ ESLint + TypeScript (strict mode)
+- ✅ Unit & E2E Tests
+- ✅ Accessibility (axe-core)
+- ✅ Lighthouse Score ≥ 95
+- ✅ Security Checks
+
+**Full contributing guide:** See [instructions](.github/instructions/*.instructions.md#8-beitragen-contributing)
 
 ---
 
