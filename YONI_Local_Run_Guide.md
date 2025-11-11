@@ -1,5 +1,22 @@
 # YONI Local Run Guide (Testmodus)
 
+## Vercel Environment Setup
+
+Bevor Sie die Anwendung lokal ausführen, ziehen Sie die Umgebungsvariablen von Vercel:
+
+```bash
+vercel env pull .env.local   # erzeugt/aktualisiert .env.local
+```
+
+Dies erstellt oder aktualisiert die `.env.local`-Datei mit allen in Vercel konfigurierten Umgebungsvariablen.
+
+**Voraussetzungen:**
+- Vercel CLI installiert: `npm i -g vercel`
+- Angemeldet bei Vercel: `vercel login`
+- Verknüpft mit dem Projekt: `vercel link`
+
+---
+
 ## chi-bot-starter
 ```bash
 cd chi-bot-starter
