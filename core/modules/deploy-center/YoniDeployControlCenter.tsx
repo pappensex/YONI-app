@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, AlertTriangle, XCircle, RefreshCw } from "lucide-react";
 
+interface StatusItem {
+  id: string;
+  task: string;
+  status: string;
+  comment: string;
+}
+
 export default function YoniDeployControlCenter() {
-  const [statusData, setStatusData] = useState([]);
+  const [statusData, setStatusData] = useState<StatusItem[]>([]);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -29,15 +36,15 @@ export default function YoniDeployControlCenter() {
     setLoading(false);
   };
 
-  const parseStatusMarkdown = (text) => {
+  const parseStatusMarkdown = (text: string): StatusItem[] => {
     const lines = text.split("\n").filter((l) => l.match(/^\|/));
     return lines.slice(2).map((line) => {
       const cols = line.split("|").map((c) => c.trim());
       return {
-        id: cols[1],
-        task: cols[2],
-        status: cols[3],
-        comment: cols[4],
+        id: cols[1] || "",
+        task: cols[2] || "",
+        status: cols[3] || "",
+        comment: cols[4] || "",
       };
     });
   };
