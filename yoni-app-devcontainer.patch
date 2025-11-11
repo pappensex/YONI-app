@@ -1,0 +1,80 @@
+*** Begin Patch
+*** Add File: .devcontainer/devcontainer.json
+{
+  "name": "YONI Next.js",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli": "1"
+  },
+  "postCreateCommand": "corepack enable && (npm ci || npm install)",
+  "forwardPorts": [3000, 3001],
+  "portsAttributes": {
+    "3000": {
+      "label": "web",
+      "visibility": "public"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "GitHub.copilot"
+      ]
+    }
+  }
+}
+
+*** Add File: .vscode/tasks.json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev",
+      "type": "shell",
+      "command": "npm run dev -p 3000",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}
+
+*** Add File: .env.example
+# Copy this file to .env.local and fill in your own secret values.
+OPENAI_API_KEY=
+STRIPE_WEBHOOK_SECRET=
+GITHUB_WEBHOOK_SECRET=
+GITHUB_APP_INSTALLATION_TOKEN=
+X148_ALIAS=148-Amon
+
+*** Add File: README.md
+# YONI Next.js Setup
+
+This repository contains the YONI web and API components. Follow these instructions to get up and running.
+
+## Local Setup
+
+1. Ensure Node.js and npm are installed.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy `.env.example` to `.env.local` and fill in environment variables.
+4. Start development server:
+   ```bash
+   npm run dev -p 3000
+   ```
+
+## Codespaces Setup
+
+A Dev Container configuration is provided via the `.devcontainer` directory.
+
+1. Create a Codespace on the `main` branch.
+2. Codespaces will automatically install dependencies and forward port 3000.
+3. Expose port 3000 and access the application at the forwarded URL.
+
+The `.vscode` folder contains recommended tasks for running the development server.
+*** End Patch
