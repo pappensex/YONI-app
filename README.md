@@ -62,6 +62,31 @@ curl -s http://localhost:8787/chat -H "Content-Type: application/json" -d '{ "us
 
 ---
 
+## Import PR Automation
+
+Um Import-PRs für Copilot-Tasks zu erstellen, nutzen Sie das bereitgestellte Script:
+
+```bash
+./create-import-pr.sh <PR_NUMBER>
+```
+
+**Beispiel:**
+```bash
+./create-import-pr.sh 42
+```
+
+Das Script:
+- Erstellt einen Branch mit dem Pattern `import/copilot-pr-<NUMBER>`
+- Pusht den Branch zu origin
+- Erstellt einen PR mit Title "import: copilot/tasks PR <NUMBER>"
+- Setzt den PR-Body: "Imported via patch; verified build & route-guard."
+
+**Voraussetzungen:**
+- GitHub CLI (`gh`) muss installiert und authentifiziert sein
+- Git muss konfiguriert sein
+
+---
+
 ## Nächste Schritte
 
 - Realtime‑Pfad (WebRTC/WebSocket) für Voice/Audio aktivieren.  
