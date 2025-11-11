@@ -1,0 +1,36 @@
+{
+  "name": "yoni-app",
+  "version": "1.0.0",
+  "description": "YONI – Ein sicherer, liebevoller Raum für mentale Gesundheit",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.mjs",
+    "build": "npm run type-check",
+    "type-check": "tsc --noEmit",
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pappensex/YONI-app.git"
+  },
+  "keywords": [
+    "mental-health",
+    "community",
+    "self-help",
+    "yoni"
+  ],
+  "author": "@pappensex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pappensex/YONI-app/issues"
+  },
+  "homepage": "https://github.com/pappensex/YONI-app#readme",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}
