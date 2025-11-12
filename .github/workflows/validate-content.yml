@@ -1,0 +1,17 @@
+name: Validate JSON & CSV
+on:
+  pull_request:
+    paths:
+      - 'project-ops/launch/**'
+
+jobs:
+  validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci --ignore-scripts --fund=false
+      - run: node scripts/validate-notion.js project-ops/launch/notion-template.json
+      - run: node scripts/validate-tasks-csv.js project-ops/launch/launch_tasks.csv
