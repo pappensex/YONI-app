@@ -55,8 +55,21 @@ fi
 
 echo "🌱 Creating branch from $BASE_BRANCH..."
 git checkout -b "$BRANCH_NAME" "$BASE_BRANCH" 2>/dev/null || {
-    echo "❌ Branch $BRANCH_NAME already exists. Checking it out..."
+    echo "❌ Branch $BRANCH_NAME already exists."
+    echo "ℹ️  Checking out existing branch..."
     git checkout "$BRANCH_NAME"
+
+    # Check if branch is up to date with base branch
+    if ! git merge-base --is-ancestor "$BASE_BRANCH" "$BRANCH_NAME"; then
+        echo "⚠️  Warning: '$BRANCH_NAME' is not up to date with '$BASE_BRANCH'."
+        read -r -p "Do you want to reset '$BRANCH_NAME' to match '$BASE_BRANCH'? This will discard local changes on '$BRANCH_NAME'. [y/N]: " RESET_CONFIRM
+        if [[ "$RESET_CONFIRM" =~ ^[Yy]$ ]]; then
+            git reset --hard "$BASE_BRANCH"
+            echo "✅ '$BRANCH_NAME' has been reset to '$BASE_BRANCH'."
+        else
+            echo "ℹ️  Keeping existing branch state."
+        fi
+    fi
 }
 
 echo ""
