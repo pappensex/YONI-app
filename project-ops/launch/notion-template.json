@@ -1,0 +1,578 @@
+{
+  "object": "database",
+  "title": [
+    {
+      "type": "text",
+      "text": {
+        "content": "🚀 YONI Launch Sprint — 72h Proof of Cash"
+      }
+    }
+  ],
+  "description": [
+    {
+      "type": "text",
+      "text": {
+        "content": "72-Stunden Go-to-Market Sprint für YONI App Launch"
+      }
+    }
+  ],
+  "properties": {
+    "Name": {
+      "type": "title",
+      "title": {}
+    },
+    "Status": {
+      "type": "select",
+      "select": {
+        "options": [
+          {
+            "name": "🔴 Backlog",
+            "color": "red"
+          },
+          {
+            "name": "🟡 In Progress",
+            "color": "yellow"
+          },
+          {
+            "name": "🟢 Done",
+            "color": "green"
+          },
+          {
+            "name": "⏸️ Blocked",
+            "color": "gray"
+          }
+        ]
+      }
+    },
+    "Priority": {
+      "type": "select",
+      "select": {
+        "options": [
+          {
+            "name": "🔥 Critical",
+            "color": "red"
+          },
+          {
+            "name": "⚡ High",
+            "color": "orange"
+          },
+          {
+            "name": "📌 Medium",
+            "color": "yellow"
+          },
+          {
+            "name": "💤 Low",
+            "color": "gray"
+          }
+        ]
+      }
+    },
+    "Pillar": {
+      "type": "select",
+      "select": {
+        "options": [
+          {
+            "name": "💰 Revenue",
+            "color": "green"
+          },
+          {
+            "name": "📣 Marketing",
+            "color": "pink"
+          },
+          {
+            "name": "⚙️ Product",
+            "color": "blue"
+          },
+          {
+            "name": "🤝 Community",
+            "color": "purple"
+          },
+          {
+            "name": "🔧 Ops",
+            "color": "brown"
+          }
+        ]
+      }
+    },
+    "Due Date": {
+      "type": "date",
+      "date": {}
+    },
+    "Owner": {
+      "type": "people",
+      "people": {}
+    },
+    "Notes": {
+      "type": "rich_text",
+      "rich_text": {}
+    },
+    "Progress": {
+      "type": "number",
+      "number": {
+        "format": "percent"
+      }
+    }
+  },
+  "children": [
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Stripe Payment Integration aktivieren"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "🔥 Critical"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "💰 Revenue"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-13"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Setup: Subscription Tiers (Free, Pro €9.99, Premium €29.99). Webhook für Events."
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Landing Page Launch-Version finalisieren"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "🔥 Critical"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "📣 Marketing"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-13"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Hero Section, Social Proof (0→100 Member Journey), CTA zu /register"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Beta-Tester:innen Outreach (30 Personen)"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "⚡ High"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "🤝 Community"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-13"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Email-Kampagne, Twitter DMs, Reddit Mental Health Communities"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Produkt Hunt Launch vorbereiten"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "⚡ High"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "📣 Marketing"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-14"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Tagline, Screenshots (4x), Video (30s), Hunter anfragen"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Social Media Assets erstellen"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "⚡ High"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "📣 Marketing"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-14"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Twitter Header, Instagram Carousel (5 Slides), LinkedIn Banner"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Analytics & Monitoring Setup (Sentry + Vercel)"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "📌 Medium"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "🔧 Ops"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-14"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Error Tracking, Performance Monitoring, Conversion Funnel"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Onboarding Flow + Welcome Email"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "⚡ High"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "⚙️ Product"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-14"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "3-Step Wizard (Name, Interessen, Subscription Choice), Auto-Email nach Registration"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Community Guidelines & Moderation Plan"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "📌 Medium"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "🤝 Community"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-13"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Code of Conduct, Report-Button, Moderator:innen-Onboarding"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "First 10 Paying Customers: Outreach + Conversion"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "🔥 Critical"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "💰 Revenue"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-15"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "Persönliche DMs an Beta-Tester, Early-Bird Discount 20%, Testimonials sammeln"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    },
+    {
+      "object": "page",
+      "properties": {
+        "Name": {
+          "title": [
+            {
+              "text": {
+                "content": "Launch Day: Koordinierte Posting-Strategie"
+              }
+            }
+          ]
+        },
+        "Status": {
+          "select": {
+            "name": "🔴 Backlog"
+          }
+        },
+        "Priority": {
+          "select": {
+            "name": "🔥 Critical"
+          }
+        },
+        "Pillar": {
+          "select": {
+            "name": "📣 Marketing"
+          }
+        },
+        "Due Date": {
+          "date": {
+            "start": "2025-11-15"
+          }
+        },
+        "Notes": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "08:00 Product Hunt, 10:00 Twitter Thread, 12:00 LinkedIn Post, 14:00 Reddit AMA"
+              }
+            }
+          ]
+        },
+        "Progress": {
+          "number": 0
+        }
+      }
+    }
+  ]
+}

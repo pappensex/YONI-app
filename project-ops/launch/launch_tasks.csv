@@ -1,0 +1,11 @@
+Name,Status,Priority,Pillar,Due Date,Notes,Progress
+Stripe Payment Integration aktivieren,🔴 Backlog,🔥 Critical,💰 Revenue,2025-11-13,"Setup: Subscription Tiers (Free, Pro €9.99, Premium €29.99). Webhook für Events.",0
+Landing Page Launch-Version finalisieren,🔴 Backlog,🔥 Critical,📣 Marketing,2025-11-13,"Hero Section, Social Proof (0→100 Member Journey), CTA zu /register",0
+Beta-Tester:innen Outreach (30 Personen),🔴 Backlog,⚡ High,🤝 Community,2025-11-13,"Email-Kampagne, Twitter DMs, Reddit Mental Health Communities",0
+Produkt Hunt Launch vorbereiten,🔴 Backlog,⚡ High,📣 Marketing,2025-11-14,"Tagline, Screenshots (4x), Video (30s), Hunter anfragen",0
+Social Media Assets erstellen,🔴 Backlog,⚡ High,📣 Marketing,2025-11-14,"Twitter Header, Instagram Carousel (5 Slides), LinkedIn Banner",0
+Analytics & Monitoring Setup (Sentry + Vercel),🔴 Backlog,📌 Medium,🔧 Ops,2025-11-14,"Error Tracking, Performance Monitoring, Conversion Funnel",0
+Onboarding Flow + Welcome Email,🔴 Backlog,⚡ High,⚙️ Product,2025-11-14,"3-Step Wizard (Name, Interessen, Subscription Choice), Auto-Email nach Registration",0
+Community Guidelines & Moderation Plan,🔴 Backlog,📌 Medium,🤝 Community,2025-11-13,"Code of Conduct, Report-Button, Moderator:innen-Onboarding",0
+First 10 Paying Customers: Outreach + Conversion,🔴 Backlog,🔥 Critical,💰 Revenue,2025-11-15,"Persönliche DMs an Beta-Tester, Early-Bird Discount 20%, Testimonials sammeln",0
+Launch Day: Koordinierte Posting-Strategie,🔴 Backlog,🔥 Critical,📣 Marketing,2025-11-15,"08:00 Product Hunt, 10:00 Twitter Thread, 12:00 LinkedIn Post, 14:00 Reddit AMA",0
