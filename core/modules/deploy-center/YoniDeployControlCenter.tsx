@@ -23,7 +23,7 @@ export default function YoniDeployControlCenter() {
       setStatusData(parsed);
       
       // Calculate subtasks done using Notion-style formula
-      const done = parsed.filter((i) => i.status === "✅").length;
+      const done = parsed.filter((i) => i.status.includes("✅")).length;
       const total = parsed.length;
       
       // Apply toNumber(format(round(prop("Subtasks Done")))) formula
@@ -42,10 +42,9 @@ export default function YoniDeployControlCenter() {
     return lines.slice(2).map((line) => {
       const cols = line.split("|").map((c) => c.trim());
       return {
-        id: cols[1],
-        task: cols[2],
-        status: cols[3],
-        comment: cols[4],
+        task: cols[1],
+        status: cols[2],
+        comment: cols[3],
       };
     });
   };
@@ -66,13 +65,13 @@ export default function YoniDeployControlCenter() {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {statusData.map((item) => (
+        {statusData.map((item, index) => (
           <Card
-            key={item.id}
+            key={index}
             className={`border-2 rounded-2xl shadow-md ${
-              item.status === "✅"
+              item.status.includes("✅")
                 ? "border-green-500"
-                : item.status === "⚙️"
+                : item.status.includes("🔄")
                 ? "border-yellow-400"
                 : "border-red-500"
             }`}
@@ -80,9 +79,9 @@ export default function YoniDeployControlCenter() {
             <CardContent className="p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold text-lg">{item.task}</h2>
-                {item.status === "✅" && <CheckCircle className="text-green-500" />}
-                {item.status === "⚙️" && <AlertTriangle className="text-yellow-500" />}
-                {item.status === "❌" && <XCircle className="text-red-500" />}
+                {item.status.includes("✅") && <CheckCircle className="text-green-500" />}
+                {item.status.includes("🔄") && <AlertTriangle className="text-yellow-500" />}
+                {item.status.includes("❌") && <XCircle className="text-red-500" />}
               </div>
               <p className="text-sm text-muted-foreground">{item.comment}</p>
             </CardContent>
