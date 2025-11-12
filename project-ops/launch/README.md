@@ -17,7 +17,7 @@ Dieses Verzeichnis enthält die strukturierte Task-Verwaltung für den YONI-Laun
 ```
 project-ops/launch/
 ├── notion-template.json   # Strukturierte Task-Daten (JSON)
-├── tasks.csv             # Flache Task-Liste (CSV)
+├── launch_tasks.csv      # Flache Task-Liste (CSV)
 └── README.md            # Diese Dokumentation
 ```
 
@@ -55,20 +55,20 @@ jq '.pillars[] | {name, count: (.tasks | length)}' notion-template.json
 
 ## 📊 CSV-Nutzung
 
-Die `tasks.csv` kann mit Standard-Tools analysiert werden:
+Die `launch_tasks.csv` kann mit Standard-Tools analysiert werden:
 
 ```bash
 # Alle Tasks anzeigen
-cat tasks.csv
+cat launch_tasks.csv
 
 # BUILD-Tasks filtern
-grep "^BUILD" tasks.csv
+grep "^BUILD" launch_tasks.csv
 
 # High-Priority Tasks
-grep ",high," tasks.csv
+grep ",high," launch_tasks.csv
 
 # Task-Zählung pro Pillar
-cut -d, -f1 tasks.csv | tail -n +2 | sort | uniq -c
+cut -d, -f1 launch_tasks.csv | tail -n +2 | sort | uniq -c
 ```
 
 ## 🎯 Task-Format
@@ -92,8 +92,8 @@ Jeder Task hat folgende Felder:
 ### CSV-Format
 
 ```csv
-Pillar,Task ID,Title,Description,Status,Priority,Tags,Example
-BUILD,BUILD-001,Stripe Webhook fixen,Fix webhook integration,in_progress,high,"stripe,backend",Stripe Webhook fixen
+Pillar,Task ID,Title,Description,Status,Priority,Tags,Example,Due Date
+BUILD,BUILD-001,Stripe Webhook fixen,Fix webhook integration,in_progress,high,"stripe,backend",Stripe Webhook fixen,2025-11-15
 ```
 
 ## 🔄 Workflow
@@ -144,7 +144,7 @@ CSV kann direkt in Jira/Trello importiert werden:
 
 1. Projekt/Board öffnen
 2. Import → CSV wählen
-3. `tasks.csv` hochladen
+3. `launch_tasks.csv` hochladen
 4. Feldmapping durchführen
 
 ## 📈 Monitoring
