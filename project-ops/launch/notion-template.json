@@ -1,0 +1,216 @@
+{
+  "title": "YONI Launch Task Management Template",
+  "version": "1.0.0",
+  "description": "Notion-compatible template for organizing YONI app launch tasks across BUILD, PAYMENT, and YOUTUBE pillars",
+  "created": "2025-11-12",
+  "pillars": [
+    {
+      "name": "BUILD",
+      "icon": "🧱",
+      "focus": "Technisches Fundament",
+      "description": "Technical foundation and infrastructure tasks",
+      "color": "purple",
+      "priority": 1,
+      "examples": [
+        "Stripe Webhook fixen",
+        "Deploy testen",
+        "API Routes optimieren",
+        "Edge Functions implementieren"
+      ],
+      "taskCategories": [
+        {
+          "category": "Backend",
+          "tasks": [
+            "Stripe webhook configuration",
+            "API route optimization",
+            "Database setup",
+            "Edge function deployment"
+          ]
+        },
+        {
+          "category": "Frontend",
+          "tasks": [
+            "Next.js 14 setup verification",
+            "TailwindCSS theme integration",
+            "Component library setup",
+            "Accessibility checks"
+          ]
+        },
+        {
+          "category": "DevOps",
+          "tasks": [
+            "Vercel deployment pipeline",
+            "CI/CD workflow configuration",
+            "Environment variables setup",
+            "Monitoring and logging"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PAYMENT",
+      "icon": "💳",
+      "focus": "Monetarisierung & Compliance",
+      "description": "Payment integration and compliance tasks",
+      "color": "green",
+      "priority": 2,
+      "examples": [
+        "Instant Payment aktivieren",
+        "Checkout-Link einrichten",
+        "Subscription-Modell implementieren",
+        "DSGVO-konforme Datenspeicherung"
+      ],
+      "taskCategories": [
+        {
+          "category": "Stripe Integration",
+          "tasks": [
+            "Instant payment setup",
+            "Checkout link configuration",
+            "Subscription plans",
+            "Webhook event handling"
+          ]
+        },
+        {
+          "category": "Compliance",
+          "tasks": [
+            "DSGVO documentation",
+            "Payment security audit",
+            "Privacy policy update",
+            "Terms of service"
+          ]
+        },
+        {
+          "category": "User Experience",
+          "tasks": [
+            "Payment flow design",
+            "Success/failure handling",
+            "Receipt generation",
+            "Refund process"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "YOUTUBE",
+      "icon": "🎥",
+      "focus": "Reichweite & Conversion",
+      "description": "Marketing and community engagement tasks",
+      "color": "red",
+      "priority": 3,
+      "examples": [
+        "Short drehen",
+        "Community-Post mit Stripe-Link",
+        "Tutorial-Videos erstellen",
+        "Social Media Kampagne"
+      ],
+      "taskCategories": [
+        {
+          "category": "Content Creation",
+          "tasks": [
+            "YouTube Shorts production",
+            "Tutorial videos",
+            "App demo videos",
+            "Behind-the-scenes content"
+          ]
+        },
+        {
+          "category": "Community Engagement",
+          "tasks": [
+            "Community posts with payment links",
+            "Q&A sessions",
+            "User testimonials",
+            "Launch announcement"
+          ]
+        },
+        {
+          "category": "Marketing",
+          "tasks": [
+            "Social media strategy",
+            "Influencer outreach",
+            "Press release",
+            "Launch campaign"
+          ]
+        }
+      ]
+    }
+  ],
+  "workflow": {
+    "stages": [
+      {
+        "name": "Backlog",
+        "description": "Alle geplanten Tasks",
+        "icon": "📋"
+      },
+      {
+        "name": "In Progress",
+        "description": "Aktiv bearbeitete Tasks",
+        "icon": "🔄"
+      },
+      {
+        "name": "Review",
+        "description": "Tasks zur Überprüfung",
+        "icon": "👀"
+      },
+      {
+        "name": "Done",
+        "description": "Abgeschlossene Tasks",
+        "icon": "✅"
+      }
+    ]
+  },
+  "properties": {
+    "taskFields": [
+      {
+        "name": "Task Name",
+        "type": "title",
+        "required": true
+      },
+      {
+        "name": "Pillar",
+        "type": "select",
+        "options": ["BUILD", "PAYMENT", "YOUTUBE"],
+        "required": true
+      },
+      {
+        "name": "Status",
+        "type": "select",
+        "options": ["Backlog", "In Progress", "Review", "Done"],
+        "required": true
+      },
+      {
+        "name": "Priority",
+        "type": "select",
+        "options": ["High", "Medium", "Low"],
+        "required": true
+      },
+      {
+        "name": "Assignee",
+        "type": "person",
+        "required": false
+      },
+      {
+        "name": "Due Date",
+        "type": "date",
+        "required": false
+      },
+      {
+        "name": "Tags",
+        "type": "multi_select",
+        "options": ["urgent", "bug", "feature", "improvement", "documentation"],
+        "required": false
+      },
+      {
+        "name": "Effort",
+        "type": "select",
+        "options": ["Small (1-2h)", "Medium (3-8h)", "Large (1-3d)", "X-Large (>3d)"],
+        "required": false
+      }
+    ]
+  },
+  "quickLinks": {
+    "repository": "https://github.com/pappensex/YONI-app",
+    "documentation": "https://github.com/pappensex/YONI-app/blob/main/README.md",
+    "deployment": "https://yoni.vercel.app",
+    "website": "https://yoni.pihoch2.me"
+  }
+}
