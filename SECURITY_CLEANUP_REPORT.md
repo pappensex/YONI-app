@@ -3,7 +3,9 @@
 ## Date: 2025-11-12
 
 ## Summary
-This document records the comprehensive security cleanup performed on the YONI-app repository to remove sensitive data from git history.
+This PR provides the tools and documentation needed to remove sensitive data from the YONI-app repository's git history.
+
+⚠️ **IMPORTANT**: This PR demonstrates the cleanup process but **does NOT clean the main branch**. The repository owner must run the provided script to clean the entire repository including main.
 
 ## Sensitive Data Removed
 
@@ -119,9 +121,43 @@ The `api/stripe/webhook/route.ts` file was restored to the working directory aft
 - `api/stripe/webhook/route.ts` - Restored clean version (uses environment variables)
 - `SECURITY_CLEANUP_REPORT.md` - This documentation file
 
-## Git History Changes
+## Git History Changes (on this PR branch)
 
-- Before: 2 commits
-- After: 2 commits (rewritten with sensitive data removed)
+- Before: 2 commits (on this branch)
+- After: 2 commits (rewritten with sensitive data removed from branch history)
 - Total objects after cleanup: 90
-- Repository sanitized and optimized
+- PR branch sanitized and optimized
+
+## Main Branch Status
+
+⚠️ **The main branch still contains sensitive data** including:
+- `.github/workflows/yoni-x148.2025-11-03.private-key.pem` (RSA private key)
+
+**To clean the entire repository**, the repository owner must:
+1. Run the provided `cleanup-sensitive-data.sh` script
+2. Force push to all branches
+3. Coordinate with team members for re-cloning
+4. Rotate all exposed secrets
+
+## How to Clean the Entire Repository
+
+The repository owner should run:
+
+```bash
+cd YONI-app
+./cleanup-sensitive-data.sh
+```
+
+This script will:
+1. Create a backup
+2. Install git-filter-repo
+3. Remove all sensitive files from entire git history
+4. Redact secret patterns from all commits
+5. Clean up and optimize the repository
+6. Provide instructions for force pushing
+
+**After running the script**, force push to all branches:
+```bash
+git push --force-with-lease origin main
+# Repeat for other branches if needed
+```
