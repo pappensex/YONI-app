@@ -29,7 +29,46 @@ This document describes the GitHub Actions workflows available in this repositor
 4. Select the branch to run on
 5. Click **"Run workflow"** to start
 
-### 2. Deploy Snapshot - `deploy_snapshot.yml`
+### 2. Repo Cleanup - `repo-cleanup.yml`
+
+**Purpose:** Cleans up work-in-progress (WIP) pull requests and development branches from Copilot.
+
+**Triggers:**
+- **Manual:** Can be triggered via GitHub Actions UI with optional dry-run mode
+
+**What it does:**
+1. Closes WIP pull requests created by Copilot
+2. Deletes branches with the `copilot/` prefix
+3. Cleans up branches that have been merged into main
+
+**Input Parameters:**
+- `dry_run` (optional): Set to `true` to preview changes without actually deleting anything (default: `false`)
+
+**Manual Trigger:**
+1. Go to the **Actions** tab in GitHub
+2. Select "Repo Cleanup" from the workflow list
+3. Click **"Run workflow"** button
+4. Select the branch to run on (usually `main`)
+5. (Optional) Set `dry_run` to `true` for a preview
+6. Click **"Run workflow"** to start
+
+**Alternative: Using the Shell Script**
+
+You can also run the cleanup locally using the `cleanup.sh` script:
+
+```bash
+# Preview mode (no changes)
+DRY=true bash cleanup.sh pappensex/YONI-app
+
+# Execute cleanup
+bash cleanup.sh pappensex/YONI-app
+```
+
+**Prerequisites for shell script:**
+- GitHub CLI (`gh`) must be installed
+- You must be authenticated: `gh auth login`
+
+### 3. Deploy Snapshot - `deploy_snapshot.yml`
 
 **Purpose:** Creates daily snapshots of deployment status and sends email notifications.
 
@@ -91,12 +130,14 @@ YONI-app/
 ├── .github/
 │   └── workflows/
 │       ├── main.yml
+│       ├── repo-cleanup.yml
 │       └── deploy_snapshot.yml
 ├── Transzendenz/
 │   └── Reports/
 │       ├── Deploy-Status.md           # Main deployment status file
 │       ├── Deploy-Status-YYYY-MM-DD.md # Daily snapshots (auto-generated)
 │       └── snapshot-log.txt           # Snapshot event log
+├── cleanup.sh                         # Standalone cleanup script
 └── WORKFLOW-DOCUMENTATION.md          # This file
 ```
 
@@ -147,13 +188,54 @@ These files should be committed to your repository before running the workflow.
 3. Push the changes to the repository
 4. Refresh the Actions page
 
+### cleanup.sh fails with "GitHub CLI (gh) not found"
+
+**Problem:** The script cannot find the `gh` command
+
+**Solution:**
+1. Install GitHub CLI from https://cli.github.com/
+2. For macOS: `brew install gh`
+3. For Ubuntu/Debian: Follow instructions at https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+4. Verify installation: `gh --version`
+
+### cleanup.sh fails with authentication error
+
+**Problem:** Not authenticated with GitHub CLI
+
+**Solution:**
+1. Run `gh auth login`
+2. Follow the prompts to authenticate
+3. Choose your preferred authentication method (web browser or token)
+4. Verify authentication: `gh auth status`
+
+### repo-cleanup.yml workflow fails to delete branches
+
+**Problem:** Workflow has insufficient permissions to delete branches
+
+**Solution:**
+1. Ensure the workflow has the correct permissions in the YAML file (already configured)
+2. Check that branch protection rules don't prevent deletion
+3. Verify you have admin access to the repository
+
+### cleanup.sh reports branches but doesn't delete them
+
+**Problem:** Running in dry-run mode
+
+**Solution:** This is expected behavior when `DRY=true` is set. To actually delete branches:
+```bash
+bash cleanup.sh pappensex/YONI-app
+```
+(without the `DRY=true` prefix)
+
 ## Best Practices
 
 1. **Test manually first:** Before relying on automatic triggers, test workflows manually to ensure they work correctly
-2. **Monitor snapshot logs:** Regularly check `Transzendenz/Reports/snapshot-log.txt` to verify snapshots are running
-3. **Keep secrets secure:** Never commit secrets to the repository
-4. **Review artifacts:** Check uploaded artifacts after CI runs to ensure builds are successful
-5. **Update status regularly:** Keep `Deploy-Status.md` up to date with current deployment status
+2. **Use dry-run mode:** Always use `dry_run=true` for the cleanup workflow or `DRY=true` for the cleanup script before doing actual deletions
+3. **Monitor snapshot logs:** Regularly check `Transzendenz/Reports/snapshot-log.txt` to verify snapshots are running
+4. **Keep secrets secure:** Never commit secrets to the repository
+5. **Review artifacts:** Check uploaded artifacts after CI runs to ensure builds are successful
+6. **Update status regularly:** Keep `Deploy-Status.md` up to date with current deployment status
+7. **Clean up regularly:** Use the repo cleanup tools periodically to maintain a tidy repository
 
 ## Support
 
@@ -165,5 +247,5 @@ For issues or questions about these workflows:
 
 ---
 
-**Last Updated:** 2025-11-05  
-**Version:** 1.0
+**Last Updated:** 2025-11-12  
+**Version:** 1.1
