@@ -41,7 +41,14 @@ echo -e "${GREEN}Creating branch: $BRANCH_NAME${NC}"
 
 # Fetch latest changes
 echo "📥 Fetching latest changes from origin..."
-git fetch origin
+if git remote | grep -q '^origin$'; then
+    if ! git fetch origin; then
+        echo "⚠️  Warning: Failed to fetch from 'origin'. You may not have a network connection or the remote may not exist."
+        echo "    Proceeding without fetching latest changes."
+    fi
+else
+    echo "⚠️  Warning: Remote 'origin' does not exist. Skipping fetch."
+fi
 
 # Create and checkout new branch from main
 if git show-ref --verify --quiet refs/heads/main; then
