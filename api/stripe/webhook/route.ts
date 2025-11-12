@@ -1,60 +1,73 @@
-import Stripe from "stripe";
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const runtime = 'nodejs'; 
+export const dynamic = 'force-dynamic';
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const stripe = stripeSecretKey
-  ? new Stripe(stripeSecretKey, {
-      apiVersion: "2023-10-16",
-    })
-  : null;
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-export async function POST(req: Request) {
-  if (!stripe) {
-    return new Response("Stripe not configured", { status: 500 });
+const stripe = new Stripe(stripeSecretKey, {
+  apiVersion: "2024-06-20",
+});
+
+// RAW-BODY auslesen
+async function getRawBody(req: NextRequest): Promise<Buffer> {
+  const chunks: Uint8Array[] = [];
+  const reader = req.body?.getReader();
+
+  if (!reader) return Buffer.from('');
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (value) chunks.push(value);
   }
-  
-  const sig = req.headers.get("stripe-signature");
-  if (!sig) return new Response("Missing signature", { status: 400 });
-  
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  if (!webhookSecret) {
-    return new Response("Webhook secret not configured", { status: 500 });
-  }
-  
-  const rawBody = await req.text();
 
+  return Buffer.concat(chunks.map((c) => Buffer.from(c)));
+}
+
+export async function POST(req: NextRequest) {
   let event: Stripe.Event;
+
   try {
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      sig,
-      webhookSecret
-    );
+    const sig = req.headers.get('stripe-signature');
+    if (!sig) return new NextResponse('Missing Stripe-Signature header', { status: 400 });
+
+    const rawBody = await getRawBody(req);
+
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err: any) {
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    console.error('❌ Webhook verification failed:', err);
+    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  switch (event.type) {
-    case "checkout.session.completed":
-      console.log("✅ Checkout completed:", event.data.object.id);
-      break;
-    case "payment_intent.succeeded":
-      console.log("💰 Payment succeeded:", event.data.object.id);
-      break;
-    default:
-      console.log("Unhandled event:", event.type);
-  }
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+        console.log('✅ Checkout completed:', session.id);
+        break;
+      }
 
-  return new Response(JSON.stringify({ received: true }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+      case 'payment_intent.succeeded': {
+        const intent = event.data.object as Stripe.PaymentIntent;
+        console.log('💰 Payment succeeded:', intent.id);
+        break;
+      }
+
+      default:
+        console.log(`ℹ️ Unhandled event: ${event.type}`);
+    }
+
+    return new NextResponse('Webhook received', { status: 200 });
+
+  } catch (error) {
+    console.error('❌ Error handling webhook:', error);
+    return new NextResponse('Internal Server Error', { status: 500 });
+  }
 }
 
 export async function GET() {
-  return new Response("Webhook endpoint active (use POST from Stripe).", {
-    status: 200,
-  });
+  return new NextResponse("Webhook endpoint active", { status: 200 });
 }
