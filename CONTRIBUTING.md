@@ -18,7 +18,6 @@ Thank you for your interest in contributing to YONI! This guide will help you ge
 5. **Push to your fork**:
    ```bash
    git push -u origin feature/dein-thema
-   ```
 6. **Create a Pull Request**:
    ```bash
    gh pr create --fill
