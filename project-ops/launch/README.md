@@ -20,6 +20,7 @@ project-ops/launch/
 ├── notion-template.schema.json  # JSON Schema (draft-07) für Validierung
 ├── validate-notion-template.js  # Validierungsscript für Datenqualität
 ├── test-validate.js             # Test-Suite für Validierung
+├── fix-content.js               # Auto-Fix für JSON/CSV Normalisierung
 ├── tasks.csv                    # Flache Task-Liste (CSV)
 └── README.md                    # Diese Dokumentation
 ```
@@ -48,6 +49,9 @@ npm run validate:notion
 # Tests ausführen
 npm run test:notion
 
+# Auto-Fixes anwenden (JSON/CSV normalisieren)
+npm run fix:content
+
 # Ausgabe (bei Erfolg):
 # ✅ Schema validation passed
 # ✅ All data quality checks passed
@@ -60,6 +64,27 @@ Das Validierungsscript prüft:
 - ✓ **Datenqualität**: Task-IDs, Status, Prioritäten, Tags
 - ✓ **Emoji-Kompatibilität**: Problematische Unicode-Zeichen
 - ✓ **Konsistenz**: Workflow-Status, Duplikate, Farben
+
+### 🔧 Auto-Fix
+
+Das `fix:content` Script normalisiert automatisch JSON- und CSV-Dateien:
+
+```bash
+# Auto-Fixes anwenden
+npm run fix:content
+
+# Was wird korrigiert:
+# - JSON: Konsistente 2-Leerzeichen-Einrückung
+# - JSON/CSV: Unix-Zeilenenden (LF)
+# - JSON/CSV: Trailing Whitespace entfernen
+# - JSON/CSV: Trailing Newline sicherstellen
+```
+
+**Automatisierung via GitHub Actions:**
+- Workflow `.github/workflows/content-auto-fix.yml`
+- Triggert bei Änderungen in `project-ops/launch/**`
+- Erstellt automatisch PR mit Korrekturen
+- Idempotent: Sichere Mehrfachausführung
 
 ### Beispiel-Abfragen
 
