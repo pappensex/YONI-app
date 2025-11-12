@@ -1,0 +1,78 @@
+name: Repo Cleanup
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Nur anzeigen, nicht löschen (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write          # refs/heads/* löschen
+  pull-requests: write     # PRs schließen
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup gh
+        uses: cli/cli-action@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close WIP PRs von Copilot
+        env:
+          REPO: pappensex/YONI-app
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          prs=$(gh pr list --repo "$REPO" --state open --search "author:Copilot in:title [WIP]" --json number --jq '.[].number')
+          echo "Offene WIP-PRs: $prs"
+          if [ "${DRY_RUN}" = "true" ]; then exit 0; fi
+          for n in $prs; do
+            gh pr close "$n" --repo "$REPO" --delete-branch=false
+          done
+
+      - name: Lösche Branches mit Präfix copilot/
+        env:
+          REPO: pappensex/YONI-app
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          # Liste aller Branches abrufen (paginiert)
+          page=1
+          to_delete=""
+          while :; do
+            resp=$(gh api -X GET repos/$REPO/branches -F per_page=100 -F page=$page)
+            names=$(echo "$resp" | jq -r '.[].name')
+            [ -z "$names" ] && break
+            matches=$(echo "$names" | grep '^copilot/' || true)
+            to_delete="$to_delete"$'\n'"$matches"
+            page=$((page+1))
+          done
+          to_delete=$(echo "$to_delete" | sed '/^$/d' || true)
+          echo "Kandidaten:"
+          echo "$to_delete"
+          if [ -z "$to_delete" ]; then exit 0; fi
+          if [ "${DRY_RUN}" = "true" ]; then exit 0; fi
+          # Refs löschen
+          while IFS= read -r br; do
+            echo "Lösche $br"
+            gh api -X DELETE "repos/$REPO/git/refs/heads/$br" || true
+          done <<< "$to_delete"
+
+      - name: Merged-Branches aufräumen (optional)
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        env:
+          REPO: pappensex/YONI-app
+        run: |
+          set -euo pipefail
+          # alle remote-Branches, die in main gemerged sind und mit copilot/ beginnen
+          git fetch --prune
+          git branch -r --merged origin/main | sed 's# *origin/##' | grep '^copilot/' | while read br; do
+            echo "Prune $br"
+            gh api -X DELETE "repos/$REPO/git/refs/heads/$br" || true
+          done
