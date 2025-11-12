@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'project-ops/launch/**'
+permissions:
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
