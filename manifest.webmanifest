@@ -1,6 +1,7 @@
 {
-  "name": "YONI • pi² Control",
+  "name": "YONI • pi² Control (18+)",
   "short_name": "YONI",
+  "description": "YONI: Creator-KI, Auto-Translate, Transzendenz-Hub für Nutzer:innen ab 18 Jahren",
   "display": "standalone",
   "start_url": "/",
   "background_color": "#0b0b10",
