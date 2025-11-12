@@ -1,0 +1,13 @@
+Task,Pillar,Priority,Status,Owner,Due Date,Parent,Notes
+Stripe Webhook fixen,BUILD,🔥,In Progress,@pappensex,2025-11-15,,Fix Stripe webhook integration for payment processing
+Deploy testen,BUILD,🔥,To Do,@pappensex,2025-11-16,,Test deployment pipeline on Vercel
+Security Checks implementieren,BUILD,⚡,To Do,@pappensex,2025-11-20,,Implement CSP HTTPS and RBAC security measures
+A11y Testing einrichten,BUILD,⏳,To Do,@pappensex,2025-11-22,,Set up accessibility testing with axe-core
+Instant Payment aktivieren,PAYMENT,🔥,To Do,@pappensex,2025-11-15,,Enable instant payment functionality in Stripe
+Checkout-Link einrichten,PAYMENT,🔥,To Do,@pappensex,2025-11-16,,Set up Stripe Checkout link for subscriptions
+DSGVO-Compliance prüfen,PAYMENT,⚡,To Do,@pappensex,2025-11-18,,Verify GDPR compliance for payment processing
+Preismodell definieren,PAYMENT,⏳,To Do,@pappensex,2025-11-20,,Define pricing tiers and subscription models
+Short drehen,YOUTUBE,🔥,To Do,@pappensex,2025-11-15,,Create YouTube Short for product launch
+Community-Post mit Stripe-Link,YOUTUBE,🔥,To Do,@pappensex,2025-11-16,,Create community post with Stripe payment link
+Launch-Video produzieren,YOUTUBE,⏳,To Do,@pappensex,2025-11-18,,Produce main launch video explaining YONI platform
+Social Media Kampagne,YOUTUBE,⏳,To Do,@pappensex,2025-11-20,,Plan and execute social media campaign
