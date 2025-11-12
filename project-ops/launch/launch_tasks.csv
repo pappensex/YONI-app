@@ -1,0 +1,41 @@
+Task ID,Task Name,Category,Description,Status,Progress,Priority,Assigned To,Due Date,Dependencies,Notes
+1,Tech Stack Setup,Infrastructure,Set up Next.js 14 with App Router and TailwindCSS,Done,1,High,Dev Team,2025-10-01,,Completed
+2,Design System - Überhochglitzer Theme,Design,Implement design tokens (amethyst/starwhite/emerald/gold),Done,1,High,Design Team,2025-10-15,1,Theme tokens defined in TailwindCSS
+3,Vercel Deployment,Infrastructure,Configure Vercel deployment with CI/CD pipelines,Done,1,High,DevOps,2025-10-20,1,Production and preview environments ready
+4,GitHub Actions CI,Infrastructure,Set up CI workflows for linting/building/testing,Done,1,Medium,DevOps,2025-10-25,1,CI for YONI (x148) workflow active
+5,A11y Testing Setup,Quality,Integrate axe-core and Lighthouse CI for accessibility,In Progress,0.5,High,QA Team,2025-11-15,3,Lighthouse threshold ≥ 95 required
+6,Starfield Animation,Design,Implement cosmic starfield background animation,In Progress,0.5,Medium,Frontend,2025-11-18,2,Part of Überhochglitzer aesthetic
+7,API Routes - Stripe Integration,Backend,Set up Stripe webhook endpoints for payments,In Progress,0.5,High,Backend Team,2025-11-20,3,Edge functions ready
+8,API Routes - GitHub Webhooks,Backend,Configure GitHub webhook handlers,In Progress,0.5,Medium,Backend Team,2025-11-20,3,For automation integration
+9,Chat System Backend,Backend,Implement real-time chat infrastructure,To Do,0,High,Backend Team,2025-11-30,7,Core feature for community
+10,User Authentication,Backend,Set up secure authentication system with RBAC,To Do,0,Critical,Security Team,2025-11-25,3,DSGVO compliance required
+11,Database Setup,Infrastructure,Configure Edge Storage or Supabase for data,To Do,0,High,Backend Team,2025-11-28,10,For persistent groups and user data
+12,Content Security Policy,Security,Implement CSP headers and security measures,To Do,0,Critical,Security Team,2025-11-30,3,HTTPS and DSGVO compliance
+13,Chat Rooms & Themenkreise,Feature,Create topic-based chat rooms with moderation,To Do,0,High,Product Team,2025-12-05,9,Core community feature
+14,Peer Mentor System,Feature,Implement peer mentor matching and tools,To Do,0,Medium,Product Team,2025-12-10,13,Community support structure
+15,Fachärztliche Q&A,Feature,Build supervised Q&A system with medical professionals,To Do,0,High,Product Team,2025-12-08,9,Requires verification system
+16,Reflexion Tools,Feature,Create self-reflection and mood tracking tools,To Do,0,Medium,Frontend,2025-12-12,10,Privacy-focused design
+17,Achtsamkeit Module,Feature,Implement mindfulness and meditation features,To Do,0,Medium,Content Team,2025-12-15,16,Evidence-based content
+18,Safety Bot Implementation,Backend,Deploy automated content moderation bot,To Do,0,Critical,Backend Team,2025-12-01,9,For community safety
+19,DSGVO Compliance Audit,Legal,Complete data protection impact assessment,To Do,0,Critical,Legal Team,2025-12-10,10,Required before launch
+20,Documentation - User Guide,Documentation,Create comprehensive user documentation,To Do,0,High,Content Team,2025-12-18,,Multilingual support
+21,Documentation - Medical Disclaimer,Documentation,Draft and review medical disclaimer,To Do,0,Critical,Legal Team,2025-11-28,,Not a therapy replacement
+22,Performance Optimization,Quality,Optimize for Core Web Vitals and loading speed,To Do,0,Medium,Frontend,2025-12-05,5,Target: Lighthouse ≥ 95
+23,Mobile Responsiveness,Quality,Ensure full mobile and tablet compatibility,To Do,0,High,Frontend,2025-12-08,2,Mobile-first approach
+24,PWA Implementation,Feature,Configure Progressive Web App capabilities,To Do,0,Medium,Frontend,2025-12-12,23,Offline support via sw.js
+25,Email Notification System,Backend,Set up transactional email service,To Do,0,Medium,Backend Team,2025-12-03,3,For user engagement
+26,Deploy Snapshot Automation,Infrastructure,Implement daily deployment snapshots,Done,1,Low,DevOps,2025-11-05,3,Already automated via GitHub Actions
+27,Beta Testing Program,QA,Recruit and onboard beta testers,To Do,0,High,Product Team,2025-12-15,19,Target 50-100 users
+28,Crisis Resources Integration,Feature,Add crisis hotline and emergency resources,To Do,0,Critical,Content Team,2025-11-30,,Immediate access required
+29,Moderation Dashboard,Feature,Build admin dashboard for content moderation,To Do,0,High,Frontend,2025-12-10,18,For community managers
+30,Analytics & Monitoring,Infrastructure,Set up privacy-respecting analytics,To Do,0,Medium,DevOps,2025-12-05,3,DSGVO-compliant only
+31,Launch Marketing Materials,Marketing,Create launch announcement and press kit,To Do,0,Medium,Marketing,2025-12-20,,Social media assets
+32,Community Guidelines,Documentation,Establish and publish community guidelines,To Do,0,Critical,Legal Team,2025-11-30,,Clear behavior expectations
+33,Onboarding Flow,Feature,Design and implement user onboarding experience,To Do,0,High,Product Team,2025-12-08,10,Gentle introduction to platform
+34,Accessibility Testing - Screen Readers,Quality,Test with NVDA/JAWS/VoiceOver screen readers,To Do,0,Critical,QA Team,2025-12-12,5,AA+ compliance target
+35,Load Testing,Quality,Perform load and stress testing,To Do,0,Medium,QA Team,2025-12-18,11,Prepare for launch traffic
+36,Backup & Recovery System,Infrastructure,Implement automated backup and recovery,To Do,0,Critical,DevOps,2025-12-01,11,Data protection essential
+37,Final Security Audit,Security,Conduct comprehensive security penetration test,To Do,0,Critical,Security Team,2025-12-20,12,Before public launch
+38,Soft Launch,Launch,Limited release to beta community,To Do,0,Critical,Product Team,2025-12-22,27,Controlled rollout
+39,Launch Monitoring,Operations,24/7 monitoring during launch week,To Do,0,Critical,DevOps,2026-01-02,38,Rapid response team ready
+40,Public Launch,Launch,Full public release of YONI app,To Do,0,Critical,All Teams,2026-01-05,38,Go-live celebration
