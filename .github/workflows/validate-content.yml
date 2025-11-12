@@ -1,0 +1,33 @@
+name: Validate JSON & CSV
+on:
+  pull_request:
+    paths:
+      - 'project-ops/launch/**'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq csvkit
+      - name: Lint JSON
+        run: |
+          jq . project-ops/launch/notion-template.json > /dev/null
+      - name: Basic JSON assertions
+        run: |
+          node -e "
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('project-ops/launch/notion-template.json','utf8'));
+          const req=['type','title','properties','views','rows'];
+          const miss=req.filter(k=>!(k in j));
+          if(miss.length){console.error('Missing keys:',miss);process.exit(1);}
+          if(j.type!=='database'){console.error('type must be database');process.exit(1);}
+          "
+      - name: Lint CSV
+        run: |
+          csvstat --snifflimit 0 project-ops/launch/launch_tasks.csv
+      - name: Validate date format
+        run: |
+          awk -F, 'NR>1{ if ($6 !~ /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/) { print \"Bad date: \"$6; exit 1 } }' project-ops/launch/launch_tasks.csv
