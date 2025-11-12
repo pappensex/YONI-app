@@ -13,6 +13,13 @@ export default function YoniDeployControlCenter() {
     fetchStatus();
   }, []);
 
+  // Status evaluation function: if(prop("Status") == "Done", 1, if(prop("Status") == "In Progress", 0.5, 0))
+  const getStatusProgress = (status) => {
+    if (status === "✅") return 1; // Done
+    if (status === "⚙️") return 0.5; // In Progress
+    return 0; // Other statuses (❌, etc.)
+  };
+
   const fetchStatus = async () => {
     setLoading(true);
     try {
@@ -20,9 +27,9 @@ export default function YoniDeployControlCenter() {
       const text = await res.text();
       const parsed = parseStatusMarkdown(text);
       setStatusData(parsed);
-      const done = parsed.filter((i) => i.status === "✅").length;
+      const totalProgress = parsed.reduce((sum, item) => sum + getStatusProgress(item.status), 0);
       const total = parsed.length;
-      setProgress(Math.round((done / total) * 100));
+      setProgress(Math.round((totalProgress / total) * 100));
     } catch (err) {
       console.error("Status-Load-Error", err);
     }
