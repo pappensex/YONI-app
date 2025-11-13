@@ -1,0 +1,22 @@
+feat(ops): add Notion template and CI validation for launch management
+
+Introduce launch task management infrastructure with Notion integration
+and automated CI validation.
+
+Files Added:
+- project-ops/launch/notion-template.json: Task template with BUILD, PAYMENT,
+  YOUTUBE pillars (12 tasks total)
+- project-ops/launch/tasks.csv: CSV export for external tool integration
+- project-ops/launch/README.md: Documentation with usage examples
+- core/modules/deploy-center/notionFormulas.ts: Notion formula utilities
+- core/modules/deploy-center/notionFormulas.test.ts: Formula test suite
+- core/modules/deploy-center/README.md: Formula implementation guide
+- .github/workflows/main.yml: CI workflow for automated validation
+
+Rationale:
+- Structured task tracking across technical, payment, and marketing pillars
+- Notion formula parity for consistent progress calculations
+- Automated CI gates (lint/test/build) on all PRs
+- Multi-format export (JSON/CSV) for flexible workflows
+
+Refs: #49

@@ -1,0 +1,55 @@
+feat(ops): add Notion template and CI validation for launch management
+
+Introduce comprehensive launch task management infrastructure with Notion
+integration and automated CI validation to support the YONI app launch.
+
+Files Added/Modified:
+
+Launch Task Management (project-ops/launch/):
+- notion-template.json: Structured task template for three strategic pillars
+  (BUILD, PAYMENT, YOUTUBE) with 12 tasks, status tracking, and priorities
+- tasks.csv: Flat CSV representation for external tool imports (Jira/Trello)
+- README.md: Complete documentation with jq queries, CSV usage, and workflow
+
+Deploy Control Center (core/modules/deploy-center/):
+- notionFormulas.ts: Notion-style formula utilities (prop, round, format,
+  toNumber, calculateSubtasksDone) for progress calculations
+- notionFormulas.test.ts: Comprehensive test suite validating all formula
+  functions with real-world percentage calculation examples
+- README.md: Formula documentation with step-by-step execution examples
+- YoniDeployControlCenter.tsx: React component integrating Notion formulas
+
+CI/CD Infrastructure (.github/workflows/):
+- main.yml: GitHub Actions workflow for automated build, test, and lint
+  validation on pushes and PRs targeting main branch
+
+Rationale:
+
+1. Task Management: Provides structured approach to YONI launch with clear
+   ownership across BUILD (technical), PAYMENT (monetization), and YOUTUBE
+   (marketing) pillars. JSON format enables programmatic access, CSV ensures
+   compatibility with existing project management tools.
+
+2. Notion Integration: Implements Notion formula syntax
+   (toNumber(format(round(prop())))) to maintain consistency between YONI
+   Deploy Control Center and external Notion workspace, enabling seamless
+   progress tracking across platforms.
+
+3. CI Validation: Establishes automated quality gates for all code changes,
+   running linter, tests, and build on every PR to prevent regressions and
+   ensure code quality standards are maintained throughout launch sprint.
+
+4. Documentation: Comprehensive README files provide quick-start guides, usage
+   examples, and integration patterns, reducing onboarding friction for new
+   contributors and ensuring knowledge continuity.
+
+Benefits:
+- Single source of truth for launch tasks across all platforms
+- Automated validation reduces manual review overhead
+- Formula utilities enable consistent progress calculations
+- Flexible export formats (JSON/CSV) support diverse workflows
+- Clear documentation accelerates team collaboration
+
+BREAKING CHANGE: None - This is additive functionality only.
+
+Refs: #49
