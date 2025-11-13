@@ -85,11 +85,29 @@ Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)** für vollständige Deployment-Anleitung
 
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
 
+### Testing & Validation
+
+**Comprehensive Testing Suite** - "bash it all round and round" 🟣
+
+```bash
+# Run all validations (lint, build, checks)
+npm run test:all
+
+# Test ChatGPT integration (requires dev server)
+npm run test:chat
+
+# Quick validation
+npm run validate
+```
+
+Siehe [scripts/README.md](scripts/README.md) für Details zu den Test-Scripts.
+
 ### CI Checks
 - ✅ ESLint + TypeScript  
 - ✅ A11y (axe)  
 - ✅ Lighthouse ≥ 95  
 - ✅ Duplicate Route Guard  
+- ✅ Comprehensive System Validation
 
 ---
 
