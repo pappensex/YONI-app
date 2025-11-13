@@ -17,11 +17,14 @@
 **YONI** ist eine Online-Selbsthilfegruppe für psychisch belastete Menschen  
 mit **fachärztlicher Begleitung, digitaler Sicherheit und liebevoller Gestaltung**.
 
+**🔞 Altersfreigabe: 18+** – YONI richtet sich an erwachsene Nutzer:innen.
+
 Die App vereint:
 - 🤝 **Gemeinschaft** – Chat-Räume & Themenkreise mit Peer-Mentor:innen  
 - 🧠 **Fachliche Supervision** – Ärzt:innen, Therapeut:innen, geschützte Q&A  
 - 🪞 **Selbstwirksamkeit** – Tools für Reflexion, Stimmung & Achtsamkeit  
 - 🌈 **Überhochglitzer-Design** – kosmisch, heilend, barrierefrei, technisch präzise  
+- ✨ **GODDESSMODE+** – Erweiterte visuelle Effekte für ein intensiveres Erlebnis  
 
 ---
 

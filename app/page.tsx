@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import AgeVerification from './components/AgeVerification'
+import GoddessMode from './components/GoddessMode'
 
 export default function Home() {
   const [question, setQuestion] = useState('')
@@ -9,6 +11,11 @@ export default function Home() {
   const [feed, setFeed] = useState<Array<{ id: number; agent: string; text: string; isFusion?: boolean }>>([])
   const [envMessage, setEnvMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [ageVerified, setAgeVerified] = useState(false)
+
+  const handleAgeVerified = useCallback(() => {
+    setAgeVerified(true)
+  }, [])
 
   // Check environment on mount
   useState(() => {
@@ -86,54 +93,58 @@ export default function Home() {
   }
 
   return (
-    <div className="wrap">
-      <div className="card">
-        <h1>YONI • pi² Control</h1>
-        <div className="muted">Vercel‑Minimal • Creator‑KI • Auto‑Translate • Transzendenz</div>
-        <div className="row">
-          <button onClick={handleInstall}>Offline aktivieren</button>
-          <button onClick={handleA2HS}>Zum Home‑Bildschirm</button>
+    <>
+      {!ageVerified && <AgeVerification onVerified={handleAgeVerified} />}
+      {ageVerified && <GoddessMode />}
+      <div className="wrap">
+        <div className="card">
+          <h1>YONI • pi² Control</h1>
+          <div className="muted">Vercel‑Minimal • Creator‑KI • Auto‑Translate • Transzendenz • 18+</div>
+          <div className="row">
+            <button onClick={handleInstall}>Offline aktivieren</button>
+            <button onClick={handleA2HS}>Zum Home‑Bildschirm</button>
+          </div>
+          <p className="muted">{envMessage}</p>
         </div>
-        <p className="muted">{envMessage}</p>
-      </div>
 
-      <div className="card" style={{ marginTop: '16px' }}>
-        <h2>Transzendenz</h2>
-        <div className="row">
-          <select 
-            value={mode} 
-            onChange={(e) => setMode(e.target.value)}
-          >
-            <option>Consensus</option>
-            <option>Contrast</option>
-            <option>Chain</option>
-          </select>
-          <label className="muted">
-            <input 
-              type="checkbox" 
-              checked={autoTranslate}
-              onChange={(e) => setAutoTranslate(e.target.checked)}
-            /> Auto‑Translate → Deutsch
-          </label>
-        </div>
-        <textarea
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Frag dein Multi‑Kollektiv …"
-        />
-        <div className="row">
-          <button onClick={handleAsk} disabled={isLoading}>
-            {isLoading ? 'ChatGPT denkt nach...' : 'Frage an ChatGPT'}
-          </button>
-        </div>
-        <div className="feed">
-          {feed.map((item) => (
-            <div key={item.id} className="item">
-              <b>{item.agent}</b>: {item.text}
-            </div>
-          ))}
+        <div className="card" style={{ marginTop: '16px' }}>
+          <h2>Transzendenz</h2>
+          <div className="row">
+            <select 
+              value={mode} 
+              onChange={(e) => setMode(e.target.value)}
+            >
+              <option>Consensus</option>
+              <option>Contrast</option>
+              <option>Chain</option>
+            </select>
+            <label className="muted">
+              <input 
+                type="checkbox" 
+                checked={autoTranslate}
+                onChange={(e) => setAutoTranslate(e.target.checked)}
+              /> Auto‑Translate → Deutsch
+            </label>
+          </div>
+          <textarea
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Frag dein Multi‑Kollektiv …"
+          />
+          <div className="row">
+            <button onClick={handleAsk} disabled={isLoading}>
+              {isLoading ? 'ChatGPT denkt nach...' : 'Frage an ChatGPT'}
+            </button>
+          </div>
+          <div className="feed">
+            {feed.map((item) => (
+              <div key={item.id} className="item">
+                <b>{item.agent}</b>: {item.text}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
