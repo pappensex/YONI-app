@@ -71,8 +71,15 @@ Siehe [YONI_Local_Run_Guide.md](YONI_Local_Run_Guide.md) für Details.
 Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)** für vollständige Deployment-Anleitung:
 - 🤖 Automatisches Deployment via GitHub Actions
 - 💻 Manuelles Deployment via Vercel CLI
-- 🌐 Domain-Konfiguration
+- 🌐 Domain-Konfiguration (pihoch2.me, www, app, api)
 - 🔒 Umgebungsvariablen
+
+**Quick Domain Setup:**
+```bash
+# Domain-Setup-Script ausführen
+npm run domains:setup:dry-run  # Vorschau
+npm run domains:setup          # Domains hinzufügen
+```
 
 ---
 

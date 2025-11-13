@@ -159,50 +159,110 @@ Nach dem Deployment ist die App automatisch verfügbar unter:
 - `https://yoni-app.vercel.app` (automatisch generiert)
 - `https://yoni-app-pihoch2.vercel.app` (mit Organization-Name)
 
-### Custom Domain hinzufügen
+### Custom Domains für pihoch2.me
 
-#### 1. Vercel-Subdomain registrieren
+YONI nutzt folgende Custom Domains:
+- `pihoch2.me` - Hauptdomain
+- `www.pihoch2.me` - WWW-Subdomain
+- `app.pihoch2.me` - App-Subdomain
+- `api.pihoch2.me` - API-Subdomain
+
+#### Methode 1: Automatisiertes Setup-Script (Empfohlen)
+
+**Voraussetzungen:**
+- Vercel CLI installiert: `npm i -g vercel`
+- Bei Vercel angemeldet: `vercel login`
+
+**Domains hinzufügen:**
 
 ```bash
-vercel domains add yoni-app-pihoch2.vercel.app
+# Alle Domains auf einmal hinzufügen
+./scripts/setup-domains.sh
+
+# Oder erst einen Dry-Run machen
+./scripts/setup-domains.sh --dry-run
 ```
 
-#### 2. Eigene Domain konfigurieren (yoni.pihoch2.me)
+Das Script fügt automatisch alle konfigurierten Domains hinzu:
+- `pihoch2.me`
+- `www.pihoch2.me`
+- `app.pihoch2.me`
+- `api.pihoch2.me`
 
-**Schritt 1: Domain zu Vercel hinzufügen**
+#### Methode 2: Manuelle Konfiguration via CLI
+
+**Domains einzeln hinzufügen:**
 
 ```bash
-vercel domains add yoni.pihoch2.me
+vercel domains add pihoch2.me
+vercel domains add www.pihoch2.me
+vercel domains add app.pihoch2.me
+vercel domains add api.pihoch2.me
 ```
 
-**Schritt 2: DNS konfigurieren**
-
-Vercel gibt dir die benötigten DNS-Records. Gehe zu deinem DNS-Provider (z.B. Cloudflare, namecheap, etc.) und füge hinzu:
-
-```
-Type: CNAME
-Name: yoni
-Value: cname.vercel-dns.com
-```
-
-**Schritt 3: Warten auf DNS-Propagation**
-
-- DNS-Änderungen können bis zu 48 Stunden dauern
-- Typischerweise: 5-30 Minuten
-- Überprüfen: `nslookup yoni.pihoch2.me`
-
-**Schritt 4: SSL-Zertifikat**
-
-Vercel generiert automatisch ein kostenloses SSL-Zertifikat via Let's Encrypt.
-
-#### Alternative: Domain via Vercel Dashboard
+#### Methode 3: Vercel Dashboard
 
 1. Gehe zu [vercel.com/dashboard](https://vercel.com/dashboard)
 2. Wähle dein Projekt
 3. Settings → Domains
 4. Klicke "Add Domain"
-5. Gib `yoni.pihoch2.me` ein
-6. Folge den DNS-Anweisungen
+5. Gib die Domain ein (z.B. `pihoch2.me`)
+6. Wiederhole für alle weiteren Domains
+
+### DNS-Konfiguration
+
+Nach dem Hinzufügen der Domains zu Vercel, konfiguriere die DNS-Records bei deinem DNS-Provider:
+
+#### Root Domain (pihoch2.me)
+
+```
+Type: A
+Name: @
+Value: 76.76.21.21
+```
+
+**Alternative (CNAME flattening):**
+```
+Type: CNAME
+Name: @
+Value: cname.vercel-dns.com
+```
+
+#### Subdomains
+
+```
+Type: CNAME
+Name: www
+Value: cname.vercel-dns.com
+
+Type: CNAME
+Name: app
+Value: cname.vercel-dns.com
+
+Type: CNAME
+Name: api
+Value: cname.vercel-dns.com
+```
+
+### DNS-Propagation überprüfen
+
+```bash
+# Root Domain
+nslookup pihoch2.me
+
+# Subdomains
+nslookup www.pihoch2.me
+nslookup app.pihoch2.me
+nslookup api.pihoch2.me
+```
+
+**Zeitrahmen:**
+- DNS-Änderungen können bis zu 48 Stunden dauern
+- Typischerweise: 5-30 Minuten
+
+### SSL-Zertifikate
+
+Vercel generiert automatisch kostenlose SSL-Zertifikate via Let's Encrypt für alle konfigurierten Domains.
 
 ---
 
