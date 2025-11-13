@@ -51,12 +51,39 @@ Die App vereint:
 
 ---
 
+## 🚀 Getting Started
+
+### Lokale Entwicklung
+
+```bash
+git clone https://github.com/pappensex/YONI-app.git
+cd YONI-app
+npm install
+npm run dev
+```
+
+Die App ist dann verfügbar unter: **http://localhost:3000**
+
+Siehe [YONI_Local_Run_Guide.md](YONI_Local_Run_Guide.md) für Details.
+
+### Deployment
+
+Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)** für vollständige Deployment-Anleitung:
+- 🤖 Automatisches Deployment via GitHub Actions
+- 💻 Manuelles Deployment via Vercel CLI
+- 🌐 Domain-Konfiguration
+- 🔒 Umgebungsvariablen
+
+---
+
 ## 💜 Contributing
 
 1. Fork das Repo  
 2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`  
 3. Führe `npm run lint && npm run build` aus  
 4. Erstelle einen Pull-Request ✨  
+
+Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
 
 ### CI Checks
 - ✅ ESLint + TypeScript  

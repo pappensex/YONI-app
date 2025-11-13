@@ -103,6 +103,12 @@ YONI folgt dem **Überhochglitzer-Design**:
 
 ---
 
+## 🚀 Deployment
+
+Für Informationen zum Deployment der App auf Vercel, siehe **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+---
+
 ## 📧 Kontakt
 
 - **Projektleitung:** [@pappensex](https://github.com/pappensex)
