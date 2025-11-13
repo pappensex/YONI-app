@@ -11,6 +11,10 @@
 
 YONI wird auf **Vercel** gehostet und nutzt deren Edge-Funktionen für optimale Performance und globale Verfügbarkeit.
 
+**Wichtige Dokumentationen:**
+- **Für Production Setup mit Custom Domain & Stripe:** Siehe [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md)
+- **Für Development & Testing:** Diese Datei (DEPLOYMENT.md)
+
 Es gibt zwei Deployment-Methoden:
 1. **Automatisch** via GitHub Actions (empfohlen für Production)
 2. **Manuell** via Vercel CLI (für schnelle Tests und Debugging)

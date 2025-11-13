@@ -68,11 +68,19 @@ Siehe [YONI_Local_Run_Guide.md](YONI_Local_Run_Guide.md) für Details.
 
 ### Deployment
 
-Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)** für vollständige Deployment-Anleitung:
+YONI wird auf Vercel gehostet. Vollständige Dokumentation:
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** – Allgemeine Deployment-Anleitung (Development & Testing)
+- **[PRODUCTION_SETUP.md](PRODUCTION_SETUP.md)** – Production Setup mit Custom Domain, DNS & Stripe
+- **[DEPLOYMENT_COMMANDS.md](DEPLOYMENT_COMMANDS.md)** – Quick Reference für häufige Befehle
+
+**Themen:**
 - 🤖 Automatisches Deployment via GitHub Actions
 - 💻 Manuelles Deployment via Vercel CLI
-- 🌐 Domain-Konfiguration
+- 🌐 Domain-Konfiguration (app.pihoch2.me)
+- 💳 Stripe Integration & Webhooks
 - 🔒 Umgebungsvariablen
+- 📧 Email DNS Setup (DMARC, SPF, DKIM)
 
 ---
 
