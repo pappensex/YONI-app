@@ -8,6 +8,13 @@
   --text: #f3f3f7;
   --brand: #7c3aed;
   --radius: 14px;
+  --brand-amethyst: #9966CC;
+  --hl-gold: #FFD700;
+  --ok-emerald: #2ECC71;
+  --text-starwhite: #F5F5F5;
+  --anim-ease-cosmic: cubic-bezier(0.4, 0, 0.2, 1);
+  --anim-ease-gentle: ease-in-out;
+  --glow-gold: 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 * {

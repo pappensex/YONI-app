@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import AgeVerification from './components/AgeVerification'
 import GoddessMode from './components/GoddessMode'
+import DreamCastle from './components/DreamCastle'
 
 export default function Home() {
   const [question, setQuestion] = useState('')
@@ -105,6 +106,11 @@ export default function Home() {
             <button onClick={handleA2HS}>Zum Home‑Bildschirm</button>
           </div>
           <p className="muted">{envMessage}</p>
+        </div>
+
+        {/* Dream Castle */}
+        <div className="card" style={{ marginTop: '16px' }}>
+          <DreamCastle />
         </div>
 
         <div className="card" style={{ marginTop: '16px' }}>
