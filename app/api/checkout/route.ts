@@ -4,9 +4,7 @@ import Stripe from 'stripe';
 export const runtime = 'nodejs';
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
-const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: "2023-10-16",
-});
+const stripe = new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' });
 
 export async function POST(req: NextRequest) {
   try {
