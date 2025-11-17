@@ -1,6 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 
+// Enable ISR with 10-minute revalidation
+export const revalidate = 600
+
 export const metadata: Metadata = {
   title: 'YONI • pi² Control (18+)',
   description: 'YONI: Creator‑KI, Auto‑Translate, Transzendenz‑Hub. Minimal Flat Build für Vercel. Für Nutzer:innen ab 18 Jahren.',
