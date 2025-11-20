@@ -1,19 +1,17 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+
 import AgeVerification from './components/AgeVerification'
+import BlueprintView from './components/BlueprintView'
 import GoddessMode from './components/GoddessMode'
-import { blueprint, Status } from './data/chibot-blueprint'
+import { blueprint as fallbackBlueprint, Blueprint } from './data/chibot-blueprint'
 
 interface FeedItem {
   id: number
   agent: string
   text: string
   isFusion?: boolean
-}
-
-function StatusPill({ status }: { status: Status }) {
-  return <span className={`status-pill status-${status}`}>{status}</span>
 }
 
 export default function Home() {
@@ -24,6 +22,9 @@ export default function Home() {
   const [envMessage, setEnvMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [ageVerified, setAgeVerified] = useState(false)
+  const [blueprintData, setBlueprintData] = useState<Blueprint | null>(null)
+  const [blueprintGeneratedAt, setBlueprintGeneratedAt] = useState<string | null>(null)
+  const [blueprintNotice, setBlueprintNotice] = useState<string | null>(null)
 
   const handleAgeVerified = useCallback(() => {
     setAgeVerified(true)
@@ -37,6 +38,41 @@ export default function Home() {
         ? 'HTTPS aktiv – Service Worker & Install verfügbar.'
         : 'Hinweis: Für Offline & „Zum Home‑Bildschirm" bitte HTTPS nutzen.'
     )
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+    const controller = new AbortController()
+
+    const loadBlueprint = async () => {
+      try {
+        const response = await fetch('/api/blueprint', { cache: 'no-store', signal: controller.signal })
+
+        if (!response.ok) {
+          throw new Error('Blueprint API nicht erreichbar')
+        }
+
+        const payload = await response.json()
+        if (!isMounted) return
+
+        setBlueprintData(payload.blueprint)
+        setBlueprintGeneratedAt(payload.meta?.generatedAt ?? null)
+        setBlueprintNotice(null)
+      } catch (error: any) {
+        if (!isMounted || error?.name === 'AbortError') return
+
+        setBlueprintNotice('Live Blueprint nicht erreichbar – zeige lokalen Snapshot.')
+        setBlueprintData(fallbackBlueprint)
+        setBlueprintGeneratedAt(new Date().toISOString())
+      }
+    }
+
+    loadBlueprint()
+
+    return () => {
+      isMounted = false
+      controller.abort()
+    }
   }, [])
 
   const handleInstall = async () => {
@@ -103,14 +139,16 @@ export default function Home() {
     }
   }
 
+  const activeBlueprint = blueprintData ?? fallbackBlueprint
+
   const blueprintStats = useMemo(
     () => ({
-      pages: blueprint.pages.length,
-      dataLayers: blueprint.dataLayers.length,
-      profiles: blueprint.profiles.length,
-      bots: blueprint.bots.length,
+      pages: activeBlueprint.pages.length,
+      dataLayers: activeBlueprint.dataLayers.length,
+      profiles: activeBlueprint.profiles.length,
+      bots: activeBlueprint.bots.length,
     }),
-    []
+    [activeBlueprint]
   )
 
   return (
@@ -122,13 +160,14 @@ export default function Home() {
           <div>
             <p className="eyebrow">CHIBot Stewardship</p>
             <h1>YONI • System Blueprint</h1>
-            <p className="muted">{blueprint.mission}</p>
+            <p className="muted">{activeBlueprint.mission}</p>
             <div className="pill-row">
               <span className="pill">Pages: {blueprintStats.pages}</span>
               <span className="pill">Data: {blueprintStats.dataLayers}</span>
               <span className="pill">Profiles: {blueprintStats.profiles}</span>
               <span className="pill">Bots: {blueprintStats.bots}</span>
             </div>
+            {blueprintNotice && <p className="muted small">{blueprintNotice}</p>}
           </div>
           <div className="hero-actions">
             <button onClick={handleInstall}>Offline aktivieren</button>
@@ -137,183 +176,53 @@ export default function Home() {
           </div>
         </header>
 
-        <div className="grid">
-          <section className="card flow">
-            <div className="section-header">
-              <div>
-                <p className="eyebrow">Transzendenz</p>
-                <h2>Fragen & Antworten</h2>
-              </div>
-              <div className="controls">
-                <select value={mode} onChange={(e) => setMode(e.target.value)}>
-                  <option>Consensus</option>
-                  <option>Contrast</option>
-                  <option>Chain</option>
-                </select>
-                <label className="muted checkbox">
-                  <input
-                    type="checkbox"
-                    checked={autoTranslate}
-                    onChange={(e) => setAutoTranslate(e.target.checked)}
-                  />
-                  Auto‑Translate → Deutsch
-                </label>
-              </div>
-            </div>
-            <textarea
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Frag dein Multi‑Kollektiv …"
-            />
-            <div className="row">
-              <button onClick={handleAsk} disabled={isLoading} className="primary">
-                {isLoading ? 'ChatGPT denkt nach...' : 'Frage an ChatGPT'}
-              </button>
-            </div>
-            <div className="feed">
-              {feed.length === 0 && <p className="muted">Keine Einträge – stell die erste Frage.</p>}
-              {feed.map((item) => (
-                <div key={item.id} className="item">
-                  <b>{item.agent}</b>: {item.text}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="card flow">
-            <div className="section-header">
-              <div>
-                <p className="eyebrow">Setup</p>
-                <h2>Pages, Daten, Profile</h2>
-              </div>
-              <p className="muted small">Steward: {blueprint.steward}</p>
-            </div>
-
-            <div className="blueprint-grid">
-              <div className="blueprint-block">
-                <h3>Pages</h3>
-                <div className="list">
-                  {blueprint.pages.map((page) => (
-                    <div key={page.name} className="list-row">
-                      <div>
-                        <div className="title-row">
-                          <span>{page.name}</span>
-                          <StatusPill status={page.status} />
-                        </div>
-                        <p className="muted small">{page.focus}</p>
-                      </div>
-                      <p className="muted small">Owner: {page.owner}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="blueprint-block">
-                <h3>Daten</h3>
-                <div className="list">
-                  {blueprint.dataLayers.map((layer) => (
-                    <div key={layer.name} className="list-row">
-                      <div>
-                        <div className="title-row">
-                          <span>{layer.name}</span>
-                          <StatusPill status={layer.status} />
-                        </div>
-                        <p className="muted small">{layer.source}</p>
-                      </div>
-                      <p className="muted small">{layer.cadence} • {layer.retention}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="blueprint-block">
-                <h3>Profile</h3>
-                <div className="list">
-                  {blueprint.profiles.map((profile) => (
-                    <div key={profile.name} className="list-row">
-                      <div>
-                        <div className="title-row">
-                          <span>{profile.name}</span>
-                          <span className="pill subtle">{profile.archetype}</span>
-                        </div>
-                        <p className="muted small">{profile.focus}</p>
-                      </div>
-                      <p className="muted small">Rituale: {profile.rituals.join(', ')}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <div className="grid">
-          <section className="card flow">
-            <div className="section-header">
-              <div>
-                <p className="eyebrow">Bots</p>
-                <h2>Aufträge & Versprechen</h2>
-              </div>
-            </div>
-            <div className="list">
-              {blueprint.bots.map((bot) => (
-                <div key={bot.name} className="list-row">
-                  <div>
-                    <div className="title-row">
-                      <span>{bot.name}</span>
-                      <span className="pill subtle">{bot.mode}</span>
-                    </div>
-                    <p className="muted small">{bot.promise}</p>
-                  </div>
-                  <p className="muted small">Links: {bot.links.join(' • ')}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="card flow">
-            <div className="section-header">
-              <div>
-                <p className="eyebrow">Rituale</p>
-                <h2>Checks & Signals</h2>
-              </div>
-            </div>
-            <div className="list">
-              {blueprint.rituals.map((ritual) => (
-                <div key={ritual.title} className="list-row">
-                  <div>
-                    <div className="title-row">
-                      <span>{ritual.title}</span>
-                      <span className="pill subtle">{ritual.cadence}</span>
-                    </div>
-                    <p className="muted small">{ritual.description}</p>
-                  </div>
-                  <p className="muted small">Signals: {ritual.signals.join(', ')}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-
         <section className="card flow">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Aktionen</p>
-              <h2>Nächste Schritte</h2>
+              <p className="eyebrow">Transzendenz</p>
+              <h2>Fragen & Antworten</h2>
+            </div>
+            <div className="controls">
+              <select value={mode} onChange={(e) => setMode(e.target.value)}>
+                <option>Consensus</option>
+                <option>Contrast</option>
+                <option>Chain</option>
+              </select>
+              <label className="muted checkbox">
+                <input
+                  type="checkbox"
+                  checked={autoTranslate}
+                  onChange={(e) => setAutoTranslate(e.target.checked)}
+                />
+                Auto‑Translate → Deutsch
+              </label>
             </div>
           </div>
-          <div className="list">
-            {blueprint.actions.map((action) => (
-              <div key={action.title} className="list-row">
-                <div>
-                  <span>{action.title}</span>
-                  <p className="muted small">Impact: {action.impact}</p>
-                </div>
-                <p className="muted small">Owner: {action.owner}</p>
+          <textarea
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Frag dein Multi‑Kollektiv …"
+          />
+          <div className="row">
+            <button onClick={handleAsk} disabled={isLoading} className="primary">
+              {isLoading ? 'ChatGPT denkt nach...' : 'Frage an ChatGPT'}
+            </button>
+          </div>
+          <div className="feed">
+            {feed.length === 0 && <p className="muted">Keine Einträge – stell die erste Frage.</p>}
+            {feed.map((item) => (
+              <div key={item.id} className="item">
+                <b>{item.agent}</b>: {item.text}
               </div>
             ))}
           </div>
         </section>
+
+        <BlueprintView
+          blueprint={activeBlueprint}
+          generatedAt={blueprintGeneratedAt}
+          fallbackNotice={blueprintNotice}
+        />
       </main>
     </>
   )

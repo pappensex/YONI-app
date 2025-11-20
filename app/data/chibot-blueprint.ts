@@ -1,5 +1,15 @@
 export type Status = 'online' | 'building' | 'blocked'
 
+export interface Kernel {
+  codename: string
+  version: string
+  autonomy: string
+  steward: string
+  heartbeat: string
+  state: Status
+  safeguards: string[]
+}
+
 export interface PageBlueprint {
   name: string
   path: string
@@ -44,6 +54,7 @@ export interface ActionItem {
 }
 
 export interface Blueprint {
+  kernel: Kernel
   steward: string
   mission: string
   pages: PageBlueprint[]
@@ -55,6 +66,19 @@ export interface Blueprint {
 }
 
 export const blueprint: Blueprint = {
+  kernel: {
+    codename: 'π⁷ Core',
+    version: '1.0.0',
+    autonomy: 'Full Autonomy / Consent-Gated',
+    steward: 'CHIBot',
+    heartbeat: 'Edge + ISR + Offline Cache',
+    state: 'online',
+    safeguards: [
+      'Rate Limits aktiv',
+      'Content Safety Checks aktiviert',
+      'Consent-Log mit Rolling Backups',
+    ],
+  },
   steward: 'CHIBot',
   mission:
     'Ordnet das YONI-System, hält die Energie fließend und sorgt für klare Verantwortlichkeiten.',
