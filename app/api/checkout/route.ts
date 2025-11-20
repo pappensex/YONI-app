@@ -3,11 +3,32 @@ import Stripe from 'stripe';
 
 export const runtime = 'nodejs';
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
-const stripe = new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' });
-
 export async function POST(req: NextRequest) {
   try {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+    if (!stripeSecretKey) {
+      return new NextResponse('Missing STRIPE_SECRET_KEY environment variable.', {
+        status: 500,
+      });
+    }
+
+    if (!appUrl) {
+      return new NextResponse('Missing NEXT_PUBLIC_APP_URL environment variable.', {
+        status: 500,
+      });
+    }
+
+    const successUrl = `${appUrl}/success`;
+    const cancelUrl = `${appUrl}/cancel`;
+
+    if (!successUrl || !cancelUrl) {
+      return new NextResponse('Missing checkout redirect URLs.', { status: 500 });
+    }
+
+    const stripe = new Stripe(stripeSecretKey, { apiVersion: '2024-06-20' });
+
     const body = await req.json();
 
     const session = await stripe.checkout.sessions.create({
@@ -26,8 +47,8 @@ export async function POST(req: NextRequest) {
         },
       ],
 
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/cancel`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
       metadata: body?.metadata || {}
     });
 
