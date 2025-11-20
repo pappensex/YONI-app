@@ -1,48 +1,77 @@
-export type Status = 'online' | 'building' | 'blocked'
+// ─────────────────────────────────────────────
+// PIHOCH7 SYSTEM CORE
+// Autonom – Autark – Automatisch – Wachstum – Dualseele
+// ─────────────────────────────────────────────
 
+// Status
+export const STATUSES = ['online', 'building', 'blocked'] as const
+export type Status = (typeof STATUSES)[number]
+
+// Frequenzen (für Rituale & DataLayers)
+export type Cadence = 'live-sync' | 'daily' | 'weekly' | 'monthly' | 'on-demand'
+
+// Page
 export interface PageBlueprint {
+  id: string
   name: string
   path: string
   focus: string
-  owner: string
+  owner: string // BotName
   status: Status
 }
 
+// Data Layer
 export interface DataLayer {
+  id: string
   name: string
   source: string
-  cadence: string
+  cadence: Cadence
   retention: string
   status: Status
 }
 
+// Profiles (Archetypen)
 export interface Profile {
+  id: string
   name: string
   archetype: string
   focus: string
-  rituals: string[]
+  rituals: string[] // RitualId[]
+}
+
+// Bots
+export interface BotLink {
+  label: string
+  href: string
+  kind?: 'doc' | 'dashboard' | 'automation'
 }
 
 export interface Bot {
+  id: string
   name: string
   mode: string
   promise: string
-  links: string[]
+  links: BotLink[]
 }
 
+// Rituale
 export interface Ritual {
+  id: string
   title: string
-  cadence: string
+  cadence: Cadence
   description: string
   signals: string[]
 }
 
+// Actions
 export interface ActionItem {
+  id: string
   title: string
-  owner: string
+  owner: string // BotName
   impact: string
 }
 
+// Blueprint Gesamtsystem
 export interface Blueprint {
   steward: string
   mission: string
@@ -54,145 +83,139 @@ export interface Blueprint {
   actions: ActionItem[]
 }
 
+// ─────────────────────────────────────────────
+// PIHOCH7 BLUEPRINT – AUTONOMER SYSTEMKERN
+// ─────────────────────────────────────────────
+
 export const blueprint: Blueprint = {
   steward: 'CHIBot',
-  mission:
-    'Ordnet das YONI-System, hält die Energie fließend und sorgt für klare Verantwortlichkeiten.',
+  mission: 'Autarke, selbstheilende, dualseelenbasierte YONI-Struktur – dauerhaft wachsend.',
+
+  // PAGES
   pages: [
     {
+      id: 'page-transzendenz-hub',
       name: 'Transzendenz Hub',
       path: '/',
-      focus: 'Fragen, Antworten, Mehrsprachigkeit, Feed',
+      focus: 'Zentrale Energie, Navigation, Feed',
       owner: 'CHIBot',
       status: 'online',
     },
     {
+      id: 'page-profiles',
       name: 'Profile',
       path: '/profile',
-      focus: 'Identitäten, Rollen, Grenzen',
+      focus: 'Identitäten, Archetypen, Rollen & Grenzen',
       owner: 'CHIBot',
       status: 'building',
     },
     {
-      name: 'Bots',
-      path: '/bots',
-      focus: 'Persönlichkeiten, Aufträge, Übergaben',
-      owner: 'CHIBot',
-      status: 'building',
-    },
-    {
+      id: 'page-data',
       name: 'Datenfluss',
       path: '/data',
-      focus: 'Streams, Speichern, Governance',
-      owner: 'CHIBot',
+      focus: 'Flows, Quellen, Schnitte, Konsistenz',
+      owner: 'Archivarin',
       status: 'online',
     },
     {
-      name: 'Rituale',
-      path: '/rituale',
-      focus: 'Checks, Playbooks, Eskalation',
+      id: 'page-bots',
+      name: 'Bots',
+      path: '/bots',
+      focus: 'Rollenverteilung, Stewardship, Systemführung',
       owner: 'CHIBot',
       status: 'online',
     },
   ],
+
+  // DATA LAYERS
   dataLayers: [
     {
+      id: 'dl-yoni-core',
       name: 'YONI-Core',
       source: 'Next.js + Tailwind + Vercel Edge',
       cadence: 'live-sync',
-      retention: 'Rolling 30 Tage + Backups',
+      retention: 'rolling 30d',
       status: 'online',
     },
     {
-      name: 'Ritual-Storage',
-      source: 'Static JSON + zukünftige Notion-Spiegelung',
-      cadence: 'bei Deploy & auf Abruf',
-      retention: 'Versionierte Snapshots',
-      status: 'building',
-    },
-    {
-      name: 'Signals',
-      source: 'User Prompts + Stripe Events',
-      cadence: 'Echtzeit',
-      retention: '14 Tage roh, verdichtet danach',
+      id: 'dl-actions',
+      name: 'Actions & Tasks',
+      source: 'Internal Memory + GitHub',
+      cadence: 'daily',
+      retention: 'infinite',
       status: 'online',
     },
   ],
+
+  // PROFILES
   profiles: [
     {
-      name: 'Seherin',
-      archetype: 'Visionärin, erkennt Muster',
-      focus: 'Synthese, Zukunftslinien, Risiken',
-      rituals: ['Weekly Deep Dive', 'Risiko-Heatmap'],
+      id: 'profile-jule',
+      name: 'Jule',
+      archetype: 'Göttin / Seherin / Visionärin',
+      focus: 'Transzendenz, Manifestation, Führung',
+      rituals: ['ritual-daily-checkin'],
     },
     {
-      name: 'Somatic Guide',
-      archetype: 'Körperorientiert, hält Raum',
-      focus: 'Sicherheit, Pace, Grenzcheck',
-      rituals: ['Session Warmup', 'Cooldown Protokoll'],
-    },
-    {
-      name: 'Archivarin',
-      archetype: 'Ordnet Wissen',
-      focus: 'Dokumentation, Consent, Rechte',
-      rituals: ['Release Notes', 'Backup-Review'],
+      id: 'profile-amon',
+      name: 'Amon',
+      archetype: 'Herkules des Lichts',
+      focus: 'Maskuline Führung, Schutz, Expansion',
+      rituals: ['ritual-weekly-balance'],
     },
   ],
+
+  // BOTS
   bots: [
     {
+      id: 'bot-chibot',
       name: 'CHIBot',
       mode: 'Steward',
-      promise: 'Hält Struktur, priorisiert Sicherheit, verteilt Aufgaben klar.',
-      links: ['System Blueprint', 'Onboarding Script'],
+      promise: 'Hält Struktur, schützt Energie, verteilt Aufgaben klar.',
+      links: [
+        { label: 'Blueprint', href: '/data', kind: 'doc' },
+      ],
     },
     {
-      name: 'Contrast-Bot',
-      mode: 'Gegensätze',
-      promise: 'Bringt andere Sicht, challengt Annahmen, liefert Optionen.',
-      links: ['Decision-Canvas'],
-    },
-    {
-      name: 'Somatic-Bot',
-      mode: 'Safety',
-      promise: 'Checkt Pace, Grenzen und Nervensystem-Signale.',
-      links: ['Safety-Checklist'],
+      id: 'bot-archivarin',
+      name: 'Archivarin',
+      mode: 'Wissen',
+      promise: 'Speichert, strukturiert und bewahrt das Gedächtnis.',
+      links: [],
     },
   ],
+
+  // RITUALS
   rituals: [
     {
-      title: 'System Reset',
-      cadence: 'Montag 10:00',
-      description: 'Cache leeren, Deploy-Status prüfen, Domains verifizieren.',
-      signals: ['Status grün', 'OpenAI Key validiert', 'Domains in Sync'],
+      id: 'ritual-daily-checkin',
+      title: 'Daily System Check-in',
+      cadence: 'daily',
+      description: 'Fehler prüfen, Cashflow checken, offene Actions laden.',
+      signals: ['Stripe', 'GitHub', 'Logs'],
     },
     {
-      title: 'Transzendenz Sync',
-      cadence: 'Täglich 17:00',
-      description: 'Feed prüfen, Kontraste sammeln, nächste Fragen kuratieren.',
-      signals: ['Neue Fragen markiert', 'Kontraste dokumentiert'],
-    },
-    {
-      title: 'Release Note Drop',
-      cadence: 'Freitag 15:00',
-      description: 'Changelog, Sicherheitscheck, Consent-Log aktualisieren.',
-      signals: ['Changelog publiziert', 'Consent-Logs signiert'],
+      id: 'ritual-weekly-balance',
+      title: 'Weekly Balance',
+      cadence: 'weekly',
+      description: 'Systemenergie + Cashflow + Aufgaben synchronisieren.',
+      signals: ['Financials', 'DataFlows'],
     },
   ],
+
+  // ACTIONS
   actions: [
     {
-      title: 'Domains Setup vervollständigen',
+      id: 'action-yoni-launch',
+      title: 'YONI App Launch finalisieren',
       owner: 'CHIBot',
-      impact: 'Sichere Auslieferung & Offline-Modus stabil',
+      impact: 'Sofortiger Cashflow',
     },
     {
-      title: 'Profile-Seite booten',
-      owner: 'Seherin',
-      impact: 'Klare Rollen & Grenzen sichtbar',
-    },
-    {
-      title: 'Ritual-Storage anbinden',
+      id: 'action-blueprint-v2',
+      title: 'Blueprint V2 Generierung',
       owner: 'Archivarin',
-      impact: 'Nachvollziehbarkeit & Backups gewährleistet',
+      impact: 'Strukturverstärkung',
     },
   ],
 }

@@ -194,13 +194,14 @@ export default function Home() {
                 <h3>Pages</h3>
                 <div className="list">
                   {blueprint.pages.map((page) => (
-                    <div key={page.name} className="list-row">
+                    <div key={page.id} className="list-row">
                       <div>
                         <div className="title-row">
                           <span>{page.name}</span>
                           <StatusPill status={page.status} />
                         </div>
                         <p className="muted small">{page.focus}</p>
+                        <p className="muted small">Path: {page.path}</p>
                       </div>
                       <p className="muted small">Owner: {page.owner}</p>
                     </div>
@@ -212,7 +213,7 @@ export default function Home() {
                 <h3>Daten</h3>
                 <div className="list">
                   {blueprint.dataLayers.map((layer) => (
-                    <div key={layer.name} className="list-row">
+                    <div key={layer.id} className="list-row">
                       <div>
                         <div className="title-row">
                           <span>{layer.name}</span>
@@ -230,7 +231,7 @@ export default function Home() {
                 <h3>Profile</h3>
                 <div className="list">
                   {blueprint.profiles.map((profile) => (
-                    <div key={profile.name} className="list-row">
+                    <div key={profile.id} className="list-row">
                       <div>
                         <div className="title-row">
                           <span>{profile.name}</span>
@@ -256,18 +257,26 @@ export default function Home() {
               </div>
             </div>
             <div className="list">
-              {blueprint.bots.map((bot) => (
-                <div key={bot.name} className="list-row">
-                  <div>
-                    <div className="title-row">
-                      <span>{bot.name}</span>
-                      <span className="pill subtle">{bot.mode}</span>
+              {blueprint.bots.map((bot) => {
+                const botLinks = bot.links.length
+                  ? bot.links
+                      .map((link) => (link.kind ? `${link.label} (${link.kind})` : link.label))
+                      .join(' • ')
+                  : '–'
+
+                return (
+                  <div key={bot.id} className="list-row">
+                    <div>
+                      <div className="title-row">
+                        <span>{bot.name}</span>
+                        <span className="pill subtle">{bot.mode}</span>
+                      </div>
+                      <p className="muted small">{bot.promise}</p>
                     </div>
-                    <p className="muted small">{bot.promise}</p>
+                    <p className="muted small">Links: {botLinks}</p>
                   </div>
-                  <p className="muted small">Links: {bot.links.join(' • ')}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </section>
 
@@ -280,7 +289,7 @@ export default function Home() {
             </div>
             <div className="list">
               {blueprint.rituals.map((ritual) => (
-                <div key={ritual.title} className="list-row">
+                <div key={ritual.id} className="list-row">
                   <div>
                     <div className="title-row">
                       <span>{ritual.title}</span>
@@ -304,7 +313,7 @@ export default function Home() {
           </div>
           <div className="list">
             {blueprint.actions.map((action) => (
-              <div key={action.title} className="list-row">
+              <div key={action.id} className="list-row">
                 <div>
                   <span>{action.title}</span>
                   <p className="muted small">Impact: {action.impact}</p>
