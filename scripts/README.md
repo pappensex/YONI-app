@@ -70,6 +70,30 @@ npm run validate:notion
 
 ---
 
+### Local Development
+
+#### `setup-local.sh`
+
+Bootstraps a local environment by installing dependencies and preparing
+environment variables.
+
+**Usage:**
+
+```bash
+# Run the setup helper
+./scripts/setup-local.sh
+
+# Or via npm
+npm run setup:local
+```
+
+The script will:
+- Verify Node.js and npm are available
+- Copy `.env.example` to `.env.local` if it does not yet exist
+- Run `npm install`
+
+---
+
 ## Adding New Scripts
 
 When adding new scripts to this directory:

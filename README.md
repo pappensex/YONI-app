@@ -55,14 +55,23 @@ Die App vereint:
 
 ### Lokale Entwicklung
 
+Schnellstart mit Setup-Skript:
+
 ```bash
 git clone https://github.com/pappensex/YONI-app.git
 cd YONI-app
-npm install
+npm run setup:local
 npm run dev
 ```
 
 Die App ist dann verfügbar unter: **http://localhost:3000**
+
+Alternativ manuell:
+
+```bash
+npm install
+npm run dev
+```
 
 Siehe [YONI_Local_Run_Guide.md](YONI_Local_Run_Guide.md) für Details.
 

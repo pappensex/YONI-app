@@ -11,6 +11,7 @@
     "fix:content": "node project-ops/launch/fix-content.js",
     "validate:notion": "node project-ops/launch/validate-notion-template.js",
     "test:notion": "node project-ops/launch/test-validate.js",
+    "setup:local": "bash scripts/setup-local.sh",
     "domains:setup": "bash scripts/setup-domains.sh",
     "domains:setup:dry-run": "bash scripts/setup-domains.sh --dry-run"
   },
