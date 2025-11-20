@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { NextResponse } from 'next/server';
+import { STATE_COOKIE_NAME } from '../constants';
 
 export async function GET() {
   const clientId = process.env.GITHUB_APP_CLIENT_ID;
@@ -14,7 +15,7 @@ export async function GET() {
   authorizeUrl.searchParams.set('state', state);
 
   const response = NextResponse.redirect(authorizeUrl.toString());
-  response.cookies.set('github_oauth_state', state, {
+  response.cookies.set(STATE_COOKIE_NAME, state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

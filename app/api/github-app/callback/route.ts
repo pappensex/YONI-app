@@ -1,10 +1,10 @@
+import crypto from 'crypto';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { STATE_COOKIE_NAME } from '../constants';
 
-const STATE_COOKIE_NAME = 'github_oauth_state';
-
-function redirectWithStateReset(location: string) {
-  const response = NextResponse.redirect(location);
+function redirectWithStateReset(req: NextRequest, path: string) {
+  const response = NextResponse.redirect(new URL(path, req.url));
   response.cookies.set(STATE_COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -22,15 +22,15 @@ export async function GET(req: NextRequest) {
   const cookieStore = cookies();
   const storedState = cookieStore.get(STATE_COOKIE_NAME)?.value;
 
-  if (!code) return redirectWithStateReset('/?auth=missing_code');
-  if (!state || !storedState || state !== storedState)
-    return redirectWithStateReset('/?auth=state_mismatch');
+  if (!code) return redirectWithStateReset(req, '/?auth=missing_code');
+  if (!state || !storedState || !crypto.timingSafeEqual(Buffer.from(state), Buffer.from(storedState)))
+    return redirectWithStateReset(req, '/?auth=state_mismatch');
 
   const clientId = process.env.GITHUB_APP_CLIENT_ID;
   const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
-    return redirectWithStateReset('/?auth=missing_env');
+    return redirectWithStateReset(req, '/?auth=missing_env');
   }
 
   // Exchange code → access token (GitHub OAuth for GitHub App)
@@ -46,14 +46,14 @@ export async function GET(req: NextRequest) {
   });
 
   if (!res.ok) {
-    return redirectWithStateReset('/?auth=token_exchange_failed');
+    return redirectWithStateReset(req, '/?auth=token_exchange_failed');
   }
 
   const data = await res.json();
 
   if (data?.error || !data?.access_token) {
-    return redirectWithStateReset('/?auth=token_exchange_failed');
+    return redirectWithStateReset(req, '/?auth=token_exchange_failed');
   }
 
-  return redirectWithStateReset('/?auth=ok&provider=github&x=148');
+  return redirectWithStateReset(req, '/?auth=ok&provider=github&x=148');
 }
