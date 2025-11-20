@@ -12,6 +12,7 @@
 YONI wird auf **Vercel** gehostet und nutzt deren Edge-Funktionen für optimale Performance und globale Verfügbarkeit.
 
 Es gibt zwei Deployment-Methoden:
+
 1. **Automatisch** via GitHub Actions (empfohlen für Production)
 2. **Manuell** via Vercel CLI (für schnelle Tests und Debugging)
 
@@ -20,6 +21,7 @@ Es gibt zwei Deployment-Methoden:
 ## 🔧 Voraussetzungen
 
 ### Erforderlich
+
 - **Node.js** ≥ 18.17.0
 - **npm** (kommt mit Node.js)
 - **Git**
@@ -27,6 +29,7 @@ Es gibt zwei Deployment-Methoden:
 - **GitHub Account** (bereits vorhanden)
 
 ### Optional für manuelle Deployments
+
 - **Vercel CLI** (wird weiter unten installiert)
 
 ---
@@ -50,18 +53,19 @@ Es gibt zwei Deployment-Methoden:
    - Kopiere den Token (wird nur einmal angezeigt!)
 
 3. **GitHub Secrets konfigurieren**
-   
+
    Gehe zu GitHub Repository → Settings → Secrets and variables → Actions
-   
+
    Erstelle folgende Secrets:
-   
-   | Secret Name | Wo finden | Beschreibung |
-   |-------------|-----------|--------------|
-   | `VERCEL_TOKEN` | [vercel.com/account/tokens](https://vercel.com/account/tokens) | Authentifizierung für Vercel API |
-   | `VERCEL_ORG_ID` | Vercel Projekt Settings → General | Team/Organization ID |
-   | `VERCEL_PROJECT_ID` | Vercel Projekt Settings → General | Projekt ID |
+
+   | Secret Name         | Wo finden                                                      | Beschreibung                     |
+   | ------------------- | -------------------------------------------------------------- | -------------------------------- |
+   | `VERCEL_TOKEN`      | [vercel.com/account/tokens](https://vercel.com/account/tokens) | Authentifizierung für Vercel API |
+   | `VERCEL_ORG_ID`     | Vercel Projekt Settings → General                              | Team/Organization ID             |
+   | `VERCEL_PROJECT_ID` | Vercel Projekt Settings → General                              | Projekt ID                       |
 
    **So findest du die IDs:**
+
    ```bash
    # Alternative: Via Vercel CLI
    npm i -g vercel
@@ -110,6 +114,7 @@ vercel link
 ```
 
 Du wirst gefragt:
+
 - **Set up and deploy?** → Ja
 - **Which scope?** → Wähle deine Organization (pihoch2)
 - **Link to existing project?** → Ja (wenn bereits erstellt) oder Nein (für neu)
@@ -125,12 +130,14 @@ vercel --prod
 ```
 
 **Was passiert:**
+
 1. Code wird gebaut (`npm run build`)
 2. Build-Artefakte werden zu Vercel hochgeladen
 3. Deployment wird auf Production-Domain veröffentlicht
 4. Du erhältst eine Deployment-URL
 
 **Typische Ausgabe:**
+
 ```
 🔍  Inspect: https://vercel.com/pihoch2/yoni-app/xxxxxx
 ✅  Production: https://yoni-app.vercel.app [1s]
@@ -156,12 +163,14 @@ Preview Deployments erhalten eine einzigartige URL wie:
 ### Standard Vercel Domain
 
 Nach dem Deployment ist die App automatisch verfügbar unter:
+
 - `https://yoni-app.vercel.app` (automatisch generiert)
 - `https://yoni-app-pihoch2.vercel.app` (mit Organization-Name)
 
 ### Custom Domains für pihoch2.me
 
 YONI nutzt folgende Custom Domains:
+
 - `pihoch2.me` - Hauptdomain
 - `www.pihoch2.me` - WWW-Subdomain
 - `app.pihoch2.me` - App-Subdomain
@@ -170,6 +179,7 @@ YONI nutzt folgende Custom Domains:
 #### Methode 1: Automatisiertes Setup-Script (Empfohlen)
 
 **Voraussetzungen:**
+
 - Vercel CLI installiert: `npm i -g vercel`
 - Bei Vercel angemeldet: `vercel login`
 
@@ -184,6 +194,7 @@ YONI nutzt folgende Custom Domains:
 ```
 
 Das Script fügt automatisch alle konfigurierten Domains hinzu:
+
 - `pihoch2.me`
 - `www.pihoch2.me`
 - `app.pihoch2.me`
@@ -222,6 +233,7 @@ Value: 76.76.21.21
 ```
 
 **Alternative (CNAME flattening):**
+
 ```
 Type: CNAME
 Name: @
@@ -257,6 +269,7 @@ nslookup api.pihoch2.me
 ```
 
 **Zeitrahmen:**
+
 - DNS-Änderungen können bis zu 48 Stunden dauern
 - Typischerweise: 5-30 Minuten
 
@@ -346,6 +359,7 @@ vercel inspect <deployment-url>
 **Problem:** `npm run build` schlägt während Deployment fehl
 
 **Lösung:**
+
 ```bash
 # Lokal testen
 npm install
@@ -362,6 +376,7 @@ vercel env ls
 **Problem:** Custom Domain zeigt nicht auf die App
 
 **Lösung:**
+
 1. Überprüfe DNS-Records: `nslookup yoni.pihoch2.me`
 2. Warte 5-30 Minuten für DNS-Propagation
 3. Überprüfe Vercel Dashboard → Domains für Status
@@ -372,6 +387,7 @@ vercel env ls
 **Problem:** App funktioniert nicht wegen fehlenden API-Keys
 
 **Lösung:**
+
 ```bash
 # Überprüfe Env-Variablen
 vercel env ls
@@ -388,6 +404,7 @@ vercel --prod --force
 **Problem:** `/api/chat` oder andere API-Routes geben 404
 
 **Lösung:**
+
 - Überprüfe `vercel.json` Konfiguration
 - Stelle sicher API-Routes in `app/api/` existieren
 - Checke Vercel Logs für Fehler
@@ -428,12 +445,14 @@ git push origin main
 ### Rollback bei Problemen
 
 **Via Dashboard:**
+
 1. Gehe zu Vercel Dashboard
 2. Wähle Projekt
 3. Deployments → Finde funktionierendes Deployment
 4. Klicke "..." → "Promote to Production"
 
 **Via CLI:**
+
 ```bash
 vercel rollback
 ```
@@ -478,9 +497,9 @@ Bei Problemen oder Fragen:
 
 ## 📜 Änderungshistorie
 
-| Datum | Version | Änderungen |
-|-------|---------|------------|
-| 2025-11-13 | 1.0 | Initiale Dokumentation erstellt |
+| Datum      | Version | Änderungen                      |
+| ---------- | ------- | ------------------------------- |
+| 2025-11-13 | 1.0     | Initiale Dokumentation erstellt |
 
 ---
 

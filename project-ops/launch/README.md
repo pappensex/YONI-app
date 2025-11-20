@@ -6,11 +6,11 @@
 
 Dieses Verzeichnis enthält die strukturierte Task-Verwaltung für den YONI-Launch, organisiert nach drei strategischen Säulen:
 
-| Pillar | Fokus | Beispiel |
-|---------|--------|-----------|
-| **BUILD** | Technisches Fundament | Stripe Webhook fixen, Deploy testen |
+| Pillar      | Fokus                        | Beispiel                                             |
+| ----------- | ---------------------------- | ---------------------------------------------------- |
+| **BUILD**   | Technisches Fundament        | Stripe Webhook fixen, Deploy testen                  |
 | **PAYMENT** | Monetarisierung & Compliance | Instant Payment aktivieren, Checkout-Link einrichten |
-| **YOUTUBE** | Reichweite & Conversion | Short drehen, Community-Post mit Stripe-Link |
+| **YOUTUBE** | Reichweite & Conversion      | Short drehen, Community-Post mit Stripe-Link         |
 
 ## 📁 Dateistruktur
 
@@ -59,6 +59,7 @@ npm run fix:content
 ```
 
 Das Validierungsscript prüft:
+
 - ✓ **Erforderliche Felder**: `type`, `title`, `properties`, `views`, `rows`
 - ✓ **JSON Schema (draft-07)**: Struktur und Datentypen
 - ✓ **Datenqualität**: Task-IDs, Status, Prioritäten, Tags
@@ -81,6 +82,7 @@ npm run fix:content
 ```
 
 **Automatisierung via GitHub Actions:**
+
 - Workflow `.github/workflows/content-auto-fix.yml`
 - Triggert bei Änderungen in `project-ops/launch/**`
 - Erstellt automatisch PR mit Korrekturen
@@ -139,7 +141,7 @@ Das Template folgt dem Notion Database Export Format und kann direkt in Notion i
   "properties": {
     "Task ID": { "type": "title" },
     "Title": { "type": "rich_text" },
-    "Status": { 
+    "Status": {
       "type": "status",
       "status": {
         "options": [
@@ -194,22 +196,22 @@ BUILD,BUILD-001,Stripe Webhook fixen,Fix webhook integration,in_progress,high,"s
 
 ### Task-Status
 
-| Status | Bedeutung |
-|--------|-----------|
-| `pending` | Noch nicht begonnen |
-| `in_progress` | In Bearbeitung |
-| `review` | In Review/Testing |
-| `completed` | Abgeschlossen |
-| `blocked` | Blockiert (Abhängigkeiten) |
+| Status        | Bedeutung                  |
+| ------------- | -------------------------- |
+| `pending`     | Noch nicht begonnen        |
+| `in_progress` | In Bearbeitung             |
+| `review`      | In Review/Testing          |
+| `completed`   | Abgeschlossen              |
+| `blocked`     | Blockiert (Abhängigkeiten) |
 
 ### Prioritäten
 
-| Priority | Beschreibung |
-|----------|--------------|
+| Priority   | Beschreibung                         |
+| ---------- | ------------------------------------ |
 | `critical` | Sofort erledigen, blocker für Launch |
-| `high` | Wichtig für MVP |
-| `medium` | Wünschenswert |
-| `low` | Nice-to-have |
+| `high`     | Wichtig für MVP                      |
+| `medium`   | Wünschenswert                        |
+| `low`      | Nice-to-have                         |
 
 ## 🛠️ Integration
 

@@ -6,6 +6,7 @@ summarizing the addition of Notion template and CI validation features.
 ## Files
 
 ### 1. COMMIT_MESSAGE_OPTIMIZED.txt ⭐ (RECOMMENDED)
+
 **Best for:** Actual git commits and PR descriptions
 
 ✓ Subject line: 49 characters (under 50)
@@ -22,6 +23,7 @@ cat COMMIT_MESSAGE_OPTIMIZED.txt
 ```
 
 ### 2. COMMIT_MESSAGE_CONCISE.txt
+
 **Best for:** Quick summaries and short documentation
 
 - Compact version
@@ -29,6 +31,7 @@ cat COMMIT_MESSAGE_OPTIMIZED.txt
 - Easier to scan quickly
 
 ### 3. COMMIT_MESSAGE.txt
+
 **Best for:** Detailed documentation and reference
 
 - Most comprehensive
@@ -60,16 +63,19 @@ All messages follow the [Conventional Commits](https://www.conventionalcommits.o
 All commit messages summarize these additions from PR #49:
 
 ### Launch Task Management
+
 - `project-ops/launch/notion-template.json`
 - `project-ops/launch/tasks.csv`
 - `project-ops/launch/README.md`
 
 ### Notion Formulas
+
 - `core/modules/deploy-center/notionFormulas.ts`
 - `core/modules/deploy-center/notionFormulas.test.ts`
 - `core/modules/deploy-center/README.md`
 
 ### CI Validation
+
 - `.github/workflows/main.yml`
 
 ## Rationale Summary
@@ -82,11 +88,13 @@ All commit messages summarize these additions from PR #49:
 ## Usage Examples
 
 ### For Git Commit
+
 ```bash
 git commit -F COMMIT_MESSAGE_OPTIMIZED.txt
 ```
 
 ### For Squash Merge
+
 ```bash
 # Copy optimized version
 cat COMMIT_MESSAGE_OPTIMIZED.txt | pbcopy  # macOS
@@ -96,6 +104,7 @@ cat COMMIT_MESSAGE_OPTIMIZED.txt | xclip   # Linux
 ```
 
 ### For PR Description
+
 ```bash
 # Use optimized version as PR description
 gh pr create --title "feat(ops): add Notion template and CI validation" \
@@ -103,6 +112,7 @@ gh pr create --title "feat(ops): add Notion template and CI validation" \
 ```
 
 ### For Release Notes
+
 ```bash
 # Use concise version for changelog
 cat COMMIT_MESSAGE_CONCISE.txt >> CHANGELOG.md

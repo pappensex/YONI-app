@@ -11,6 +11,7 @@ Implement: `toNumber(format(round(prop("Subtasks Done"))))`
 The formula is broken down into individual utility functions:
 
 ### 1. `prop(obj, propertyName)`
+
 Gets a property value from an object.
 
 ```typescript
@@ -19,6 +20,7 @@ prop(data, "Subtasks Done"); // Returns: 5.7
 ```
 
 ### 2. `round(value)`
+
 Rounds a number to the nearest integer.
 
 ```typescript
@@ -27,6 +29,7 @@ round(5.4); // Returns: 5
 ```
 
 ### 3. `format(value)`
+
 Formats a value as a string.
 
 ```typescript
@@ -34,6 +37,7 @@ format(6); // Returns: "6"
 ```
 
 ### 4. `toNumber(value)`
+
 Converts a value to a number.
 
 ```typescript
@@ -50,6 +54,7 @@ calculateSubtasksDone(data); // Returns: 63
 ```
 
 **Step-by-step execution:**
+
 1. `prop(data, "Subtasks Done")` → 62.5
 2. `round(62.5)` → 63
 3. `format(63)` → "63"
@@ -60,7 +65,7 @@ calculateSubtasksDone(data); // Returns: 63
 The formula is used to calculate progress percentage:
 
 ```typescript
-const done = 5;  // Completed tasks
+const done = 5; // Completed tasks
 const total = 8; // Total tasks
 const percentage = (done / total) * 100; // 62.5
 
@@ -71,6 +76,7 @@ const progress = calculateSubtasksDone(subtasksData); // 63
 ## Why This Formula?
 
 The formula ensures that:
+
 1. Decimal progress values are properly rounded
 2. The value goes through a format-toNumber cycle (mimicking Notion's type conversion)
 3. The final result is always a clean integer suitable for display

@@ -26,7 +26,7 @@ Updated `vercel.json` to include static export configuration:
 Added ISR with 10-minute revalidation to the root layout (`app/layout.tsx`):
 
 ```typescript
-export const revalidate = 600 // 10 minutes
+export const revalidate = 600; // 10 minutes
 ```
 
 This enables Incremental Static Regeneration for all pages, allowing them to be regenerated every 10 minutes.
@@ -36,6 +36,7 @@ This enables Incremental Static Regeneration for all pages, allowing them to be 
 Created `/app/api/revalidate/route.ts` - a webhook endpoint for on-demand revalidation triggered by CMS or Stripe events.
 
 **Usage**:
+
 ```bash
 POST /api/revalidate?secret=YOUR_SECRET
 Content-Type: application/json

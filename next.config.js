@@ -2,15 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
   webpack: (config) => {
     config.watchOptions = {
       ...config.watchOptions,
-      ignored: ['**/node_modules', '**/core/**']
-    }
-    return config
-  }
-}
+      ignored: ["**/node_modules", "**/core/**"],
+    };
+    return config;
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

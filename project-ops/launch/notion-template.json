@@ -1037,11 +1037,7 @@
           "status": "in_progress",
           "priority": "high",
           "example": "Stripe Webhook fixen",
-          "tags": [
-            "stripe",
-            "backend",
-            "webhook"
-          ]
+          "tags": ["stripe", "backend", "webhook"]
         },
         {
           "id": "BUILD-002",
@@ -1050,11 +1046,7 @@
           "status": "pending",
           "priority": "high",
           "example": "Deploy testen",
-          "tags": [
-            "deployment",
-            "vercel",
-            "ci-cd"
-          ]
+          "tags": ["deployment", "vercel", "ci-cd"]
         },
         {
           "id": "BUILD-003",
@@ -1062,10 +1054,7 @@
           "description": "Implement CSP, HTTPS, and RBAC security measures",
           "status": "pending",
           "priority": "high",
-          "tags": [
-            "security",
-            "compliance"
-          ]
+          "tags": ["security", "compliance"]
         },
         {
           "id": "BUILD-004",
@@ -1073,10 +1062,7 @@
           "description": "Set up accessibility testing with axe-core",
           "status": "pending",
           "priority": "medium",
-          "tags": [
-            "accessibility",
-            "testing"
-          ]
+          "tags": ["accessibility", "testing"]
         }
       ]
     },
@@ -1092,11 +1078,7 @@
           "status": "pending",
           "priority": "high",
           "example": "Instant Payment aktivieren",
-          "tags": [
-            "stripe",
-            "payment",
-            "instant-payment"
-          ]
+          "tags": ["stripe", "payment", "instant-payment"]
         },
         {
           "id": "PAYMENT-002",
@@ -1105,11 +1087,7 @@
           "status": "pending",
           "priority": "high",
           "example": "Checkout-Link einrichten",
-          "tags": [
-            "stripe",
-            "checkout",
-            "subscription"
-          ]
+          "tags": ["stripe", "checkout", "subscription"]
         },
         {
           "id": "PAYMENT-003",
@@ -1117,11 +1095,7 @@
           "description": "Verify GDPR compliance for payment processing",
           "status": "pending",
           "priority": "high",
-          "tags": [
-            "compliance",
-            "gdpr",
-            "legal"
-          ]
+          "tags": ["compliance", "gdpr", "legal"]
         },
         {
           "id": "PAYMENT-004",
@@ -1129,10 +1103,7 @@
           "description": "Define pricing tiers and subscription models",
           "status": "pending",
           "priority": "medium",
-          "tags": [
-            "business",
-            "pricing"
-          ]
+          "tags": ["business", "pricing"]
         }
       ]
     },
@@ -1148,11 +1119,7 @@
           "status": "pending",
           "priority": "high",
           "example": "Short drehen",
-          "tags": [
-            "video",
-            "marketing",
-            "content"
-          ]
+          "tags": ["video", "marketing", "content"]
         },
         {
           "id": "YOUTUBE-002",
@@ -1161,11 +1128,7 @@
           "status": "pending",
           "priority": "high",
           "example": "Community-Post mit Stripe-Link",
-          "tags": [
-            "community",
-            "marketing",
-            "stripe"
-          ]
+          "tags": ["community", "marketing", "stripe"]
         },
         {
           "id": "YOUTUBE-003",
@@ -1173,11 +1136,7 @@
           "description": "Produce main launch video explaining YONI platform",
           "status": "pending",
           "priority": "medium",
-          "tags": [
-            "video",
-            "launch",
-            "content"
-          ]
+          "tags": ["video", "launch", "content"]
         },
         {
           "id": "YOUTUBE-004",
@@ -1185,28 +1144,14 @@
           "description": "Plan and execute social media campaign",
           "status": "pending",
           "priority": "medium",
-          "tags": [
-            "social-media",
-            "marketing"
-          ]
+          "tags": ["social-media", "marketing"]
         }
       ]
     }
   ],
   "workflow": {
-    "statuses": [
-      "pending",
-      "in_progress",
-      "review",
-      "completed",
-      "blocked"
-    ],
-    "priorities": [
-      "low",
-      "medium",
-      "high",
-      "critical"
-    ]
+    "statuses": ["pending", "in_progress", "review", "completed", "blocked"],
+    "priorities": ["low", "medium", "high", "critical"]
   },
   "notes": [
     "Tasks should be updated regularly",

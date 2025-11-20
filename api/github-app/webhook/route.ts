@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 function verifyGitHubSignature(
   payload: string,
   signature: string,
-  secret: string
+  secret: string,
 ): boolean {
   if (!signature || !signature.startsWith("sha256=")) {
     return false;
@@ -23,12 +23,8 @@ function verifyGitHubSignature(
   // Use timing-safe comparison to prevent timing attacks
   return (
     calculatedSignature.length === expectedSignature.length &&
-    createHmac("sha256", secret)
-      .update(calculatedSignature)
-      .digest("hex") ===
-      createHmac("sha256", secret)
-        .update(expectedSignature)
-        .digest("hex")
+    createHmac("sha256", secret).update(calculatedSignature).digest("hex") ===
+      createHmac("sha256", secret).update(expectedSignature).digest("hex")
   );
 }
 
@@ -74,7 +70,7 @@ export async function POST(req: Request) {
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
 
     case "push":
@@ -85,7 +81,7 @@ export async function POST(req: Request) {
       console.log(
         "🔀 Pull Request:",
         payload.action,
-        payload.pull_request?.number
+        payload.pull_request?.number,
       );
       break;
 
@@ -108,6 +104,6 @@ export async function GET() {
     "GitHub App webhook endpoint active (use POST with valid signature).",
     {
       status: 200,
-    }
+    },
   );
 }

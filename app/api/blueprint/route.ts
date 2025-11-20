@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
-import { blueprint } from '@/app/data/chibot-blueprint'
+import { blueprint } from "@/app/data/chibot-blueprint";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const generatedAt = new Date().toISOString()
+  const generatedAt = new Date().toISOString();
 
   return NextResponse.json({
     blueprint,
@@ -13,5 +13,5 @@ export async function GET() {
       generatedAt,
       kernel: blueprint.kernel,
     },
-  })
+  });
 }

@@ -17,19 +17,21 @@ export default function YoniDeployControlCenter() {
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://raw.githubusercontent.com/pihoch2/Transzendenz/main/Reports/Deploy-Status.md");
+      const res = await fetch(
+        "https://raw.githubusercontent.com/pihoch2/Transzendenz/main/Reports/Deploy-Status.md",
+      );
       const text = await res.text();
       const parsed = parseStatusMarkdown(text);
       setStatusData(parsed);
-      
+
       // Calculate subtasks done using Notion-style formula
       const done = parsed.filter((i) => i.status.includes("✅")).length;
       const total = parsed.length;
-      
+
       // Apply toNumber(format(round(prop("Subtasks Done")))) formula
       const subtasksData = { "Subtasks Done": (done / total) * 100 };
       const calculatedProgress = calculateSubtasksDone(subtasksData);
-      
+
       setProgress(calculatedProgress);
     } catch (err) {
       console.error("Status-Load-Error", err);
@@ -60,7 +62,8 @@ export default function YoniDeployControlCenter() {
           Gesamtfortschritt: {progress}% abgeschlossen
         </p>
         <Button onClick={fetchStatus} disabled={loading}>
-          <RefreshCw className="mr-2 h-4 w-4" /> {loading ? "Aktualisiere…" : "Sync jetzt"}
+          <RefreshCw className="mr-2 h-4 w-4" />{" "}
+          {loading ? "Aktualisiere…" : "Sync jetzt"}
         </Button>
       </div>
 
@@ -72,16 +75,22 @@ export default function YoniDeployControlCenter() {
               item.status.includes("✅")
                 ? "border-green-500"
                 : item.status.includes("🔄")
-                ? "border-yellow-400"
-                : "border-red-500"
+                  ? "border-yellow-400"
+                  : "border-red-500"
             }`}
           >
             <CardContent className="p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold text-lg">{item.task}</h2>
-                {item.status.includes("✅") && <CheckCircle className="text-green-500" />}
-                {item.status.includes("🔄") && <AlertTriangle className="text-yellow-500" />}
-                {item.status.includes("❌") && <XCircle className="text-red-500" />}
+                {item.status.includes("✅") && (
+                  <CheckCircle className="text-green-500" />
+                )}
+                {item.status.includes("🔄") && (
+                  <AlertTriangle className="text-yellow-500" />
+                )}
+                {item.status.includes("❌") && (
+                  <XCircle className="text-red-500" />
+                )}
               </div>
               <p className="text-sm text-muted-foreground">{item.comment}</p>
             </CardContent>

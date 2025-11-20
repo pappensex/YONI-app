@@ -1,35 +1,37 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 interface AgeVerificationProps {
-  onVerified: () => void
+  onVerified: () => void;
 }
 
 export default function AgeVerification({ onVerified }: AgeVerificationProps) {
-  const [isVerified, setIsVerified] = useState(false)
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     // Check if user has already verified
-    const verified = localStorage.getItem('yoni-age-verified')
-    if (verified === 'true') {
-      setIsVerified(true)
-      onVerified()
+    const verified = localStorage.getItem("yoni-age-verified");
+    if (verified === "true") {
+      setIsVerified(true);
+      onVerified();
     }
-  }, [onVerified])
+  }, [onVerified]);
 
   const handleVerify = (is18Plus: boolean) => {
     if (is18Plus) {
-      localStorage.setItem('yoni-age-verified', 'true')
-      setIsVerified(true)
-      onVerified()
+      localStorage.setItem("yoni-age-verified", "true");
+      setIsVerified(true);
+      onVerified();
     } else {
-      alert('YONI ist ausschließlich für Personen ab 18 Jahren zugänglich. Bitte verlasse diese Seite.')
+      alert(
+        "YONI ist ausschließlich für Personen ab 18 Jahren zugänglich. Bitte verlasse diese Seite.",
+      );
     }
-  }
+  };
 
   if (isVerified) {
-    return null
+    return null;
   }
 
   return (
@@ -39,23 +41,20 @@ export default function AgeVerification({ onVerified }: AgeVerificationProps) {
           <h1 className="anim-sparkle">🌌 YONI</h1>
           <h2>Altersverifikation</h2>
           <p className="age-notice">
-            YONI ist eine Plattform für mentale Gesundheit mit therapeutischen Inhalten,
-            die für erwachsene Nutzer:innen konzipiert ist.
+            YONI ist eine Plattform für mentale Gesundheit mit therapeutischen
+            Inhalten, die für erwachsene Nutzer:innen konzipiert ist.
           </p>
           <p className="age-question">
             <strong>Bist du mindestens 18 Jahre alt?</strong>
           </p>
           <div className="age-buttons">
-            <button 
+            <button
               onClick={() => handleVerify(true)}
               className="glitzer-button age-yes"
             >
               ✨ Ja, ich bin 18+
             </button>
-            <button 
-              onClick={() => handleVerify(false)}
-              className="age-no"
-            >
+            <button onClick={() => handleVerify(false)} className="age-no">
               Nein
             </button>
           </div>
@@ -177,5 +176,5 @@ export default function AgeVerification({ onVerified }: AgeVerificationProps) {
         }
       `}</style>
     </div>
-  )
+  );
 }

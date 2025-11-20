@@ -25,6 +25,7 @@ This implementation adds comprehensive JSON Schema validation and data quality c
 **File**: `project-ops/launch/validate-notion-template.js`
 
 Features:
+
 - **Required Keys Check**: Ensures `type`, `title`, `properties`, `views`, `rows` are present
 - **Schema Validation**: Uses AJV to validate against JSON Schema draft-07
 - **Data Quality Checks**:
@@ -35,11 +36,12 @@ Features:
   - Workflow status/priority consistency
 - **Emoji Detection**: Scans for potentially problematic Unicode characters
 - **Statistics**: Reports task counts, status distribution, and priority breakdown
-- **Exit Codes**: 
+- **Exit Codes**:
   - `0` = All checks passed
   - `1` = Critical validation failure
 
 Usage:
+
 ```bash
 node validate-notion-template.js
 # or
@@ -51,12 +53,14 @@ npm run validate:notion
 **File**: `project-ops/launch/test-validate.js`
 
 Tests:
+
 1. Valid template passes (exit code 0)
 2. Invalid JSON fails (exit code 1)
 3. Missing required fields are handled
 4. Template backup/restore functionality
 
 Usage:
+
 ```bash
 npm run test:notion
 ```
@@ -64,6 +68,7 @@ npm run test:notion
 ### 4. Updated notion-template.json ✅
 
 Added Notion-compatible structure:
+
 - `type`: "database"
 - `properties`: Full database column definitions with select options
 - `views`: Four default views (All Tasks, By Pillar, By Status, High Priority)
@@ -73,6 +78,7 @@ Added Notion-compatible structure:
 ### 5. Documentation ✅
 
 Updated `README.md` with:
+
 - Validation instructions
 - Test commands
 - Notion database format documentation
@@ -81,6 +87,7 @@ Updated `README.md` with:
 ## Emoji Handling
 
 ✅ **No problematic emojis found** in the template. The validation script:
+
 - Scans all string values recursively
 - Detects emoji Unicode ranges
 - Warns about potential parsing issues
@@ -91,18 +98,21 @@ Current status: Clean ✨
 ## NPM Scripts
 
 Added to `package.json`:
+
 - `npm run validate:notion` - Run validation checks
 - `npm run test:notion` - Run test suite
 
 ## Dependencies
 
 Added:
+
 - `ajv` (^8.17.1) - JSON Schema validator
 - `ajv-formats` (^3.0.1) - Additional format validators
 
 ## Validation Results
 
 All checks passing:
+
 ```
 ✅ All required keys present: type, title, properties, views, rows
 ✅ Schema validation passed
@@ -124,6 +134,7 @@ All checks passing:
 ## Notion Import Ready
 
 The template can now be imported directly into Notion:
+
 - ✅ Proper database type
 - ✅ Column properties defined
 - ✅ Select options with colors
@@ -133,6 +144,7 @@ The template can now be imported directly into Notion:
 ## Next Steps (Optional)
 
 Potential enhancements:
+
 1. Add CI/CD integration to run validation on commit
 2. Create GitHub Action workflow
 3. Add more test cases for edge cases

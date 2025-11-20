@@ -1,35 +1,36 @@
-import './globals.css'
-import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
+import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 
 // Enable ISR with 10-minute revalidation
-export const revalidate = 600
+export const revalidate = 600;
 
 export const viewport: Viewport = {
-  themeColor: '#8b5cf6',
-}
+  themeColor: "#8b5cf6",
+};
 
 export const metadata: Metadata = {
-  title: 'YONI • pi² Control (18+)',
-  description: 'YONI: Creator‑KI, Auto‑Translate, Transzendenz‑Hub. Minimal Flat Build für Vercel. Für Nutzer:innen ab 18 Jahren.',
-  manifest: '/manifest.json',
+  title: "YONI • pi² Control (18+)",
+  description:
+    "YONI: Creator‑KI, Auto‑Translate, Transzendenz‑Hub. Minimal Flat Build für Vercel. Für Nutzer:innen ab 18 Jahren.",
+  manifest: "/manifest.json",
   icons: {
-    apple: '/icons/icon-192.png',
+    apple: "/icons/icon-192.png",
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'black',
-    title: 'YONI',
+    statusBarStyle: "black",
+    title: "YONI",
   },
   other: {
-    'age-rating': '18+',
+    "age-rating": "18+",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="de">
@@ -48,5 +49,5 @@ export default function RootLayout({
         </Script>
       </body>
     </html>
-  )
+  );
 }

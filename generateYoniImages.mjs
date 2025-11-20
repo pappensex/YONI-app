@@ -22,8 +22,18 @@ function todayISO() {
 }
 
 // --------- Helper: filename builder
-function buildFilename({ subject = "DUO", scene = "AnkhOfLove_Day", dateISO, version = "v1", seed = "888", ext = "png" }) {
-  return `${subject}_${scene}_${dateISO}_${version}_${seed}.${ext}`.replace(/\s+/g, "");
+function buildFilename({
+  subject = "DUO",
+  scene = "AnkhOfLove_Day",
+  dateISO,
+  version = "v1",
+  seed = "888",
+  ext = "png",
+}) {
+  return `${subject}_${scene}_${dateISO}_${version}_${seed}.${ext}`.replace(
+    /\s+/g,
+    "",
+  );
 }
 
 // --------- Replicate call (Flux/SDXL o.ä.)
@@ -31,11 +41,11 @@ async function replicateTxt2Img({
   model = "black-forest-labs/flux-1.1-pro", // <- passe an: z.B. "stability-ai/sdxl"
   prompt,
   negative_prompt = "low quality, deformed, extra limbs, watermark, text, signature, logo, nsfw, duplicate face, unrealistic skin, plastic look",
-  width = 1344,       // 16:9 (alternativ 1024/1152 je nach Modell)
+  width = 1344, // 16:9 (alternativ 1024/1152 je nach Modell)
   height = 768,
   guidance = 4.5,
   seed = 888,
-  steps = 28
+  steps = 28,
 }) {
   if (!REPLICATE_API_TOKEN) throw new Error("Missing REPLICATE_API_TOKEN");
   const body = {
@@ -46,18 +56,23 @@ async function replicateTxt2Img({
       height,
       guidance,
       num_inference_steps: steps,
-      seed
-    }
+      seed,
+    },
   };
 
-  const res = await fetch("https://api.replicate.com/v1/models/" + encodeURIComponent(model) + "/predictions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Token ${REPLICATE_API_TOKEN}`,
-      "Content-Type": "application/json"
+  const res = await fetch(
+    "https://api.replicate.com/v1/models/" +
+      encodeURIComponent(model) +
+      "/predictions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${REPLICATE_API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
     },
-    body: JSON.stringify(body)
-  });
+  );
 
   if (!res.ok) {
     const txt = await res.text();
@@ -68,20 +83,31 @@ async function replicateTxt2Img({
 
   // poll result
   let prediction = created;
-  while (prediction.status === "starting" || prediction.status === "processing" || prediction.status === "queued") {
-    await new Promise(r => setTimeout(r, 1800));
-    const poll = await fetch(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
-      headers: { "Authorization": `Token ${REPLICATE_API_TOKEN}` }
-    });
+  while (
+    prediction.status === "starting" ||
+    prediction.status === "processing" ||
+    prediction.status === "queued"
+  ) {
+    await new Promise((r) => setTimeout(r, 1800));
+    const poll = await fetch(
+      `https://api.replicate.com/v1/predictions/${prediction.id}`,
+      {
+        headers: { Authorization: `Token ${REPLICATE_API_TOKEN}` },
+      },
+    );
     prediction = await poll.json();
   }
 
   if (prediction.status !== "succeeded") {
-    throw new Error(`Replicate prediction failed: ${prediction.status} — ${prediction.error || ""}`);
+    throw new Error(
+      `Replicate prediction failed: ${prediction.status} — ${prediction.error || ""}`,
+    );
   }
 
   // Most models return array of image URLs
-  const outputs = Array.isArray(prediction.output) ? prediction.output : [prediction.output];
+  const outputs = Array.isArray(prediction.output)
+    ? prediction.output
+    : [prediction.output];
   return outputs.filter(Boolean);
 }
 
@@ -115,7 +141,7 @@ function prompt_AnkhOfLove_Day({ yoni, aiko }) {
     // Scene
     `between them a floating golden-violet ankh made of energy, tropical villa with palms, soft sunlight,`,
     `photo-realistic skin, fashion photography lighting, 8k, cinematic depth-of-field,`,
-    `no text, no watermark, natural proportions`
+    `no text, no watermark, natural proportions`,
   ].join(" ");
 }
 
@@ -131,7 +157,7 @@ function prompt_AnkhOfLove_Night({ yoni, aiko }) {
     // Scene
     `a floating luminous golden ankh radiates violet energy between them,`,
     `mist, palm silhouettes, realistic reflections on water, cinematic lens flare,`,
-    `hyper-detailed, 8k, realistic human proportions, no text, no watermark`
+    `hyper-detailed, 8k, realistic human proportions, no text, no watermark`,
   ].join(" ");
 }
 
@@ -142,7 +168,7 @@ function prompt_EnergyFusion_Black({ yoni, aiko }) {
     `male hand strong and tattooed,`,
     `between their palms a swirl of violet+gold light shaped like an infinity symbol (888),`,
     `realistic skin texture, cinematic highlights, black fabric partially visible,`,
-    `bokeh background, sacred intimacy, ultra-detail, no text, no watermark`
+    `bokeh background, sacred intimacy, ultra-detail, no text, no watermark`,
   ].join(" ");
 }
 
@@ -155,9 +181,24 @@ async function main() {
 
   // Map your scenes to prompts
   const scenes = [
-    { id: "AnkhOfLove_Day",    builder: prompt_AnkhOfLove_Day,    width: 1344, height: 768 },
-    { id: "AnkhOfLove_Night",  builder: prompt_AnkhOfLove_Night,  width: 1344, height: 768 },
-    { id: "EnergyFusion_Black",builder: prompt_EnergyFusion_Black, width: 1024, height: 1024 }
+    {
+      id: "AnkhOfLove_Day",
+      builder: prompt_AnkhOfLove_Day,
+      width: 1344,
+      height: 768,
+    },
+    {
+      id: "AnkhOfLove_Night",
+      builder: prompt_AnkhOfLove_Night,
+      width: 1344,
+      height: 768,
+    },
+    {
+      id: "EnergyFusion_Black",
+      builder: prompt_EnergyFusion_Black,
+      width: 1024,
+      height: 1024,
+    },
   ];
 
   const yoni = template.avatars?.yoni?.attributes || {};
@@ -167,13 +208,13 @@ async function main() {
     const prompt = scene.builder({ yoni, aiko });
 
     const urls = await replicateTxt2Img({
-      model: "black-forest-labs/flux-1.1-pro",   // ggf. ändern (z.B. SDXL)
+      model: "black-forest-labs/flux-1.1-pro", // ggf. ändern (z.B. SDXL)
       prompt,
       width: scene.width,
       height: scene.height,
       seed: Number(template.parameters?.seed ?? 888),
       guidance: Number(template.parameters?.guidance_scale ?? 4.5),
-      steps: 28
+      steps: 28,
     });
 
     let idx = 1;
@@ -184,7 +225,7 @@ async function main() {
         dateISO,
         version: `v${idx}`,
         seed: template.parameters?.seed ?? "888",
-        ext: "png"
+        ext: "png",
       });
       const outPath = path.join(OUTPUT_DIR, dateISO, filename);
       await downloadToFile(url, outPath);
@@ -196,7 +237,7 @@ async function main() {
   console.log("✅ All renders saved.");
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error("❌ Error:", err);
   process.exit(1);
 });

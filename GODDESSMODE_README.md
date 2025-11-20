@@ -3,11 +3,14 @@
 ## 🔞 Altersverifikation (18+)
 
 ### Funktionsweise
+
 Beim ersten Besuch der YONI-App erscheint ein Altersverifikations-Modal:
+
 - **"Ja, ich bin 18+"** - Gewährt Zugang zur App und speichert die Bestätigung
 - **"Nein"** - Zeigt eine Warnung, dass die App nur für Erwachsene ist
 
 ### Technische Details
+
 - Die Bestätigung wird in `localStorage` unter dem Schlüssel `yoni-age-verified` gespeichert
 - Bei erneutem Besuch wird die gespeicherte Bestätigung geladen
 - Zum Zurücksetzen: `localStorage.removeItem('yoni-age-verified')` in der Browser-Konsole
@@ -17,9 +20,11 @@ Beim ersten Besuch der YONI-App erscheint ein Altersverifikations-Modal:
 ## ✨ GODDESSMODE+
 
 ### Was ist GODDESSMODE+?
+
 GODDESSMODE+ ist ein erweiterter visueller Modus, der die "Überhochglitzer"-Ästhetik der YONI-App intensiviert. Er aktiviert zusätzliche Animationen, Farbverläufe und kosmische Effekte für ein immersiveres Erlebnis.
 
 ### Aktivierung
+
 1. Bestätige die Altersverifikation
 2. Klicke auf den **"🌙 GODDESSMODE+"** Button in der oberen rechten Ecke
 3. Der Button ändert sich zu **"✨ GODDESSMODE+"** und die Effekte werden aktiviert
@@ -28,12 +33,14 @@ GODDESSMODE+ ist ein erweiterter visueller Modus, der die "Überhochglitzer"-Äs
 ### Visuelle Effekte
 
 #### Im Normalmodus (🌙)
+
 - Dunkler kosmischer Hintergrund
 - Dezente Panelhintergründe
 - Standard-Button-Farben (Violett)
 - Minimale Schatten und Glows
 
 #### Im GODDESSMODE+ (✨)
+
 - **Hintergrund**: Intensivierte kosmische Gradienten mit Farbanimation
 - **Karten/Cards**: Animierte Amethyst-zu-Gold-Verläufe
 - **Überschriften**: Schimmernde Text-Effekte mit Farbverlauf
@@ -42,9 +49,11 @@ GODDESSMODE+ ist ein erweiterter visueller Modus, der die "Überhochglitzer"-Äs
 - **Feed-Items**: Sanfte Glow-Animation
 
 ### Persistenz
+
 Der GODDESSMODE-Status wird in `localStorage` unter `yoni-goddessmode` gespeichert und bleibt über Browser-Sitzungen hinweg aktiv.
 
 ### Deaktivierung
+
 - Klicke erneut auf den Button
 - Oder in der Konsole: `localStorage.removeItem('yoni-goddessmode')`
 
@@ -67,28 +76,33 @@ Alle speziellen Animationen und Styles sind in `app/globals.css` definiert.
 ## 🔧 Für Entwickler:innen
 
 ### Neue Komponenten
+
 - `app/components/AgeVerification.tsx` - Altersverifikation
 - `app/components/GoddessMode.tsx` - GODDESSMODE+ Toggle
 
 ### Integration in eigene Seiten
+
 ```tsx
-import AgeVerification from './components/AgeVerification'
-import GoddessMode from './components/GoddessMode'
+import AgeVerification from "./components/AgeVerification";
+import GoddessMode from "./components/GoddessMode";
 
 function MyPage() {
-  const [ageVerified, setAgeVerified] = useState(false)
+  const [ageVerified, setAgeVerified] = useState(false);
 
   return (
     <>
-      {!ageVerified && <AgeVerification onVerified={() => setAgeVerified(true)} />}
+      {!ageVerified && (
+        <AgeVerification onVerified={() => setAgeVerified(true)} />
+      )}
       {ageVerified && <GoddessMode />}
       {/* Dein Content */}
     </>
-  )
+  );
 }
 ```
 
 ### CSS-Anpassungen
+
 Eigene Elemente können GODDESSMODE+-Styles nutzen:
 
 ```css
@@ -109,12 +123,14 @@ body.goddessmode-active .my-element {
 ## 🌟 Design-Token
 
 Relevante CSS-Variablen:
+
 - `--brand-amethyst`: #9966CC (Hauptfarbe)
 - `--hl-gold`: #FFD700 (Akzentfarbe)
 - `--ok-emerald`: #2ECC71 (Positiv-Farbe)
 - `--text-starwhite`: #F5F5F5 (Textfarbe)
 
 Animationsdauern:
+
 - `--anim-sparkle-duration`: 2.5s
 - `--anim-shimmer-duration`: 3s
 - `--anim-glow-duration`: 2s
@@ -142,5 +158,6 @@ Animationsdauern:
 ## 📞 Support
 
 Bei Fragen oder Problemen:
+
 - GitHub Issues: https://github.com/pappensex/YONI-app/issues
 - E-Mail: yoni@pihoch2.me

@@ -8,8 +8,8 @@ on:
         default: "false"
 
 permissions:
-  contents: write          # refs/heads/* löschen
-  pull-requests: write     # PRs schließen
+  contents: write # refs/heads/* löschen
+  pull-requests: write # PRs schließen
 
 jobs:
   cleanup:

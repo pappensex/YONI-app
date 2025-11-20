@@ -1,145 +1,155 @@
-'use client'
+"use client";
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import AgeVerification from './components/AgeVerification'
-import BlueprintView from './components/BlueprintView'
-import GoddessMode from './components/GoddessMode'
-import { blueprint as fallbackBlueprint, Blueprint } from './data/chibot-blueprint'
+import AgeVerification from "./components/AgeVerification";
+import BlueprintView from "./components/BlueprintView";
+import GoddessMode from "./components/GoddessMode";
+import {
+  blueprint as fallbackBlueprint,
+  Blueprint,
+} from "./data/chibot-blueprint";
 
 interface FeedItem {
-  id: number
-  agent: string
-  text: string
-  isFusion?: boolean
+  id: number;
+  agent: string;
+  text: string;
+  isFusion?: boolean;
 }
 
 export default function Home() {
-  const [question, setQuestion] = useState('')
-  const [mode, setMode] = useState('Consensus')
-  const [autoTranslate, setAutoTranslate] = useState(true)
-  const [feed, setFeed] = useState<FeedItem[]>([])
-  const [envMessage, setEnvMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [ageVerified, setAgeVerified] = useState(false)
-  const [blueprintData, setBlueprintData] = useState<Blueprint | null>(null)
-  const [blueprintGeneratedAt, setBlueprintGeneratedAt] = useState<string | null>(null)
-  const [blueprintNotice, setBlueprintNotice] = useState<string | null>(null)
+  const [question, setQuestion] = useState("");
+  const [mode, setMode] = useState("Consensus");
+  const [autoTranslate, setAutoTranslate] = useState(true);
+  const [feed, setFeed] = useState<FeedItem[]>([]);
+  const [envMessage, setEnvMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [ageVerified, setAgeVerified] = useState(false);
+  const [blueprintData, setBlueprintData] = useState<Blueprint | null>(null);
+  const [blueprintGeneratedAt, setBlueprintGeneratedAt] = useState<
+    string | null
+  >(null);
+  const [blueprintNotice, setBlueprintNotice] = useState<string | null>(null);
 
   const handleAgeVerified = useCallback(() => {
-    setAgeVerified(true)
-  }, [])
+    setAgeVerified(true);
+  }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return;
 
     setEnvMessage(
-      window.location.protocol === 'https:'
-        ? 'HTTPS aktiv – Service Worker & Install verfügbar.'
-        : 'Hinweis: Für Offline & „Zum Home‑Bildschirm" bitte HTTPS nutzen.'
-    )
-  }, [])
+      window.location.protocol === "https:"
+        ? "HTTPS aktiv – Service Worker & Install verfügbar."
+        : 'Hinweis: Für Offline & „Zum Home‑Bildschirm" bitte HTTPS nutzen.',
+    );
+  }, []);
 
   useEffect(() => {
-    let isMounted = true
-    const controller = new AbortController()
+    let isMounted = true;
+    const controller = new AbortController();
 
     const loadBlueprint = async () => {
       try {
-        const response = await fetch('/api/blueprint', { cache: 'no-store', signal: controller.signal })
+        const response = await fetch("/api/blueprint", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
 
         if (!response.ok) {
-          throw new Error('Blueprint API nicht erreichbar')
+          throw new Error("Blueprint API nicht erreichbar");
         }
 
-        const payload = await response.json()
-        if (!isMounted) return
+        const payload = await response.json();
+        if (!isMounted) return;
 
-        setBlueprintData(payload.blueprint)
-        setBlueprintGeneratedAt(payload.meta?.generatedAt ?? null)
-        setBlueprintNotice(null)
+        setBlueprintData(payload.blueprint);
+        setBlueprintGeneratedAt(payload.meta?.generatedAt ?? null);
+        setBlueprintNotice(null);
       } catch (error: any) {
-        if (!isMounted || error?.name === 'AbortError') return
+        if (!isMounted || error?.name === "AbortError") return;
 
-        setBlueprintNotice('Live Blueprint nicht erreichbar – zeige lokalen Snapshot.')
-        setBlueprintData(fallbackBlueprint)
-        setBlueprintGeneratedAt(new Date().toISOString())
+        setBlueprintNotice(
+          "Live Blueprint nicht erreichbar – zeige lokalen Snapshot.",
+        );
+        setBlueprintData(fallbackBlueprint);
+        setBlueprintGeneratedAt(new Date().toISOString());
       }
-    }
+    };
 
-    loadBlueprint()
+    loadBlueprint();
 
     return () => {
-      isMounted = false
-      controller.abort()
-    }
-  }, [])
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
 
   const handleInstall = async () => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return;
 
-    if (window.location.protocol !== 'https:') {
-      alert('Service Worker benötigt HTTPS.')
-      return
+    if (window.location.protocol !== "https:") {
+      alert("Service Worker benötigt HTTPS.");
+      return;
     }
 
-    if ('serviceWorker' in navigator) {
-      await navigator.serviceWorker.register('/sw.js')
-      alert('Offline aktiviert.')
+    if ("serviceWorker" in navigator) {
+      await navigator.serviceWorker.register("/sw.js");
+      alert("Offline aktiviert.");
     }
-  }
+  };
 
   const handleA2HS = () => {
-    alert('iPhone: Safari → Teilen → „Zum Home‑Bildschirm".')
-  }
+    alert('iPhone: Safari → Teilen → „Zum Home‑Bildschirm".');
+  };
 
   const handleAsk = async () => {
-    const trimmedQuestion = question.trim()
-    if (!trimmedQuestion || isLoading) return
+    const trimmedQuestion = question.trim();
+    if (!trimmedQuestion || isLoading) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           question: trimmedQuestion,
           mode: mode,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'API request failed')
+        throw new Error(data.error || "API request failed");
       }
 
-      const translatedLabel = autoTranslate ? '→ Deutsch' : ''
-      const agentLabel = translatedLabel ? `${mode} ${translatedLabel}` : mode
+      const translatedLabel = autoTranslate ? "→ Deutsch" : "";
+      const agentLabel = translatedLabel ? `${mode} ${translatedLabel}` : mode;
       const newItem: FeedItem = {
         id: Date.now(),
         agent: `ChatGPT (${agentLabel})`,
         text: data.response,
-      }
+      };
 
-      setFeed((prev) => [newItem, ...prev])
-      setQuestion('')
+      setFeed((prev) => [newItem, ...prev]);
+      setQuestion("");
     } catch (error: any) {
       const errorItem: FeedItem = {
         id: Date.now(),
-        agent: 'Error',
+        agent: "Error",
         text: `Fehler: ${error.message}. Bitte stelle sicher, dass der OPENAI_API_KEY konfiguriert ist.`,
-      }
-      setFeed((prev) => [errorItem, ...prev])
+      };
+      setFeed((prev) => [errorItem, ...prev]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const activeBlueprint = blueprintData ?? fallbackBlueprint
+  const activeBlueprint = blueprintData ?? fallbackBlueprint;
 
   const blueprintStats = useMemo(
     () => ({
@@ -148,8 +158,8 @@ export default function Home() {
       profiles: activeBlueprint.profiles.length,
       bots: activeBlueprint.bots.length,
     }),
-    [activeBlueprint]
-  )
+    [activeBlueprint],
+  );
 
   return (
     <>
@@ -167,7 +177,9 @@ export default function Home() {
               <span className="pill">Profiles: {blueprintStats.profiles}</span>
               <span className="pill">Bots: {blueprintStats.bots}</span>
             </div>
-            {blueprintNotice && <p className="muted small">{blueprintNotice}</p>}
+            {blueprintNotice && (
+              <p className="muted small">{blueprintNotice}</p>
+            )}
           </div>
           <div className="hero-actions">
             <button onClick={handleInstall}>Offline aktivieren</button>
@@ -204,12 +216,18 @@ export default function Home() {
             placeholder="Frag dein Multi‑Kollektiv …"
           />
           <div className="row">
-            <button onClick={handleAsk} disabled={isLoading} className="primary">
-              {isLoading ? 'ChatGPT denkt nach...' : 'Frage an ChatGPT'}
+            <button
+              onClick={handleAsk}
+              disabled={isLoading}
+              className="primary"
+            >
+              {isLoading ? "ChatGPT denkt nach..." : "Frage an ChatGPT"}
             </button>
           </div>
           <div className="feed">
-            {feed.length === 0 && <p className="muted">Keine Einträge – stell die erste Frage.</p>}
+            {feed.length === 0 && (
+              <p className="muted">Keine Einträge – stell die erste Frage.</p>
+            )}
             {feed.map((item) => (
               <div key={item.id} className="item">
                 <b>{item.agent}</b>: {item.text}
@@ -225,5 +243,5 @@ export default function Home() {
         />
       </main>
     </>
-  )
+  );
 }

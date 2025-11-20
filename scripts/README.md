@@ -11,12 +11,14 @@ This directory contains utility scripts for the YONI app.
 Automatically configures custom domains for the YONI app on Vercel.
 
 **Configured Domains:**
+
 - `pihoch2.me` - Root domain
-- `www.pihoch2.me` - WWW subdomain  
+- `www.pihoch2.me` - WWW subdomain
 - `app.pihoch2.me` - App subdomain
 - `api.pihoch2.me` - API subdomain
 
 **Prerequisites:**
+
 - Vercel CLI installed: `npm i -g vercel`
 - Authenticated with Vercel: `vercel login`
 

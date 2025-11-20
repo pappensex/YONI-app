@@ -40,6 +40,9 @@ export function toNumber(value: any): number {
  * Complete formula: toNumber(format(round(prop("Subtasks Done"))))
  * Gets a property, rounds it, formats it, and converts back to number
  */
-export function calculateSubtasksDone(obj: Record<string, any>, propertyName: string = "Subtasks Done"): number {
+export function calculateSubtasksDone(
+  obj: Record<string, any>,
+  propertyName: string = "Subtasks Done",
+): number {
   return toNumber(format(round(prop(obj, propertyName))));
 }

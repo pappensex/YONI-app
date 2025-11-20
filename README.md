@@ -20,34 +20,35 @@ mit **fachärztlicher Begleitung, digitaler Sicherheit und liebevoller Gestaltun
 **🔞 Altersfreigabe: 18+** – YONI richtet sich an erwachsene Nutzer:innen.
 
 Die App vereint:
-- 🤝 **Gemeinschaft** – Chat-Räume & Themenkreise mit Peer-Mentor:innen  
-- 🧠 **Fachliche Supervision** – Ärzt:innen, Therapeut:innen, geschützte Q&A  
-- 🪞 **Selbstwirksamkeit** – Tools für Reflexion, Stimmung & Achtsamkeit  
-- 🌈 **Überhochglitzer-Design** – kosmisch, heilend, barrierefrei, technisch präzise  
-- ✨ **GODDESSMODE+** – Erweiterte visuelle Effekte für ein intensiveres Erlebnis  
+
+- 🤝 **Gemeinschaft** – Chat-Räume & Themenkreise mit Peer-Mentor:innen
+- 🧠 **Fachliche Supervision** – Ärzt:innen, Therapeut:innen, geschützte Q&A
+- 🪞 **Selbstwirksamkeit** – Tools für Reflexion, Stimmung & Achtsamkeit
+- 🌈 **Überhochglitzer-Design** – kosmisch, heilend, barrierefrei, technisch präzise
+- ✨ **GODDESSMODE+** – Erweiterte visuelle Effekte für ein intensiveres Erlebnis
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer | Technologie | Beschreibung |
-|-------|--------------|---------------|
-| Frontend | **Next.js 14** | App Router, SSR, optimierte Performance |
-| Styling | **TailwindCSS + Überhochglitzer Theme** | Tokens, Animation, Starfield |
-| Backend | **API Routes (Edge Functions)** | Stripe, GitHub Webhooks, Chat |
-| Deployment | **Vercel** | Preview + Production CI/CD |
-| Monitoring | **Lighthouse CI, axe-core** | A11y, Performance, QA Checks |
+| Layer      | Technologie                             | Beschreibung                            |
+| ---------- | --------------------------------------- | --------------------------------------- |
+| Frontend   | **Next.js 14**                          | App Router, SSR, optimierte Performance |
+| Styling    | **TailwindCSS + Überhochglitzer Theme** | Tokens, Animation, Starfield            |
+| Backend    | **API Routes (Edge Functions)**         | Stripe, GitHub Webhooks, Chat           |
+| Deployment | **Vercel**                              | Preview + Production CI/CD              |
+| Monitoring | **Lighthouse CI, axe-core**             | A11y, Performance, QA Checks            |
 
 ---
 
 ## 🧩 Design Tokens & Theme
 
-| Token | Wert | Bedeutung |
-|-------|------|-----------|
+| Token            | Wert      | Bedeutung                               |
+| ---------------- | --------- | --------------------------------------- |
 | `brand.amethyst` | `#9966CC` | Hoffnung, Spiritualität, Transformation |
-| `text.starwhite` | `#F5F5F5` | Klarheit und Licht im Dunkeln |
-| `ok.emerald` | `#2ECC71` | Heilung und Wachstum |
-| `hl.gold` | `#FFD700` | Wärme, Wert und Verbundenheit |
+| `text.starwhite` | `#F5F5F5` | Klarheit und Licht im Dunkeln           |
+| `ok.emerald`     | `#2ECC71` | Heilung und Wachstum                    |
+| `hl.gold`        | `#FFD700` | Wärme, Wert und Verbundenheit           |
 
 ---
 
@@ -67,18 +68,21 @@ Die App ist dann verfügbar unter: **http://localhost:3000**
 Siehe [YONI_Local_Run_Guide.md](YONI_Local_Run_Guide.md) für Details.
 
 ### iPhone-Demo / Testversand
+
 - 📱 **Homescreen-Installation:** Safari → Teilen → „Zum Home-Bildschirm".
 - 📤 **Preview verschicken:** Anleitung siehe [IOS_DEMO_GUIDE.md](IOS_DEMO_GUIDE.md).
 
 ### Deployment
 
 Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)** für vollständige Deployment-Anleitung:
+
 - 🤖 Automatisches Deployment via GitHub Actions
 - 💻 Manuelles Deployment via Vercel CLI
 - 🌐 Domain-Konfiguration (pihoch2.me, www, app, api)
 - 🔒 Umgebungsvariablen
 
 **Quick Domain Setup:**
+
 ```bash
 # Domain-Setup-Script ausführen
 npm run domains:setup:dry-run  # Vorschau
@@ -89,18 +93,19 @@ npm run domains:setup          # Domains hinzufügen
 
 ## 💜 Contributing
 
-1. Fork das Repo  
-2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`  
-3. Führe `npm run lint && npm run build` aus  
-4. Erstelle einen Pull-Request ✨  
+1. Fork das Repo
+2. Erstelle einen Feature-Branch: `git checkout -b feature/dein-thema`
+3. Führe `npm run lint && npm run build` aus
+4. Erstelle einen Pull-Request ✨
 
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
 
 ### CI Checks
-- ✅ ESLint + TypeScript  
-- ✅ A11y (axe)  
-- ✅ Lighthouse ≥ 95  
-- ✅ Duplicate Route Guard  
+
+- ✅ ESLint + TypeScript
+- ✅ A11y (axe)
+- ✅ Lighthouse ≥ 95
+- ✅ Duplicate Route Guard
 
 ---
 

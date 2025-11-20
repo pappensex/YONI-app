@@ -21,24 +21,26 @@ npm run dev
 1. **Fork das Repository**  
    Erstelle deinen eigenen Fork des YONI-App Repositories.
 
-2. **Erstelle einen Feature-Branch**  
+2. **Erstelle einen Feature-Branch**
+
    ```bash
    git checkout -b feature/dein-thema
    ```
 
-3. **Mache deine Änderungen**  
+3. **Mache deine Änderungen**
    - Halte dich an den bestehenden Code-Stil
    - Schreibe klare, aussagekräftige Commit-Messages
    - Teste deine Änderungen lokal
 
 4. **Quality Checks**  
    Führe vor dem Commit folgende Checks aus:
+
    ```bash
    npm run lint
    npm run build
    ```
 
-5. **Erstelle einen Pull-Request**  
+5. **Erstelle einen Pull-Request**
    - Beschreibe deine Änderungen klar und deutlich
    - Verlinke relevante Issues
    - Warte auf Code-Review ✨
@@ -67,12 +69,12 @@ YONI folgt dem **Überhochglitzer-Design**:
 
 ### Design Tokens
 
-| Token | Wert | Bedeutung |
-|-------|------|-----------|
+| Token            | Wert      | Bedeutung                               |
+| ---------------- | --------- | --------------------------------------- |
 | `brand.amethyst` | `#9966CC` | Hoffnung, Spiritualität, Transformation |
-| `text.starwhite` | `#F5F5F5` | Klarheit und Licht im Dunkeln |
-| `ok.emerald` | `#2ECC71` | Heilung und Wachstum |
-| `hl.gold` | `#FFD700` | Wärme, Wert und Verbundenheit |
+| `text.starwhite` | `#F5F5F5` | Klarheit und Licht im Dunkeln           |
+| `ok.emerald`     | `#2ECC71` | Heilung und Wachstum                    |
+| `hl.gold`        | `#FFD700` | Wärme, Wert und Verbundenheit           |
 
 ---
 

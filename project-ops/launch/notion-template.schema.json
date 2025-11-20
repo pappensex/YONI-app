@@ -4,20 +4,12 @@
   "title": "YONI Notion Template Schema",
   "description": "JSON Schema for YONI Launch Task Management Notion template",
   "type": "object",
-  "required": [
-    "type",
-    "title",
-    "properties",
-    "views",
-    "rows"
-  ],
+  "required": ["type", "title", "properties", "views", "rows"],
   "properties": {
     "type": {
       "type": "string",
       "description": "The type of Notion database",
-      "enum": [
-        "database"
-      ]
+      "enum": ["database"]
     },
     "title": {
       "type": "string",
@@ -43,9 +35,7 @@
       "description": "Notion database properties (columns)",
       "additionalProperties": {
         "type": "object",
-        "required": [
-          "type"
-        ],
+        "required": ["type"],
         "properties": {
           "type": {
             "type": "string",
@@ -77,9 +67,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "required": [
-                    "name"
-                  ],
+                  "required": ["name"],
                   "properties": {
                     "name": {
                       "type": "string"
@@ -99,9 +87,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "required": [
-                    "name"
-                  ],
+                  "required": ["name"],
                   "properties": {
                     "name": {
                       "type": "string"
@@ -121,9 +107,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "required": [
-                    "name"
-                  ],
+                  "required": ["name"],
                   "properties": {
                     "name": {
                       "type": "string"
@@ -145,10 +129,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "type"
-        ],
+        "required": ["name", "type"],
         "properties": {
           "name": {
             "type": "string"
@@ -178,9 +159,7 @@
       "description": "Database rows (pages)",
       "items": {
         "type": "object",
-        "required": [
-          "properties"
-        ],
+        "required": ["properties"],
         "properties": {
           "properties": {
             "type": "object"
@@ -193,11 +172,7 @@
       "description": "Project pillars (legacy format for backward compatibility)",
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "focus",
-          "tasks"
-        ],
+        "required": ["name", "focus", "tasks"],
         "properties": {
           "name": {
             "type": "string",
@@ -214,12 +189,7 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": [
-                "id",
-                "title",
-                "status",
-                "priority"
-              ],
+              "required": ["id", "title", "status", "priority"],
               "properties": {
                 "id": {
                   "type": "string",
@@ -244,12 +214,7 @@
                 },
                 "priority": {
                   "type": "string",
-                  "enum": [
-                    "low",
-                    "medium",
-                    "high",
-                    "critical"
-                  ]
+                  "enum": ["low", "medium", "high", "critical"]
                 },
                 "example": {
                   "type": "string"

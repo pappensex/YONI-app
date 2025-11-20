@@ -1,20 +1,24 @@
-'use client'
+"use client";
 
-import { useMemo } from 'react'
+import { useMemo } from "react";
 
-import { Blueprint, Status } from '../data/chibot-blueprint'
+import { Blueprint, Status } from "../data/chibot-blueprint";
 
 interface BlueprintViewProps {
-  blueprint: Blueprint
-  generatedAt?: string | null
-  fallbackNotice?: string | null
+  blueprint: Blueprint;
+  generatedAt?: string | null;
+  fallbackNotice?: string | null;
 }
 
 function StatusPill({ status }: { status: Status }) {
-  return <span className={`status-pill status-${status}`}>{status}</span>
+  return <span className={`status-pill status-${status}`}>{status}</span>;
 }
 
-export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }: BlueprintViewProps) {
+export default function BlueprintView({
+  blueprint,
+  generatedAt,
+  fallbackNotice,
+}: BlueprintViewProps) {
   const blueprintStats = useMemo(
     () => ({
       pages: blueprint.pages.length,
@@ -22,8 +26,8 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
       profiles: blueprint.profiles.length,
       bots: blueprint.bots.length,
     }),
-    [blueprint]
-  )
+    [blueprint],
+  );
 
   return (
     <>
@@ -50,7 +54,7 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
           Steward: {blueprint.steward} • Heartbeat: {blueprint.kernel.heartbeat}
         </p>
         <p className="muted small">
-          Safeguards: {blueprint.kernel.safeguards.join(' • ')}
+          Safeguards: {blueprint.kernel.safeguards.join(" • ")}
           {generatedAt && ` • Snapshot: ${generatedAt}`}
           {fallbackNotice && ` • ${fallbackNotice}`}
         </p>
@@ -97,7 +101,9 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
                       </div>
                       <p className="muted small">{layer.source}</p>
                     </div>
-                    <p className="muted small">{layer.cadence} • {layer.retention}</p>
+                    <p className="muted small">
+                      {layer.cadence} • {layer.retention}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -115,7 +121,9 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
                       </div>
                       <p className="muted small">{profile.focus}</p>
                     </div>
-                    <p className="muted small">Rituale: {profile.rituals.join(', ')}</p>
+                    <p className="muted small">
+                      Rituale: {profile.rituals.join(", ")}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -142,7 +150,7 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
                   </div>
                   <p className="muted small">{bot.promise}</p>
                 </div>
-                <p className="muted small">Links: {bot.links.join(' • ')}</p>
+                <p className="muted small">Links: {bot.links.join(" • ")}</p>
               </div>
             ))}
           </div>
@@ -165,7 +173,9 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
                   </div>
                   <p className="muted small">{ritual.description}</p>
                 </div>
-                <p className="muted small">Signals: {ritual.signals.join(', ')}</p>
+                <p className="muted small">
+                  Signals: {ritual.signals.join(", ")}
+                </p>
               </div>
             ))}
           </div>
@@ -192,5 +202,5 @@ export default function BlueprintView({ blueprint, generatedAt, fallbackNotice }
         </div>
       </section>
     </>
-  )
+  );
 }

@@ -9,11 +9,13 @@ This document describes the GitHub Actions workflows available in this repositor
 **Purpose:** Continuous Integration workflow that builds, tests, and validates the YONI application.
 
 **Triggers:**
+
 - **Automatic:** Pushes to `main` or `releases/*` branches
 - **Automatic:** Pull requests targeting `main` branch
 - **Manual:** Can be triggered via GitHub Actions UI
 
 **What it does:**
+
 1. Checks out the repository
 2. Sets up Node.js 20
 3. Installs dependencies
@@ -23,6 +25,7 @@ This document describes the GitHub Actions workflows available in this repositor
 7. Uploads build artifacts
 
 **Manual Trigger:**
+
 1. Go to the **Actions** tab in GitHub
 2. Select "CI for YONI (x148)" from the workflow list
 3. Click **"Run workflow"** button
@@ -34,17 +37,21 @@ This document describes the GitHub Actions workflows available in this repositor
 **Purpose:** Cleans up work-in-progress (WIP) pull requests and development branches from Copilot.
 
 **Triggers:**
+
 - **Manual:** Can be triggered via GitHub Actions UI with optional dry-run mode
 
 **What it does:**
+
 1. Closes WIP pull requests created by Copilot
 2. Deletes branches with the `copilot/` prefix
 3. Cleans up branches that have been merged into main
 
 **Input Parameters:**
+
 - `dry_run` (optional): Set to `true` to preview changes without actually deleting anything (default: `false`)
 
 **Manual Trigger:**
+
 1. Go to the **Actions** tab in GitHub
 2. Select "Repo Cleanup" from the workflow list
 3. Click **"Run workflow"** button
@@ -65,6 +72,7 @@ bash cleanup.sh pappensex/YONI-app
 ```
 
 **Prerequisites for shell script:**
+
 - GitHub CLI (`gh`) must be installed
 - You must be authenticated: `gh auth login`
 
@@ -73,10 +81,12 @@ bash cleanup.sh pappensex/YONI-app
 **Purpose:** Creates daily snapshots of deployment status and sends email notifications.
 
 **Triggers:**
+
 - **Automatic:** Daily at midnight (UTC) via cron schedule
 - **Manual:** Can be triggered via GitHub Actions UI
 
 **What it does:**
+
 1. Checks out the repository
 2. Sets up Node.js 20
 3. Creates a dated copy of the deployment status report
@@ -85,6 +95,7 @@ bash cleanup.sh pappensex/YONI-app
 6. Sends an HTML email notification with snapshot details
 
 **Manual Trigger:**
+
 1. Go to the **Actions** tab in GitHub
 2. Select "📦 YONI Deploy Snapshot" from the workflow list
 3. Click **"Run workflow"** button
@@ -97,11 +108,11 @@ The `deploy_snapshot.yml` workflow requires the following secrets to be configur
 
 ### Email Configuration Secrets
 
-| Secret Name | Description | Example |
-|-------------|-------------|---------|
-| `MAIL_USER` | Gmail username for SMTP authentication | `your-email@gmail.com` |
-| `MAIL_PASS` | Gmail app password (not your regular password) | `abcd efgh ijkl mnop` |
-| `MAIL_TO` | Recipient email address(es) | `recipient@example.com` |
+| Secret Name | Description                                    | Example                 |
+| ----------- | ---------------------------------------------- | ----------------------- |
+| `MAIL_USER` | Gmail username for SMTP authentication         | `your-email@gmail.com`  |
+| `MAIL_PASS` | Gmail app password (not your regular password) | `abcd efgh ijkl mnop`   |
+| `MAIL_TO`   | Recipient email address(es)                    | `recipient@example.com` |
 
 ### Setting up Secrets
 
@@ -148,6 +159,7 @@ YONI-app/
 **Problem:** The workflow cannot find `Transzendenz/Reports/Deploy-Status.md` or `snapshot-log.txt`
 
 **Solution:** Ensure the following files exist in your repository:
+
 - `Transzendenz/Reports/Deploy-Status.md`
 - `Transzendenz/Reports/snapshot-log.txt`
 
@@ -158,11 +170,13 @@ These files should be committed to your repository before running the workflow.
 **Problem:** Email sending step fails
 
 **Possible causes:**
+
 1. Missing or incorrect secrets (`MAIL_USER`, `MAIL_PASS`, `MAIL_TO`)
 2. Invalid Gmail app password
 3. Gmail account security settings blocking the app
 
 **Solution:**
+
 1. Verify all email secrets are set correctly
 2. Ensure you're using an App Password, not your regular Gmail password
 3. Check that 2FA is enabled on your Gmail account
@@ -182,7 +196,8 @@ These files should be committed to your repository before running the workflow.
 
 **Problem:** Cannot find the workflow to run manually
 
-**Solution:** 
+**Solution:**
+
 1. Ensure the workflow file exists in `.github/workflows/main.yml`
 2. Verify the YAML syntax is correct
 3. Push the changes to the repository
@@ -193,6 +208,7 @@ These files should be committed to your repository before running the workflow.
 **Problem:** The script cannot find the `gh` command
 
 **Solution:**
+
 1. Install GitHub CLI from https://cli.github.com/
 2. For macOS: `brew install gh`
 3. For Ubuntu/Debian: Follow instructions at https://github.com/cli/cli/blob/trunk/docs/install_linux.md
@@ -203,6 +219,7 @@ These files should be committed to your repository before running the workflow.
 **Problem:** Not authenticated with GitHub CLI
 
 **Solution:**
+
 1. Run `gh auth login`
 2. Follow the prompts to authenticate
 3. Choose your preferred authentication method (web browser or token)
@@ -213,6 +230,7 @@ These files should be committed to your repository before running the workflow.
 **Problem:** Workflow has insufficient permissions to delete branches
 
 **Solution:**
+
 1. Ensure the workflow has the correct permissions in the YAML file (already configured)
 2. Check that branch protection rules don't prevent deletion
 3. Verify you have admin access to the repository
@@ -222,9 +240,11 @@ These files should be committed to your repository before running the workflow.
 **Problem:** Running in dry-run mode
 
 **Solution:** This is expected behavior when `DRY=true` is set. To actually delete branches:
+
 ```bash
 bash cleanup.sh pappensex/YONI-app
 ```
+
 (without the `DRY=true` prefix)
 
 ## Best Practices
@@ -240,6 +260,7 @@ bash cleanup.sh pappensex/YONI-app
 ## Support
 
 For issues or questions about these workflows:
+
 1. Check this documentation first
 2. Review workflow run logs in the Actions tab
 3. Consult GitHub Actions documentation: https://docs.github.com/actions
