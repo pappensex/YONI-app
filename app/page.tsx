@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import AgeVerification from './components/AgeVerification'
 import GoddessMode from './components/GoddessMode'
 
@@ -18,15 +18,15 @@ export default function Home() {
   }, [])
 
   // Check environment on mount
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      setEnvMessage(
-        window.location.protocol === 'https:'
-          ? 'HTTPS aktiv – Service Worker & Install verfügbar.'
-          : 'Hinweis: Für Offline & „Zum Home‑Bildschirm" bitte HTTPS nutzen.'
-      )
-    }
-  })
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    setEnvMessage(
+      window.location.protocol === 'https:'
+        ? 'HTTPS aktiv – Service Worker & Install verfügbar.'
+        : 'Hinweis: Für Offline & „Zum Home‑Bildschirm" bitte HTTPS nutzen.'
+    )
+  }, [])
 
   const handleInstall = async () => {
     if (typeof window !== 'undefined') {
