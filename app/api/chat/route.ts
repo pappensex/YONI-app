@@ -8,7 +8,7 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   try {
-    const { question, mode } = await request.json();
+    const { question, mode, autoTranslate } = await request.json();
 
     if (!question || !question.trim()) {
       return NextResponse.json(
@@ -34,7 +34,13 @@ export async function POST(request: Request) {
         "Du bist ein systematischer KI-Assistent. Gib schrittweise, aufeinander aufbauende Antworten.",
     };
 
-    const systemPrompt = systemPrompts[mode] || systemPrompts.Consensus;
+    const translationPrompt = autoTranslate
+      ? "Antworte auf Deutsch und übersetze Fachbegriffe sinngemäß."
+      : "Antworte in der Sprache der Nutzerfrage.";
+
+    const systemPrompt = `${
+      systemPrompts[mode] || systemPrompts.Consensus
+    } ${translationPrompt}`;
 
     // Call OpenAI API
     const completion = await openai.chat.completions.create({

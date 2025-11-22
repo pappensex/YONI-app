@@ -118,6 +118,7 @@ export default function Home() {
         body: JSON.stringify({
           question: trimmedQuestion,
           mode: mode,
+          autoTranslate,
         }),
       });
 
