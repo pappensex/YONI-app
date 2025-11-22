@@ -3,11 +3,19 @@ import Stripe from "stripe";
 
 export const runtime = "nodejs";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
-const stripe = new Stripe(stripeSecretKey, { apiVersion: "2024-06-20" });
+function getStripeClient() {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!stripeSecretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+
+  return new Stripe(stripeSecretKey, { apiVersion: "2024-06-20" });
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripeClient();
     const body = await req.json();
 
     const session = await stripe.checkout.sessions.create({

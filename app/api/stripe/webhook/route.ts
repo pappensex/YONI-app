@@ -4,10 +4,24 @@ import Stripe from "stripe";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+function getStripeConfig() {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-const stripe = new Stripe(stripeSecretKey, { apiVersion: "2024-06-20" });
+  if (!stripeSecretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+
+  if (!webhookSecret) {
+    throw new Error("STRIPE_WEBHOOK_SECRET is not configured");
+  }
+
+  return { stripeSecretKey, webhookSecret };
+}
+
+function getStripeClient(secret: string) {
+  return new Stripe(secret, { apiVersion: "2024-06-20" });
+}
 
 async function getRawBody(req: NextRequest): Promise<Buffer> {
   const chunks: Uint8Array[] = [];
@@ -24,6 +38,8 @@ async function getRawBody(req: NextRequest): Promise<Buffer> {
 export async function POST(req: NextRequest) {
   let event: Stripe.Event;
   try {
+    const { stripeSecretKey, webhookSecret } = getStripeConfig();
+    const stripe = getStripeClient(stripeSecretKey);
     const sig = req.headers.get("stripe-signature");
     if (!sig)
       return new NextResponse("Missing Stripe-Signature header", {
