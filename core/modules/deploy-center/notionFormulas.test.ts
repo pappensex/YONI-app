@@ -1,78 +1,56 @@
-/**
- * Test file for Notion formula utilities
- * Run with: node --loader ts-node/esm notionFormulas.test.ts
- */
+import { describe, expect, it } from "vitest";
 
 import {
+  calculateSubtasksDone,
+  format,
   prop,
   round,
-  format,
   toNumber,
-  calculateSubtasksDone,
 } from "./notionFormulas";
 
-// Test data
 const testData = {
   "Subtasks Done": 5.7,
   "Total Tasks": 10,
   Progress: 57.333333,
 };
 
-console.log("🧪 Testing Notion Formula Utilities\n");
+describe("Notion formula utilities", () => {
+  it("retrieves properties with prop()", () => {
+    expect(prop(testData, "Subtasks Done")).toBe(5.7);
+  });
 
-// Test prop()
-console.log("Testing prop():");
-console.log(
-  '  prop(testData, "Subtasks Done"):',
-  prop(testData, "Subtasks Done"),
-);
-console.log("  Expected: 5.7\n");
+  it("rounds numbers like Notion's round()", () => {
+    expect(round(5.7)).toBe(6);
+    expect(round(57.333333)).toBe(57);
+  });
 
-// Test round()
-console.log("Testing round():");
-console.log("  round(5.7):", round(5.7));
-console.log("  Expected: 6");
-console.log("  round(57.333333):", round(57.333333));
-console.log("  Expected: 57\n");
+  it("formats values as strings", () => {
+    const formatted = format(6);
 
-// Test format()
-console.log("Testing format():");
-console.log("  format(6):", format(6));
-console.log('  Expected: "6"');
-console.log("  typeof format(6):", typeof format(6));
-console.log("  Expected: string\n");
+    expect(formatted).toBe("6");
+    expect(typeof formatted).toBe("string");
+  });
 
-// Test toNumber()
-console.log("Testing toNumber():");
-console.log('  toNumber("6"):', toNumber("6"));
-console.log("  Expected: 6");
-console.log('  typeof toNumber("6"):', typeof toNumber("6"));
-console.log("  Expected: number\n");
+  it("converts formatted values back to numbers", () => {
+    const numeric = toNumber("6");
 
-// Test complete formula: toNumber(format(round(prop("Subtasks Done"))))
-console.log("Testing complete formula:");
-console.log("  Input data:", { "Subtasks Done": 5.7 });
-console.log(
-  "  calculateSubtasksDone(data):",
-  calculateSubtasksDone({ "Subtasks Done": 5.7 }),
-);
-console.log("  Expected: 6");
-console.log("  Step by step:");
-console.log('    1. prop(data, "Subtasks Done") = 5.7');
-console.log("    2. round(5.7) = 6");
-console.log('    3. format(6) = "6"');
-console.log('    4. toNumber("6") = 6\n');
+    expect(numeric).toBe(6);
+    expect(typeof numeric).toBe("number");
+  });
 
-// Test with percentage calculation (as used in YoniDeployControlCenter)
-console.log("Testing with percentage (Deploy Control Center use case):");
-const done = 5;
-const total = 8;
-const percentage = (done / total) * 100; // 62.5
-console.log("  done/total =", `${done}/${total} = ${percentage}%`);
-console.log(
-  '  calculateSubtasksDone({ "Subtasks Done": percentage }):',
-  calculateSubtasksDone({ "Subtasks Done": percentage }),
-);
-console.log("  Expected: 63 (rounded from 62.5)\n");
+  it("combines helpers in calculateSubtasksDone()", () => {
+    expect(calculateSubtasksDone({ "Subtasks Done": 5.7 })).toBe(6);
+  });
 
-console.log("✅ All tests completed!");
+  it("rounds percentage-based progress", () => {
+    const done = 5;
+    const total = 8;
+    const percentage = (done / total) * 100; // 62.5
+
+    expect(calculateSubtasksDone({ "Subtasks Done": percentage })).toBe(63);
+  });
+
+  it("supports alternative property names", () => {
+    expect(calculateSubtasksDone({ Progress: 42.8 }, "Progress")).toBe(43);
+  });
+});
