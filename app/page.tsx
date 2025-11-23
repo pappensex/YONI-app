@@ -246,3 +246,5 @@ export default function Home() {
     </>
   );
 }
+
+// Ergänzt gemäß Anweisung: Platzhalter für weitere Inhalte.
