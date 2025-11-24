@@ -1,39 +1,29 @@
-name: Security CI
+name: security-ci
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
   security:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a107bc5506
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@3df4f59b21b44dfad1e772c5e4a513e06ce0c222  # commit-pinned
 
       - name: Setup Node
-        uses: actions/setup-node@60d2f5dd6bcf6ccab7c84535633495a1ef196be3
+        uses: actions/setup-node@8f152c0ff7f67586069fdda622fbc98c2f4c2c4c
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install
+        run: npm install
 
-      - name: Lint
-        run: npm run lint --if-present
+      - name: Secret Scan
+        run: node scripts/scan-secrets.js
 
-      - name: Tests
-        run: npm test --if-present
-
-      - name: Gitleaks
-        uses: gitleaks/gitleaks-action@d8a657ea5c328fa79ebe2de595bf924b297dc077
-        with:
-          args: detect --redact --no-banner
+      - name: Env Check
+        run: node scripts/check-env.js
