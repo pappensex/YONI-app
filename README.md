@@ -39,6 +39,14 @@ Die App vereint:
 | Deployment | **Vercel**                              | Preview + Production CI/CD              |
 | Monitoring | **Lighthouse CI, axe-core**             | A11y, Performance, QA Checks            |
 
+### Stripe Billing für YONI Creator Abo
+
+- **Produkt:** Monatsabo für Creator mit Zugriff auf das `/creator`-Dashboard.
+- **Checkout:** `POST /api/billing/checkout` erzeugt eine Stripe Checkout Session (Subscription Mode).
+- **Portal:** `POST /api/billing/portal` öffnet das Billing-Portal zur Selbstverwaltung.
+- **Webhook:** `POST /api/stripe/webhook` setzt die Rolle (`USER`/`CREATOR`) anhand des Stripe-Status.
+- **Env Vars:** `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CREATOR_PRICE_ID`, `APP_URL`.
+
 ---
 
 ## 🛠️ Install, Run & Build
