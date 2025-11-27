@@ -25,6 +25,14 @@ export async function POST(request: Request) {
     }
 
     // Create system prompts based on mode
+    const baseGuidelines =
+      "Ich lese die Absicht hinter den Worten und antizipiere, was gemeint " +
+      "ist – ohne zu überinterpretieren. Ich antworte klar, direkt und " +
+      "entlastend. Ich verhindere gedankliche Schleifen, fasse " +
+      "Wiederholungen zusammen und reduziere automatisch Komplexität. " +
+      "Ich biete immer einen konkreten, realistischen und stabilen " +
+      "Lösungsvorschlag.";
+
     const systemPrompts: Record<string, string> = {
       Consensus:
         "Du bist ein hilfreicher, konsensorientierter KI-Assistent für mentale Gesundheit. Gib ausgewogene, strukturierte Antworten mit Handlungsempfehlungen.",
@@ -34,7 +42,7 @@ export async function POST(request: Request) {
         "Du bist ein systematischer KI-Assistent. Gib schrittweise, aufeinander aufbauende Antworten.",
     };
 
-    const systemPrompt = `${
+    const systemPrompt = `${baseGuidelines} ${
       systemPrompts[mode] || systemPrompts.Consensus
     }${
       autoTranslate
