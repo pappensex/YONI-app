@@ -1,27 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import prisma from "@/lib/db";
+import { getStripeClient } from "@/lib/stripe";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-function getStripeConfig() {
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!stripeSecretKey) {
-    throw new Error("STRIPE_SECRET_KEY is not configured");
-  }
-
-  if (!webhookSecret) {
-    throw new Error("STRIPE_WEBHOOK_SECRET is not configured");
-  }
-
-  return { stripeSecretKey, webhookSecret };
-}
-
-function getStripeClient(secret: string) {
-  return new Stripe(secret, { apiVersion: "2024-06-20" });
-}
 
 async function getRawBody(req: NextRequest): Promise<Buffer> {
   const chunks: Uint8Array[] = [];
@@ -38,8 +21,13 @@ async function getRawBody(req: NextRequest): Promise<Buffer> {
 export async function POST(req: NextRequest) {
   let event: Stripe.Event;
   try {
-    const { stripeSecretKey, webhookSecret } = getStripeConfig();
-    const stripe = getStripeClient(stripeSecretKey);
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+      throw new Error("STRIPE_WEBHOOK_SECRET is not configured");
+    }
+
+    const stripe = getStripeClient();
     const sig = req.headers.get("stripe-signature");
     if (!sig)
       return new NextResponse("Missing Stripe-Signature header", {
@@ -55,12 +43,50 @@ export async function POST(req: NextRequest) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
+        const customerId =
+          typeof session.customer === "string"
+            ? session.customer
+            : session.customer?.id;
+        const subscriptionId =
+          typeof session.subscription === "string"
+            ? session.subscription
+            : session.subscription?.id;
+
+        if (customerId) {
+          await prisma.user.updateMany({
+            where: { stripeCustomerId: customerId },
+            data: {
+              role: "CREATOR",
+              stripeSubscription: subscriptionId ?? null
+            }
+          });
+        }
+
         console.log("✅ Checkout completed:", session.id);
         break;
       }
-      case "payment_intent.succeeded": {
-        const intent = event.data.object as Stripe.PaymentIntent;
-        console.log("💰 Payment succeeded:", intent.id);
+      case "customer.subscription.updated": {
+        const subscription = event.data.object as Stripe.Subscription;
+        const status = subscription.status;
+        const customerId =
+          typeof subscription.customer === "string"
+            ? subscription.customer
+            : subscription.customer?.id;
+
+        if (customerId) {
+          const isActive =
+            status === "active" || status === "trialing" || status === "past_due";
+
+          await prisma.user.updateMany({
+            where: { stripeCustomerId: customerId },
+            data: {
+              role: isActive ? "CREATOR" : "USER",
+              stripeSubscription: isActive ? subscription.id : null
+            }
+          });
+        }
+
+        console.log("🔄 Subscription updated:", subscription.id, status);
         break;
       }
       default: {
